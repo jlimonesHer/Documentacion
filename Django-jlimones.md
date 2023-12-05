@@ -6,22 +6,12 @@
 [//]: # (date: 2020-12-8)
 
 
-
 # Tabla de contenidos
 - [Python y Django](#python-y-django)
 - [Tabla de contenidos](#tabla-de-contenidos)
   - [Introducción](#introducción)
   - [Instalación](#instalación)
-    - [Instalacion de Python](#instalacion-de-python)
-    - [Seccion1](#seccion1)
-  - [Capitulo 2](#capitulo-2)
-    - [Subapartado 2.1](#subapartado-21)
-  - [Capitulo 3](#capitulo-3)
-    - [Seccion1](#seccion1-1)
-    - [Seccion2](#seccion2)
-      - [Seccion2.1](#seccion21)
-  - [Clases](#clases)
-  - [Clase 01 - 24/10](#clase-01---2410)
+    - [Instalacion de Python en linux](#instalacion-de-python-en-linux)
   - [Fuentes](#fuentes)
 
 <div style="page-break-after: always;"></div>
@@ -48,101 +38,60 @@
 - Es muy escalable, algunos de los sitios más concurridos de la web aprovechan la capacidad de Django para escalar de forma rápida y flexible.
 - Su version actual es  **Django 5.0** aunque su version mas estable y con errores menores solucionados es **Django 4.2.8**.
 
+<div style="page-break-after: always;"></div>
+
 ## Instalación
 [Tabla de contenidos](#tabla-de-contenidos)
 
-### Instalacion de Python
+### Instalacion de Python en linux
 
+> En este apartado veremos como instalar Python por terminal en linux.
 
-
-### Seccion1
-[Tabla de contenidos](#tabla-de-contenidos)
-
-<div style="page-break-after: always;"></div>
-
-## Capitulo 2
-[Tabla de contenidos](#tabla-de-contenidos)
-
-### Subapartado 2.1
-[Tabla de contenidos](#tabla-de-contenidos)
-
-<div style="page-break-after: always;"></div>
-
-
-## Capitulo 3
-[Tabla de contenidos](#tabla-de-contenidos)
-
-- Recursos: 
-  - 
-
-```php
-echo "Hola Mundo";
+1) Para ver si tenemos instalado Python y en el caso de que este instalado ver que version tenemos:
+```
+python --version
+```
+2) Lo siguiente que tendemos que hacer es actualizar la lista de paquetes con:
+```
+sudo apt-get update
 ```
 
-### Seccion1
-[Tabla de contenidos](#tabla-de-contenidos)
-
-```console
-#...
+3) para descargar la ultima versiòn de python:
+     - Primero debemos descargar el PPA(Personal Package Archive) llamado "deadsnake", que proporciona versiones actualizadas de python para tu sistema y volveremos a actualizar la lista de paquetes:
+```
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt-get update
+```
+4) Descargamos la version que deseemos con wget y la descomprimimos:
+```
+wget https://www.python.org/ftp/python/3.12.0/Python-3.12.0b3.tgz
+tar -xvf Python-3.12.0b3.tgz
 ```
 
-
-
-### Seccion2
-[Tabla de contenidos](#tabla-de-contenidos)
-
-```console
-#...
+5) Ahora configuramos el entorno de compilacion. Esto analiza la congiguracion del sistema yestablece opciones especificas para compilar Python de acuerdo con las capacidades y configuraciones de tu maquina.
+   - --enable-optimizations: Esta opción indica que se deben incluir optimizaciones durante el proceso de compilación. Esto puede aumentar el rendimiento de la ejecución de Python, ya que el código se compilará con optimizaciones específicas para tu arquitectura.
 ```
-
-
-#### Seccion2.1
-[Tabla de contenidos](#tabla-de-contenidos)
-
-1. **negrita**
-
-```console
-sudo apt update
-sudo apt upgrade
+cd Python-3.12.0b3
+./configure --enable-optimizations
 ```
-
-2. Hm^3^
-    - H~2~O
-
-- dfgdlfkgdlfkj
-- dflgjdlfkj
-
-- [X] Hm^3^
-    - H~2~O
-
-
-## Clases 
-[Tabla de contenidos](#tabla-de-contenidos)
-
-
-## Clase 01 - 24/10
-[Tabla de contenidos](#tabla-de-contenidos)
-
-- [Web Notable](https://notable.app/)
-  - https://notable.app/static/pdfs/cheatsheet.pdf
-- [ ] https://github.com/twbs/bootstrap
-- [ ] https://github.com/mermaid-js/mermaid
-
----
-
-- [Apuntes de Docker](Docker.md "Introducción")
-
-> IMPORTANTE: Para hacer una captura de pantalla simplemente hazla y pegala!!
-
-![](@attachment/Clipboard_2023-10-24-14-10-11.png)
-:angel::angel::angel::angel:
-```python
-user = "fulano"
+6) Ahora compilaremos los archivos necesarios con el comando:(Esto llevara unos minutos)
 ```
+sudo make install
+```
+Ahora ejecute el comando:
+```
+python3
+```
+y podrta usar python en la terminal.
+
 
 
 ## Fuentes
 [Django projects](https://www.djangoproject.com/)
 
 [Tutorial Python](https://docs.python.org/es/3/tutorial/)
+
+[Instalacion de Python](https://python-guide-es.readthedocs.io/es/latest/starting/install3/linux.html)
+
+[video tutorial intalacion Python 3.12.0](https://www.makeuseof.com/install-python-ubuntu/)
 
