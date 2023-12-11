@@ -19,8 +19,8 @@
   - [Generar nuestro primer proyecto con *Django*](#generar-nuestro-primer-proyecto-con-django)
     - [manage.py](#managepy)
       - [Lista de comandos de manage.py](#lista-de-comandos-de-managepy)
-  - [Borradores](#borradores)
-      - [Intalando *pip*](#intalando-pip)
+  - [Principales componentes de Django](#principales-componentes-de-django)
+  - [Fuentes](#fuentes)
 
 <div style="page-break-after: always;"></div>
 
@@ -215,27 +215,33 @@ python3 manage.py help
   - **runserver**: Inicia el servidor de desarrollo de Django.
 
 
+## Principales componentes de Django
+[Tabla de contenidos](#tabla-de-contenidos)
+
+1) **ORM(Object-Relational-Mapping)**
+    > Django incluye un ORM que facilita la interacción con bases de datos relacionales. Los modelos de Django definen en Python y se mapean a tablas de base de datos,permitiendo a los desarrolladores realizar operaciones de base de datos de manera más intuitiva.
+2) **MVC(Model-View-Controller)**
+    > Django sigue el patrón de diseño Modelo-Vista-Controlador, aunque a menudo se le llama Modelo-Vista-Plantilla (MVT) en el contexto de Django. Los modelos representan la estructura de datos, las vistas gestionan la lógica de presentación y las plantillas definen la presentación de los datos.
+3) **Sistema de plantillas**
+    > Django proporciona un sistema de plantillas que permite separar la logica de presentacion del codigo Python, facilitando la ceracion de páginas web dinámicas.
+4) **Enrutamiento y Vistas**
+    > El enrutador de Django dirige las solicitudes HTTP a las vistas correspondientes. Las vistas correspondientes son funciones de Python que toman solicitudes y devuelven respuestas, y son responsables de procesar la lógica de la aplicación.
+5) **Admin Site**
+    > Django incluye un panel de administración automático que facilita la gestión de modelos y datos de la base de datos sin tener que crear una interfaz de administración personalizada.
 
 
-## Borradores
 
 
-#### Intalando *pip*
-Para instalar este paquete debemos utilizar `pip install Django`, añadiendo laversion que queremos instalar con `==5.0`. En nuestro caso la ultima version disponible actualmente.
 
-1) Actualizamos los paquetes.
-```
-sudo apt-get update
-```
-```
-sudo apt-get upgrade
-```
-2) Instalamos pip.
-```
-sudo apt install python3-pip
-```
-3) Comprobamos que se a instalado correctamente.
-```
-pip --V
-```
-> Esta es otra forma de ver la version del gestor de paquetes de python instalada.
+
+
+
+<div style="page-break-after: always;"></div>
+
+## Fuentes
+- [Django projects](https://www.djangoproject.com/)
+- [Tutorial Python](https://docs.python.org/es/3/tutorial/)
+- [Instalacion de Python](https://python-guide-es.readthedocs.io/es/latest/starting/install3/linux.html)
+- [video tutorial intalacion Python 3.12.0](https://www.makeuseof.com/install-python-ubuntu/)
+- [InstalacionVSCode](https://alfonsomozkoh.github.io/2020/07/01/como-instalar-visual-studio-code-en-linux.html)
+
