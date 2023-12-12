@@ -15,12 +15,15 @@
     - [Instalación de *Django* en linux](#instalación-de-django-en-linux)
       - [Instalando el modulo de Django](#instalando-el-modulo-de-django)
     - [Instalar Visual Studio Code](#instalar-visual-studio-code)
-  - [Comandos Django](#comandos-django)
   - [Generar nuestro primer proyecto con *Django*](#generar-nuestro-primer-proyecto-con-django)
     - [manage.py](#managepy)
       - [Lista de comandos de manage.py](#lista-de-comandos-de-managepy)
   - [Principales componentes de Django](#principales-componentes-de-django)
   - [Cómo funciona Django](#cómo-funciona-django)
+  - [Django Avanzado](#django-avanzado)
+    - [Migraciones en Django](#migraciones-en-django)
+    - [Creando una app](#creando-una-app)
+  - [Comandos Django](#comandos-django)
   - [Fuentes](#fuentes)
 
 <div style="page-break-after: always;"></div>
@@ -144,10 +147,6 @@ Ahora podemos abrir VSCode desde la terminal.
 code
 ```
 
-## Comandos Django
-
-- django-admin startproject <name_project>
-
 ## Generar nuestro primer proyecto con *Django*
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -250,10 +249,58 @@ python3 manage.py help
 
 - Django facilita la creación de aplicaciones web robustas al proporcionar una estructura organizada y herramientas poderosas, permitiendo a los desarrolladores construir aplicaciones de manera eficiente y mantenible. Además, su énfasis en la seguridad y las mejores prácticas lo convierten en una opción popular para el desarrollo web en Python.
 
+## Django Avanzado
+
+### Migraciones en Django 
+Las migraciones son una forma de realizar cambios en la estructura de la base de datos de maneara controlada y evolutiva.
+
+1) Despues de [Generar nuestro proyecto con *Django*](#generar-nuestro-primer-proyecto-con-django).
+2) Debemos migrarlo.
+
+```
+python3 manage.py migrate
+```
+Este paso generara una base de datos con las funcionalidades de las aplicaciones que vienen por defecto dentro de Django.
+3) El siguiente paso sera arrancar nuestro servidor local:
+```
+python manage.py runserver
+```
+  - Al arrancarlo nos da informacion como la fecha y hora de arranque, la version de Django, la configuracion utilizada y la URL.
+
+  - Si copiamos la URL en nuestro navegador veremos la pagina por defecto de Django.
+
+### Creando una app
+- Si miramos el directorio creado en el capitulo anterior dentro veremos una serie de archivos y una carpeta con el nombre de nuestro proyecto, esto es un paquete donde tenemos el archivo ***settings.py***.
+- Empezaremos a configurarlo por ***INSTALLED_APPS***.
+```python
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+]
+```
+> Esto es una lista con con varias aplicaciones que generan distintas funcionalidades.
+- **admin**: Proporciona la interfaz de administracion de Django que te permite gestinar modelos y datos directamente desde el navegador.
+- **auth**: Gestiona la autentificación y autorización de usuarios.
+- **contenttypes**: Permite la asociación de modelos con tipos de contenido.
+- **sessions**: Proporciona soporte para sesiones de usuario.
+- **messages**: Maneja mensajes de un lado a otro entre vistas.
+- **staticfiles**: Gestiona archivos estaticos como CSS, JavaScript e imágenes para tu aplicación.
+> Puedes agregar tanatas aplicaciones como desees.
+
+
 
 
 
 <div style="page-break-after: always;"></div>
+
+## Comandos Django
+
+- ***django-admin startproject <name_project>***: Iniciar proyecto.
+
 
 ## Fuentes
 - [Django projects](https://www.djangoproject.com/)
