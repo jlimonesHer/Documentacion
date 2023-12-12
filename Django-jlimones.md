@@ -9,9 +9,9 @@
 # Tabla de contenidos
 - [Python y Django](#python-y-django)
 - [Tabla de contenidos](#tabla-de-contenidos)
-  - [Introducción](#introducción)
-  - [Instalación](#instalación)
-    - [Instalacion de Python en linux](#instalacion-de-python-en-linux)
+  - [1- Introducción](#1--introducción)
+  - [2.Instalación](#2instalación)
+    - [2.1.Instalacion de Python en linux](#21instalacion-de-python-en-linux)
     - [Instalación de *Django* en linux](#instalación-de-django-en-linux)
       - [Instalando el modulo de Django](#instalando-el-modulo-de-django)
     - [Instalar Visual Studio Code](#instalar-visual-studio-code)
@@ -23,6 +23,13 @@
   - [Django Avanzado](#django-avanzado)
     - [Migraciones en Django](#migraciones-en-django)
     - [Creando una app](#creando-una-app)
+      - [¿Que es una *app*?](#que-es-una-app)
+      - [Como crear una app](#como-crear-una-app)
+    - [Vistas](#vistas)
+      - [Creando una vista(Ejemplo)](#creando-una-vistaejemplo)
+      - [Utilizar el metodo en una URL](#utilizar-el-metodo-en-una-url)
+    - [Hello World](#hello-world)
+    - [](#)
   - [Comandos Django](#comandos-django)
   - [Fuentes](#fuentes)
 
@@ -31,7 +38,7 @@
 
 
 
-## Introducción
+## 1- Introducción
 [Tabla de contenidos](#tabla-de-contenidos)
 
 ¿Que es **Python**?
@@ -53,10 +60,10 @@
 
 <div style="page-break-after: always;"></div>
 
-## Instalación
+## 2.Instalación
 [Tabla de contenidos](#tabla-de-contenidos)
 
-### Instalacion de Python en linux
+### 2.1.Instalacion de Python en linux
 
 > En este apartado veremos como instalar Python por terminal en linux.
 
@@ -261,15 +268,18 @@ Las migraciones son una forma de realizar cambios en la estructura de la base de
 python3 manage.py migrate
 ```
 Este paso generara una base de datos con las funcionalidades de las aplicaciones que vienen por defecto dentro de Django.
+
 3) El siguiente paso sera arrancar nuestro servidor local:
 ```
 python manage.py runserver
 ```
-  - Al arrancarlo nos da informacion como la fecha y hora de arranque, la version de Django, la configuracion utilizada y la URL.
+  > Al arrancarlo nos da informacion como la fecha y hora de arranque, la version de Django, la configuracion utilizada y la URL.
 
-  - Si copiamos la URL en nuestro navegador veremos la pagina por defecto de Django.
+  > Si copiamos la URL en nuestro navegador veremos la pagina por defecto de Django.
 
 ### Creando una app
+
+#### ¿Que es una *app*?
 - Si miramos el directorio creado en el capitulo anterior dentro veremos una serie de archivos y una carpeta con el nombre de nuestro proyecto, esto es un paquete donde tenemos el archivo ***settings.py***.
 - Empezaremos a configurarlo por ***INSTALLED_APPS***.
 ```python
@@ -290,6 +300,82 @@ INSTALLED_APPS = [
 - **messages**: Maneja mensajes de un lado a otro entre vistas.
 - **staticfiles**: Gestiona archivos estaticos como CSS, JavaScript e imágenes para tu aplicación.
 > Puedes agregar tanatas aplicaciones como desees.
+
+- En resumen, una aplicación es un paquete dentro de Django y todas estas aplicaciones forman nuestro proyecto.
+
+#### Como crear una app
+
+1) abre la terminal en el directorio creado para el proyecto(AprendiendoDjango).
+2) Para crear una app:
+```
+python3 manage.py startapp
+```
+> Esto generara un directorio con varios archivos que iremos viendo.
+
+
+### Vistas
+- Las **vistas** se refieren a las funciones o clases que manejan las solicitudes HTTP y devuelven respuestas. Las vistas son responsables de procesar la entrada del usuario (la solicitud) y producir la salida (la respuesta).
+
+- En Django las vistas se crean o modifican desde el fichero *views.py* que esta en el directorio de nuestra app.
+> En este fichero vemos como se importan los ***shortcuts***, 
+ - los "shortcuts" (atajos) son funciones y clases proporcionadas por el módulo django.shortcuts que facilitan y simplifican tareas comunes en el desarrollo de aplicaciones web. Estos atajos son una manera conveniente de realizar operaciones que se realizan frecuentemente sin tener que escribir una cantidad extensa de código.
+> Para mas informacion sobre -> [SHORTCUTS](https://docs.djangoproject.com/en/5.0/topics/http/shortcuts/).
+
+>> Para continuar a partir de este punto deberia tener unas nociones basicas de fundamentos de la programacion y una base de programacopn y sintaxis de [Python](https://docs.python.org/es/3.12/tutorial/index.html).
+
+#### Creando una vista(Ejemplo)
+
+- En el fichero views.py, debemos importar HttpResponse, que es un objeto que representa la respuesta HTTP que sera enviada al navegador de lusuario cuando se realiza una solicitud a la vista.
+```python
+from django.shortcuts import render, HttpResponse
+
+def hola_mundo(request):
+    return HttpResponse("hola mundo con Django!!")
+```
+> Por convención los métodos y funciones en python seran con camelCase.
+***Contructor de HttpResponse:***
+```python
+HttpResponse(content=b'', status=200, content_type='text/html', charset=None)
+```
+- Si nos fijamos esta vista es una simple función de Python que recibe un parametro llamado *request*, que es un parametro que me permite recibir datos de peticiones que haga a esta URL y devuelve una cadena de texto.
+
+Para ver el funcionamiento de nuestra vista necesitamos cargar el metodo o utilizarlo en una URL.
+
+#### Utilizar el metodo en una URL
+Para utilizar el metodo en una URL debemos abrir el fichero llamado *urls.py* del directorio con el mismo nombre creado dentro de nuestro proyecto.
+
+- Primero importaremos la funcion:
+```python
+from myapp import views
+```
+- Despues modificaremos la lista urlpatterns:
+```python
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('hola-mundo/', views.hola_mundo, name="hola_mundo")
+]
+```
+- Desglosamos el objeto *path*:
+  - path('hola-mundo/', ...) -> define la URL que activara la vista.
+  - views.hola_mundo -> especifica la funcion que se ejecutara cuando la URL coincida.
+  - name="hola_mundo" -> Asigna un nombre a la URL. Este nombre puede ser utilizado en otras partes del código para referenciar esta URL de manera más fácil. Por ejemplo, en las plantillas o en la generación de URLs dentro de las vistas.
+  - 
+### Hello World
+
+Ya tenemos nuestra primera vista preparada para verla en el navegador.
+
+***¿Como lo hacemos?***
+1) Debemos arrancar el servidor de Django:
+```
+python3 manage.py runserver
+```
+2) Introducimos la URL que nos da el servidor en el navegador o pulsamos ctrl y hacemos click en ella.
+3) En esta ocasión en vez de mostrar la pagina por defecto de Django nos devuelve un error 404. Esto sucede porque la primera ruta(path) que tenemos en *urls.py* es "hola-mundo/", asi que debemos añadirle esto a la URL.
+
+**Ya tenemos El hola mundo!**
+   
+###
+
 
 
 
