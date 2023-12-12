@@ -20,6 +20,7 @@
     - [manage.py](#managepy)
       - [Lista de comandos de manage.py](#lista-de-comandos-de-managepy)
   - [Principales componentes de Django](#principales-componentes-de-django)
+  - [Cómo funciona Django](#cómo-funciona-django)
   - [Fuentes](#fuentes)
 
 <div style="page-break-after: always;"></div>
@@ -163,7 +164,7 @@ pip freeze > requeriments.txt
 Para iniciar un proyecto con django nos vamos a la carpeta creada y utilizamos.
 
 ```
-django-admin startproject aprendiendoDjango`
+django-admin startproject aprendiendoDjango
 ```
 Esto nos creara un directorio con el nombre del proyecto con varios ficheros que veremos mas adelante entre ellos esta manage.py.
 
@@ -228,10 +229,26 @@ python3 manage.py help
     > El enrutador de Django dirige las solicitudes HTTP a las vistas correspondientes. Las vistas correspondientes son funciones de Python que toman solicitudes y devuelven respuestas, y son responsables de procesar la lógica de la aplicación.
 5) **Admin Site**
     > Django incluye un panel de administración automático que facilita la gestión de modelos y datos de la base de datos sin tener que crear una interfaz de administración personalizada.
+6) **Sistema de formularios**
+    > Django proporciona herramientas para crear y procesar formularios de manera sencilla, facilitando la interaccion con los usuarios.
+7) **Manejo de URL**
+    > Django utiliza un sistema de enrutamiento basados en patrones de URL para dirigir lsa solicitudes a las vistas correspondientes.
 
+## Cómo funciona Django
+[Tabla de contenidos](#tabla-de-contenidos)
 
+1) **Solicitud y enrutamiento**
+    > Cuando se recibe una solicitud HTTP, el sistema de enrutsamiento de Django(definido en el archivo "urls.py") dirige la solicitud a ubna vista especifica.
+2) **Vistas y lógica de Aplicación**
+    > La vista es una funcion de python que maneja la logica de la aplicación. Puede acceder a la base de datos procesar datos y devolver una respuesta.
+3) **Modelo y Base de Datos**
+    > Los modelos de Django definen la estructura de la base de datos. El ORM se encarga de traducir las operaciones de la base de datos a operaciones en objetos Python.
+4) **Platillas y Presentación**
+    > Las plantillas de Django se utilizan para definir la presentación de los datos generados por las vistas. Estas plantillas son procesadas y enviadas al cliente.
+5) **Respuesta HTTP**
+    > Django genera una respuesta HTTP que se envia de vuelta al navegador del usuario.
 
-
+- Django facilita la creación de aplicaciones web robustas al proporcionar una estructura organizada y herramientas poderosas, permitiendo a los desarrolladores construir aplicaciones de manera eficiente y mantenible. Además, su énfasis en la seguridad y las mejores prácticas lo convierten en una opción popular para el desarrollo web en Python.
 
 
 
