@@ -28,8 +28,10 @@
     - [Vistas](#vistas)
       - [Creando una vista(Ejemplo)](#creando-una-vistaejemplo)
       - [Utilizar el metodo en una URL](#utilizar-el-metodo-en-una-url)
-    - [Hello World](#hello-world)
-    - [](#)
+      - [Hello World](#hello-world)
+      - [Multiples vistas y URLs](#multiples-vistas-y-urls)
+      - [Navegación entre rutas](#navegación-entre-rutas)
+      - [parametros en ruta](#parametros-en-ruta)
   - [Comandos Django](#comandos-django)
   - [Fuentes](#fuentes)
 
@@ -359,8 +361,8 @@ urlpatterns = [
   - path('hola-mundo/', ...) -> define la URL que activara la vista.
   - views.hola_mundo -> especifica la funcion que se ejecutara cuando la URL coincida.
   - name="hola_mundo" -> Asigna un nombre a la URL. Este nombre puede ser utilizado en otras partes del código para referenciar esta URL de manera más fácil. Por ejemplo, en las plantillas o en la generación de URLs dentro de las vistas.
-  - 
-### Hello World
+
+#### Hello World
 
 Ya tenemos nuestra primera vista preparada para verla en el navegador.
 
@@ -374,11 +376,78 @@ python3 manage.py runserver
 
 **Ya tenemos El hola mundo!**
    
-###
+#### Multiples vistas y URLs
+Ahora crearemos otro método en *views.py*, por ejemplo una pagina de inicio:
+```python
+def index(request):
+    return HttpResponse("""
+        <h1>Inicio</h1>
+    """)
+```
+Ya tenemos nuestro segundo método, solo nos queda asignarle una ruta, para ello volvemos al fichero *urls.py*:
+```python
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', views.index, name="index"),
+    path('index', views.index, name="inicio"),
+    path('hola-mundo/', views.hola_mundo, name="hola_mundo")
+]
+```
+En este ejemplo dejamos vacia la cadena que recoge como primer argumento para que al abrir la raiz de la URL nos muestre nuestra pagina de inicio.
 
+#### Navegación entre rutas
+- Para entender como funciona lo haremos con un ejemplo:
+En el fichero views.py declararemos la siguiente variable:
+```python
+layout = """
+<h1>Sitio wweb con Django | Jose Carlos Limones</h1>
+<hr/>
+<ul>
+    <li>
+    <a href="/">Inicio</a>
+    </li>
+    <li>
+    <a href="/hola-mundo">Hola mundo</a>
+    </li>
+    <li>
+    <a href="/pagina">Pagina 1</a>
+    </li>
+</ul>
+<hr/>
+"""
+```
+- Y modificamnos las funciones ya creadas:
+```python
+def index(request):
+    return HttpResponse(layout+"""
+        <h1>Inicio</h1>
+    """)
 
+def hola_mundo(request):
+    return HttpResponse(layout+"""
+        <h1">hola mundo con Django!!</h1>
+        <h3>Soy Jose Carlos Limones</h3>
+        """)
 
+def pagina(request):
+    return HttpResponse(layout+"""
+        <h1>Esta es la Pagina 1!!</h1>
+        """)
+```
+> *Recuerda modificar el fichero urls.py*.
 
+#### parametros en ruta
+Como sabemos en la URL podemos pasar parametros, en este apartado veremos como se tratan.
+
+Creamos una supuesta pagina llamada "contacto":
+```python
+def contacto(request, nombre):
+  return HttpResponse(layout+f"<h1>Contacto {nombre} </h1>")
+```
+- Para poder tratar estos parametros debemos indicarle al path que tipo de parametro es y su nombre de esta forma:
+```python
+    path('contacto/<str:nombre>', views.contacto, name="contacto")
+```
 
 
 <div style="page-break-after: always;"></div>
