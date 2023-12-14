@@ -590,7 +590,74 @@ def pagina(request, redirigir = 0):
 De esta forma nos mostrara nuestro primer template.
 
 #### Layout, bloques y herencia de plantillas
+- Como vemos el codigo no es limpio ¿como soluciona esto Django?
+- Django utiliza un sistema de bloques y herencia que nos deja un proyecto estructurado y codigo limpio.
+Ejemplo:
+1) Creamos *layout.html* en nuestro directorio de templates y le añadimos una estructura basica de html.
+2) En la etiqueta title creamos un bloque con el nobre title
+3) Dentro del body crearemos un *div* que nos servira de ontenedor con el atributo *id* y el valor de *content*.
+4) Dentro del div crearemos nuestro bloque.
+Ejemplo layout.html
+```django
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+        
+        {% endblock title %}
+        | Jose Carlos Limones
+    </title>
+</head>
+<body>
+    <h1>Sitio web con Django | Jose Carlos Limones</h1>
+    <hr/>
+    <ul>
+        <li>
+            <a href="/">Inicio</a>
+        </li>
+        <li>
+            <a href="/hola-mundo">Hola mundo</a>
+        </li>
+        <li>
+            <a href="/pagina">Pagina 1</a>
+        </li>
+        <li>
+            <a href="/contacto">contacto</a>
+        </li>
+    </ul>
+    <hr/>
+    <div id ="content">
+        {% block content %}
 
+        {% endblock content %}
+    </div>
+    <footer>
+        Master en Python &copy Jose Carlos Limones
+    </footer>
+</body>
+</html>
+```
+
+Ejemplo index.html
+```django
+{% extends "layout.html" %}
+
+{% block title %}
+index
+{% endblock title %}
+
+{% block content %}
+<h1>inicio</h1>
+<p>Esta es la pagina de inicio</p>
+{% endblock content %}
+```
+
+- En la primera linea le indicamos a Django el template de donde tiene que heredar.
+- Como vemos los bloques son como etiquetas deben abrirse y cerrarse.
+- A las etiquetas de bloques se le añadira el nombre del bloque donde debe ir.
 
 <div style="page-break-after: always;"></div>
 
