@@ -30,9 +30,11 @@
       - [Utilizar el metodo en una URL](#utilizar-el-metodo-en-una-url)
       - [Hello World](#hello-world)
       - [Multiples vistas y URLs](#multiples-vistas-y-urls)
-      - [Navegación entre rutas](#navegación-entre-rutas)
-      - [parametros en ruta](#parametros-en-ruta)
-  - [Comandos Django](#comandos-django)
+    - [Navegación entre rutas](#navegación-entre-rutas)
+    - [parámetros en ruta](#parámetros-en-ruta)
+    - [Parámetros opcionales](#parámetros-opcionales)
+    - [Redirecciones](#redirecciones)
+    - [Vistas Base](#vistas-base)
   - [Fuentes](#fuentes)
 
 <div style="page-break-after: always;"></div>
@@ -395,12 +397,12 @@ urlpatterns = [
 ```
 En este ejemplo dejamos vacia la cadena que recoge como primer argumento para que al abrir la raiz de la URL nos muestre nuestra pagina de inicio.
 
-#### Navegación entre rutas
+### Navegación entre rutas
 - Para entender como funciona lo haremos con un ejemplo:
 En el fichero views.py declararemos la siguiente variable:
 ```python
 layout = """
-<h1>Sitio wweb con Django | Jose Carlos Limones</h1>
+<h1>Sitio web con Django | Jose Carlos Limones</h1>
 <hr/>
 <ul>
     <li>
@@ -436,7 +438,7 @@ def pagina(request):
 ```
 > *Recuerda modificar el fichero urls.py*.
 
-#### parametros en ruta
+### parámetros en ruta
 Como sabemos en la URL podemos pasar parametros, en este apartado veremos como se tratan.
 
 Creamos una supuesta pagina llamada "contacto":
@@ -446,16 +448,117 @@ def contacto(request, nombre):
 ```
 - Para poder tratar estos parametros debemos indicarle al path que tipo de parametro es y su nombre de esta forma:
 ```python
-    path('contacto/<str:nombre>', views.contacto, name="contacto")
+ path('contacto/<str:nombre>', views.contacto, name="contacto")
 ```
+Ahora probamos en nuestro navegador:
+```
+http://127.0.0.1:8000/contacto/jose%20Carlos
+```
+> el "%20" el navegador lo tratara como un espacio.
+
+Si queremos añadir mas parametros simplemente lo haremos asi:
+- En views.py:
+```python
+def contacto(request, nombre, apellido):
+  return HttpResponse(layout + f"<h1>Contacto {nombre} </h1>")
+```
+  - En urls.py:
+```python
+    path('contacto/<str:nombre>/<str:apellido>', views.contacto, name="contacto")
+```
+  - En el navegador:
+```
+http://127.0.0.1:8000/contacto/Jose%20Carlos/Limones
+```
+
+### Parámetros opcionales
+- Podemos hacer que los parámetros sean opcionales inicializandolos a null o vacío de esta forma:
+```python
+def contacto(request, nombre="", apellido=""):
+    html = ""
+
+    if nombre and apellido:
+        html = f"<h3>{nombre} {apellido}"
+    elif nombre:
+        html = f"<h3>{nombre}"
+    
+    return HttpResponse(layout + f"<h2>Contacto </h2>" + html)
+```
+- Despues en urls.py debemos darle las opciones de cada path:
+```python
+path('contacto/', views.contacto, name="contacto"),
+path('contacto/<str:nombre>', views.contacto, name="contacto"),
+path('contacto/<str:nombre>/<str:apellido>', views.contacto, name="contacto")
+```
+
+### Redirecciones
+Django viene con una aplicación de redirecciones opcional. Te permite almacenar una redireccion en una base de datos y maneja la redirección por ti.
+
+- En este ejemplo vamos a dirigir la pagina de contacto con los parametros necesarios:
+
+  1) importar el *shortcut* ***redirect***.
+  ```python
+  from django.shortcuts import redirect
+  ```
+  2) Metemos una redireccion en nuestro metodo o función.
+  ```python
+  def pagina(request, redirigir = 0):
+      if redirigir == 1:
+          return redirect('contacto', nombre="Jose Carlos", apellido="Limones")
+
+      return HttpResponse(layout+"""
+          <h1>Esta es la Pagina 1!!</h1>
+          """)
+  ``` 
+  3) Escribimos el nuevo path:
+  ```python
+      path('pagina/<int:redirigir>', views.pagina, name="pagina"),
+  ```
+  4) Ahora nos redirigira a contacto con los paramtros pasados escribiendo en el navegador:
+   ```
+   http://127.0.0.1:8000/pagina/1
+   ```
+  
+> Recuerda que debemos mantener el path anterior.
+
+
+### Vistas Base
+- Django proporciona una serie de vista(objetos) ya creadas. Estas vistas han sido creadas para usarlas como plantilla, es decir crear clases que hereden de de esta base.
+
+- Todas las demás vistas basadas en clases heredan de esta base. clase. No es estrictamente una vista genérica y, por lo tanto, también se puede importar desde *django.views*.
+- El diagrama de flujo del metodo es:
+  - setup() -> Se llama al inicio de cada solcitud par realizar cualquier configuracion necesaria.
+  - dispatch() -> Se llama para maneja la solicitud HTTP. Determina qué método HTTP se está utilizando y llama al método correspondiente (por ejemplo, get(), post(), etc.).
+  - http_method_not_allowed() -> Este metodo se invoca si el metodo de la solicitud HTTP no esta permitido.
+  - options() -> Este método se invoca cuando se recibe una solicitud OPTIONS en la vista. La implementación predeterminada devuelve una respuesta HTTP con los métodos permitidos en el encabezado "Allow".
+
+Ejemplo views.py:
+```python
+from django.http import HttpResponse
+from django.views import View
+
+
+class MyView(View):
+    def get(self, request, *args, **kwargs):
+        return HttpResponse("Hello, World!")
+```
+
+Ejemplo urls.py
+```python
+from django.urls import path
+
+from myapp.views import MyView
+
+urlpatterns = [
+    path("mine/", MyView.as_view(), name="my-view"),
+]
+```
+-  La lista de métodos permitidos:
+> ["get", "post", "put", "patch", "delete", "head", "options", "trace"]
+
 
 
 <div style="page-break-after: always;"></div>
-
-## Comandos Django
-
-- ***django-admin startproject <name_project>***: Iniciar proyecto.
-
 
 ## Fuentes
 - [Django projects](https://www.djangoproject.com/)
