@@ -35,6 +35,9 @@
     - [Parámetros opcionales](#parámetros-opcionales)
     - [Redirecciones](#redirecciones)
     - [Vistas Base](#vistas-base)
+    - [Templates en Django](#templates-en-django)
+      - [¿Como se utlizan?](#como-se-utlizan)
+      - [Layout, bloques y herencia de plantillas](#layout-bloques-y-herencia-de-plantillas)
   - [Fuentes](#fuentes)
 
 <div style="page-break-after: always;"></div>
@@ -556,6 +559,37 @@ urlpatterns = [
 -  La lista de métodos permitidos:
 > ["get", "post", "put", "patch", "delete", "head", "options", "trace"]
 
+### Templates en Django
+Hasta ahora hemos trabajado con el codigo html directamente en las vista, pero esa no es la forma correcta de utilizar Django.
+
+En Django, los templates son archivos de texto que contienen marcadores o placeholders que luego son reemplazados por valores específicos cuando la página se renderiza dinámicamente. Estos marcadores están rodeados por doble llave y siguen la sintaxis del lenguaje de plantillas de Django
+
+#### ¿Como se utlizan?
+- Los templates hacen que nustras app esten mejor estructuradas y organizadas para ello hay que crear nuestra carpeta de templates dentro de el directorio de la app.
+```
+cd myapp
+mkdir templates
+```
+- En esta carpeta crearemos todas nuestras plantillas siempre organizandola de la mejor manera y la mas intuitiva para cuando llegue el mantenimiento de nuestro proyecto. En este caso practico las crearemos directamente en el directorio.
+- Creamos un fichero por template.
+Ejemplo myapp/templates/pagina.html:
+```python
+<h1>inicio</h1>
+<p>Esta es la pagina de inicio</p>
+```
+- Ahora tenemosque modificar views.py:
+```python
+def pagina(request, redirigir = 0):
+    if redirigir == 1:
+        return redirect('contacto', nombre="Jose Carlos", apellido="Limones")
+
+    return render(request, 'pagina.html')
+```
+> Usamos la funcion **render()** cuando queremos que nos devuelva un template, pasandole como argumento la avariable **request** y el **nombre del template** como minimo.
+
+De esta forma nos mostrara nuestro primer template.
+
+#### Layout, bloques y herencia de plantillas
 
 
 <div style="page-break-after: always;"></div>
