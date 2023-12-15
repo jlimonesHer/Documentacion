@@ -38,6 +38,11 @@
     - [Templates en Django](#templates-en-django)
       - [¿Como se utlizan?](#como-se-utlizan)
       - [Layout, bloques y herencia de plantillas](#layout-bloques-y-herencia-de-plantillas)
+      - [Vistas, Templates y Variables](#vistas-templates-y-variables)
+      - [Condicionales -if templates Django](#condicionales--if-templates-django)
+      - [Bucle -for template Django](#bucle--for-template-django)
+        - [Funcionalidades extras de bucle -for](#funcionalidades-extras-de-bucle--for)
+      - [Comentarios](#comentarios)
     - [Archivos estáticos](#archivos-estáticos)
       - [Estilos y apariencia visual con Django](#estilos-y-apariencia-visual-con-django)
   - [Fuentes](#fuentes)
@@ -266,8 +271,11 @@ python3 manage.py help
 - Django facilita la creación de aplicaciones web robustas al proporcionar una estructura organizada y herramientas poderosas, permitiendo a los desarrolladores construir aplicaciones de manera eficiente y mantenible. Además, su énfasis en la seguridad y las mejores prácticas lo convierten en una opción popular para el desarrollo web en Python.
 
 ## Django Avanzado
+[Tabla de contenidos](#tabla-de-contenidos)
 
 ### Migraciones en Django 
+[Tabla de contenidos](#tabla-de-contenidos)
+
 Las migraciones son una forma de realizar cambios en la estructura de la base de datos de maneara controlada y evolutiva.
 
 1) Despues de [Generar nuestro proyecto con *Django*](#generar-nuestro-primer-proyecto-con-django).
@@ -287,6 +295,7 @@ python manage.py runserver
   > Si copiamos la URL en nuestro navegador veremos la pagina por defecto de Django.
 
 ### Creando una app
+[Tabla de contenidos](#tabla-de-contenidos)
 
 #### ¿Que es una *app*?
 - Si miramos el directorio creado en el capitulo anterior dentro veremos una serie de archivos y una carpeta con el nombre de nuestro proyecto, esto es un paquete donde tenemos el archivo ***settings.py***.
@@ -323,6 +332,8 @@ python3 manage.py startapp
 
 
 ### Vistas
+[Tabla de contenidos](#tabla-de-contenidos)
+
 - Las **vistas** se refieren a las funciones o clases que manejan las solicitudes HTTP y devuelven respuestas. Las vistas son responsables de procesar la entrada del usuario (la solicitud) y producir la salida (la respuesta).
 
 - En Django las vistas se crean o modifican desde el fichero *views.py* que esta en el directorio de nuestra app.
@@ -403,6 +414,8 @@ urlpatterns = [
 En este ejemplo dejamos vacia la cadena que recoge como primer argumento para que al abrir la raiz de la URL nos muestre nuestra pagina de inicio.
 
 ### Navegación entre rutas
+[Tabla de contenidos](#tabla-de-contenidos)
+
 - Para entender como funciona lo haremos con un ejemplo:
 En el fichero views.py declararemos la siguiente variable:
 ```python
@@ -444,6 +457,8 @@ def pagina(request):
 > *Recuerda modificar el fichero urls.py*.
 
 ### parámetros en ruta
+[Tabla de contenidos](#tabla-de-contenidos)
+
 Como sabemos en la URL podemos pasar parametros, en este apartado veremos como se tratan.
 
 Creamos una supuesta pagina llamada "contacto":
@@ -477,6 +492,8 @@ http://127.0.0.1:8000/contacto/Jose%20Carlos/Limones
 ```
 
 ### Parámetros opcionales
+[Tabla de contenidos](#tabla-de-contenidos)
+
 - Podemos hacer que los parámetros sean opcionales inicializandolos a null o vacío de esta forma:
 ```python
 def contacto(request, nombre="", apellido=""):
@@ -497,6 +514,8 @@ path('contacto/<str:nombre>/<str:apellido>', views.contacto, name="contacto")
 ```
 
 ### Redirecciones
+[Tabla de contenidos](#tabla-de-contenidos)
+
 Django viene con una aplicación de redirecciones opcional. Te permite almacenar una redireccion en una base de datos y maneja la redirección por ti.
 
 - En este ejemplo vamos a dirigir la pagina de contacto con los parametros necesarios:
@@ -528,6 +547,8 @@ Django viene con una aplicación de redirecciones opcional. Te permite almacenar
 
 
 ### Vistas Base
+[Tabla de contenidos](#tabla-de-contenidos)
+
 - Django proporciona una serie de vista(objetos) ya creadas. Estas vistas han sido creadas para usarlas como plantilla, es decir crear clases que hereden de de esta base.
 
 - Todas las demás vistas basadas en clases heredan de esta base. clase. No es estrictamente una vista genérica y, por lo tanto, también se puede importar desde *django.views*.
@@ -562,11 +583,15 @@ urlpatterns = [
 > ["get", "post", "put", "patch", "delete", "head", "options", "trace"]
 
 ### Templates en Django
+[Tabla de contenidos](#tabla-de-contenidos)
+
 Hasta ahora hemos trabajado con el codigo html directamente en las vista, pero esa no es la forma correcta de utilizar Django.
 
 En Django, los templates son archivos de texto que contienen marcadores o placeholders que luego son reemplazados por valores específicos cuando la página se renderiza dinámicamente. Estos marcadores están rodeados por doble llave y siguen la sintaxis del lenguaje de plantillas de Django
 
 #### ¿Como se utlizan?
+> Si estas utilizando Visual Studio Code puedes descargarte su extension, pichando en la pestaña de la barra de navegacion izquierda y poniendo en el buscador *Django*. Te aparecera la primera.
+
 - Los templates hacen que nustras app esten mejor estructuradas y organizadas para ello hay que crear nuestra carpeta de templates dentro de el directorio de la app.
 ```
 cd myapp
@@ -587,7 +612,8 @@ def pagina(request, redirigir = 0):
 
     return render(request, 'pagina.html')
 ```
-> Usamos la funcion **render()** cuando queremos que nos devuelva un template, pasandole como argumento la avariable **request** y el **nombre del template** como minimo.
+> Usamos la funcion **[render()](#vistas-templates-y-variables)** cuando queremos que nos devuelva un template, pasandole como argumento la avariable **request** y el **nombre del template** como minimo.
+
 
 De esta forma nos mostrara nuestro primer template.
 
@@ -670,7 +696,133 @@ Para solucinar esto debemos indicar a nuestro template que debe heredar el conte
 {{ block.super }}
 ```
 
+#### Vistas, Templates y Variables
+Django nos da la posibilidad de enviar variables de nuestras vistas a los templates.
+
+La forma de hacerlo es añador un tercer argumento al método **render()**:
+
+Ejemplo views.py:
+```python
+def index(request):
+  return render(request, 'index.html', {
+    'title': 'Inicio',
+    'nombre': 'JC Limones',
+    'mi_variable': 'Soy un dato en la vista'
+    })
+```
+Ahora nos vamos a nuestro template y con la doble llave podemos insertar nuestra variable en el codigo.
+
+Ejemplo index.html:
+```Django
+{% extends "layout.html" %}
+
+{% block title %}
+
+{{title}}
+
+{% endblock title %}
+
+{% block content %}
+
+  <h1 class="title" >{{title}}</h1>
+  <p>mi variable: {{mi_variable}}</p>
+  <p>nombre: {{nombre}}</p>
+  <p>Esta es la pagina de inicio</p>
+
+{% endblock content %}
+```
+
+#### Condicionales -if templates Django
+Los condicionales if funcionan exactamente como en python, solo cambia su sintaxis. Si borramos la variable "nombre" pasada en el diccionario de la funcion render() veremos como funciona.
+
+Ejemplo index.html:
+```django
+{% if nombre %}
+    <p>nombre: {{nombre}}</p>
+{% else %}
+        <strong>El nombre no existe</strong>
+{% endif %}
+```
+
+#### Bucle -for template Django
+Los bucles for al igual que los if solo cambia su sintaxis, veamos un ejemplo.
+
+Ejemplo views.py:
+```python
+def index(request):
+    lenguajes = ['C', 'C++', 'Python', 'PHP', 'JavaScript']
+    return render(request, 'index.html', {
+        'title': 'Inicio',
+        'nombre': 'JC Limones',
+        'mi_variable': 'Soy un dato en la vista',
+        'lenguajes': lenguajes
+    })
+```
+
+Ejemplo index.html:
+```django
+<h3>Listado de lenguajes</h3>
+<ul>
+    {% for lenguaje in lenguajes %}
+    <li>{{lenguaje}}</li>
+    {% endfor %}
+</ul>
+```
+
+##### Funcionalidades extras de bucle -for
+1) for...empty:
+   - Puedes utilizar **empty** para manejar el caso de que la secuencia este vacia
+```django
+{% for item in my_list %}
+    {{ item }}
+{% empty %}
+    La lista está vacía.
+{% endfor %}
+
+```
+2) for...if:
+   - puedes usar la etiqueta if para filtrar los elementos que cumplen ciertas condiciones
+```django
+{% for item in my_list %}
+    {{ item }}
+{% empty %}
+    La lista está vacía.
+{% endfor %}
+
+```
+3) forloop:
+   - La variable forloop proporciona informacionadicional sobre el bucle actual.
+```django
+{% for item in my_list %}
+    {{ forloop.counter }}: {{ item }}
+    {% if forloop.last %}(Último elemento){% endif %}
+{% endfor %}
+```
+- forloop.counter: Número de la iteración actual (comienza en 1).
+- forloop.counter0: Número de la iteración actual, indexado desde 0.
+- forloop.revcounter: Número de iteraciones desde el final (comienza en 1).
+- forloop.revcounter0: Número de iteraciones desde el final, indexado desde 0.
+- forloop.first: True si es la primera iteración.
+- forloop.last: True si es la última iteración.
+
+#### Comentarios
+- Los comentarios en nuestras templates se pueden hacer como  en html. El problema de esto es que si le damos al inspector nos aparecera entre el codigo html.
+- Pero si lo hacemos con Django sera un comentario que queda para el codigo fuente.
+- Se pueden hacer de dos formas:
+1) ```django
+    {% comment "" %}
+    Esto es un comentario.
+    {% endcomment %}
+    ```
+2) ```django
+    {% comment "Esto es un comentario." %}
+    
+    {% endcomment %}
+    ```
+
 ### Archivos estáticos
+[Tabla de contenidos](#tabla-de-contenidos)
+
 Los archivos estáticos en el contexto del desarrollo web se refieren a recursos como archivos CSS, JavaScript e imagenes. Son aquellos que no cambian dinámicamente según la solicitud del usuario. A diferencia de los archivos dinámicos que son generados y servidos por el servidor en tiempo real.
 
 #### Estilos y apariencia visual con Django
@@ -709,9 +861,12 @@ Para incluir nuestro css en el proyecto debemos seguir los siguientes pasos:
 <div style="page-break-after: always;"></div>
 
 ## Fuentes
+[Tabla de contenidos](#tabla-de-contenidos)
+
 - [Django projects](https://www.djangoproject.com/)
 - [Tutorial Python](https://docs.python.org/es/3/tutorial/)
 - [Instalacion de Python](https://python-guide-es.readthedocs.io/es/latest/starting/install3/linux.html)
 - [video tutorial intalacion Python 3.12.0](https://www.makeuseof.com/install-python-ubuntu/)
 - [InstalacionVSCode](https://alfonsomozkoh.github.io/2020/07/01/como-instalar-visual-studio-code-en-linux.html)
+
 
