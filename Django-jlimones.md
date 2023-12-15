@@ -38,6 +38,8 @@
     - [Templates en Django](#templates-en-django)
       - [¿Como se utlizan?](#como-se-utlizan)
       - [Layout, bloques y herencia de plantillas](#layout-bloques-y-herencia-de-plantillas)
+    - [Archivos estáticos](#archivos-estáticos)
+      - [Estilos y apariencia visual con Django](#estilos-y-apariencia-visual-con-django)
   - [Fuentes](#fuentes)
 
 <div style="page-break-after: always;"></div>
@@ -592,11 +594,13 @@ De esta forma nos mostrara nuestro primer template.
 #### Layout, bloques y herencia de plantillas
 - Como vemos el codigo no es limpio ¿como soluciona esto Django?
 - Django utiliza un sistema de bloques y herencia que nos deja un proyecto estructurado y codigo limpio.
+- 
 Ejemplo:
 1) Creamos *layout.html* en nuestro directorio de templates y le añadimos una estructura basica de html.
 2) En la etiqueta title creamos un bloque con el nobre title
 3) Dentro del body crearemos un *div* que nos servira de ontenedor con el atributo *id* y el valor de *content*.
 4) Dentro del div crearemos nuestro bloque.
+  
 Ejemplo layout.html
 ```django
 <!DOCTYPE html>
@@ -655,9 +659,52 @@ index
 {% endblock content %}
 ```
 
-- En la primera linea le indicamos a Django el template de donde tiene que heredar.
+- En la primera linea le indicamos a Django el template de donde tiene que heredar, esto herda la estructura html.
 - Como vemos los bloques son como etiquetas deben abrirse y cerrarse.
 - A las etiquetas de bloques se le añadira el nombre del bloque donde debe ir.
+  
+> Si en nuestro contenedor tenemos algun contenido este se machacara al cargar el bloque.
+
+Para solucinar esto debemos indicar a nuestro template que debe heredar el contenido insertando en el bloque lo siguiente:
+```django
+{{ block.super }}
+```
+
+### Archivos estáticos
+Los archivos estáticos en el contexto del desarrollo web se refieren a recursos como archivos CSS, JavaScript e imagenes. Son aquellos que no cambian dinámicamente según la solicitud del usuario. A diferencia de los archivos dinámicos que son generados y servidos por el servidor en tiempo real.
+
+#### Estilos y apariencia visual con Django
+Para incluir nuestro css en el proyecto debemos seguir los siguientes pasos:
+
+1) Creamos en nuestra app un directorio llamado static y dentro de esta otro llamado css.
+    ```
+    mkdir static
+    cd static
+    mkdir css
+    ```
+2) Ahora crearemos nuestro archivo **styles.css**.
+3) En ete Archivo daremos los estilos.
+
+    Ejemplo styles.css
+    ```css
+    body {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        background-color: aquamarine;
+    }
+    ```
+4) El siguiente paso es cargar y linkear nuestro archivo.css. En la primera linea, antes de la linea de ***< !DOCTYPE html >*** cargamos los archivo estáticos.
+   
+    Ejemplo layout.html:
+    ```django
+    {% load static %}
+    ```
+5) En el  ***< head >***
+    ```django
+    <link rel="stylesheet" href="{% static "css/styles.css" %}">
+
+    ```
+
+
 
 <div style="page-break-after: always;"></div>
 
