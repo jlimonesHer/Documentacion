@@ -42,6 +42,10 @@
       - [Condicionales -if templates Django](#condicionales--if-templates-django)
       - [Bucle -for template Django](#bucle--for-template-django)
         - [Funcionalidades extras de bucle -for](#funcionalidades-extras-de-bucle--for)
+      - [Filtros](#filtros)
+      - [Includes en Django](#includes-en-django)
+        - [{% include %}](#-include-)
+        - [{% include with %}](#-include-with-)
       - [Comentarios](#comentarios)
     - [Archivos estáticos](#archivos-estáticos)
       - [Estilos y apariencia visual con Django](#estilos-y-apariencia-visual-con-django)
@@ -804,6 +808,125 @@ Ejemplo index.html:
 - forloop.revcounter0: Número de iteraciones desde el final, indexado desde 0.
 - forloop.first: True si es la primera iteración.
 - forloop.last: True si es la última iteración.
+
+#### Filtros
+En Django, los filtros son funciones que se aplican a las variables en las plantillas para modificar su contenido o formato. Los filtros permiten realizar diversas operaciones, desde el formateo de cadenas hasta la manipulación de datos en las plantillas. Los filtros se aplican a las variables utilizando el siguiente formato:
+```django
+{{ variable|filtro }}
+```
+> Estos son unos ejemplos de filtros:
+1. **date:**
+   - **Descripción:** Formatea una fecha según el formato especificado.
+   - **Ejemplo:** `{{ my_date|date:"F j, Y" }}`
+
+2. **default:**
+   - **Descripción:** Establece un valor predeterminado si la variable es nula.
+   - **Ejemplo:** `{{ my_variable|default:"No disponible" }}`
+
+3. **length:**
+   - **Descripción:** Obtiene la longitud de una lista o cadena.
+   - **Ejemplo:** `{{ my_list|length }}`
+
+4. **lower y upper:**
+   - **Descripción:** Convierte una cadena a minúsculas o mayúsculas.
+   - **Ejemplo:** `{{ my_string|lower }}` / `{{ my_string|upper }}`
+
+5. **default_if_none:**
+   - **Descripción:** Establece un valor predeterminado solo si la variable es `None`.
+   - **Ejemplo:** `{{ my_variable|default_if_none:"No disponible" }}`
+
+6. **floatformat:**
+   - **Descripción:** Formatea un número de punto flotante según la cantidad de decimales especificada.
+   - **Ejemplo:** `{{ my_float|floatformat:2 }}`
+
+7. **slice:**
+   - **Descripción:** Obtiene una porción de una lista o cadena.
+   - **Ejemplo:** `{{ my_list|slice:":2" }}`
+
+8. **yesno:**
+   - **Descripción:** Retorna un valor específico según si la variable es True, False o None.
+   - **Ejemplo:** `{{ my_bool|yesno:"Sí,No" }}`
+
+9. **linebreaks:**
+   - **Descripción:** Convierte saltos de línea en etiquetas de párrafo HTML.
+   - **Ejemplo:** `{{ my_text|linebreaks }}`
+
+10. **pluralize:**
+    - **Descripción:** Añade una "s" al final de una palabra según el valor numérico proporcionado.
+    - **Ejemplo:** `Hay {{ count }} mensaje{{ count|pluralize }}.`
+
+Encuentra una lista completa de filtros en la [documentación oficial de Django](https://docs.djangoproject.com/en/stable/ref/templates/builtins/#built-in-filter-reference).
+
+#### Includes en Django
+
+##### {% include %} 
+
+En Django, el tag {% include %} se utiliza para incluir el contenido de otro archivo de plantilla dentro de la plantilla actual. Esto es útil para dividir grandes plantillas en partes más pequeñas y manejables, o para reutilizar bloques de contenido en varias plantillas.
+
+La sintaxis basica es:
+```django
+{% include '/ruta/nombre_de_archivo.html' %}
+```
+
+Ejemplo:
+
+1) Creamos una nueva template, por ejemplo **contenido_template.html**.
+```django
+<p>Este es el contenido de la nueva template</p>
+```
+2) Despues nos vamos a nuestro **index.html** y colocamos en la posicion que deseemos los siguiente:
+```django
+{% include "contenido_template.html" %}
+```
+> Esto nos mostrara el contenido de la nueva template en el index.
+
+Veamos que pasaria si le quisiera pasar en la nueva template una de las variables existente en la vista.
+
+Ejemplo contenido_template.html:
+```django
+<p>Este es el contenido de la nueva template y mi nombre es {{nombre}}</p>
+```
+Y si, respeta el valor de las variables de la vista.
+
+##### {% include with %} 
+
+En Django, el {% include %} con la opción with permite pasar variables adicionales al archivo de plantilla incluido. Esto es útil cuando necesitas proporcionar datos específicos para el contenido que estás incluyendo.
+
+La sintaxis básica es la siguiente:
+```django
+{% include 'nombre_de_archivo.html' with variable1=valor1 variable2=valor2 %}
+```
+Ejemplo:
+
+1) En el archivo index.html modificamos el include de esta forma:
+```django
+{% include 'contenido_template.html' with edad=", mi edad es de 38 años" %}
+```
+2) El archivo contenido_template.html lo modificamos asi:
+```django
+<p>Este es el contenido de la nueva template y mi nombre es {{nombre}} {{edad}}</p>
+```
+
+Esta tipo de includes te permite varias opciones como **only** que indica que solo debe utilizar las variables pasadas en el include.
+
+Ejemplo de **only** en index.html:
+```django
+{% include 'contenido_template.html' with edad=", mi edad es de 38 años" only %}
+
+```
+> Vemos como la variable nombre ya no aparece.
+
+Las opciones son:
+- **parsed**: La opción parsed se utiliza para indicar que el contenido de la plantilla incluida ya ha sido analizado. Esto es útil cuando se incluyen fragmentos de HTML preprocesados.
+```django
+{% include 'nombre_de_archivo.html' with variable_html=mi_contenido_html parsed %}
+```
+- **language**: La opción language se utiliza para establecer el idioma en el que se debe procesar la plantilla incluida. Por ejemplo:
+```django
+{% include 'nombre_de_archivo.html' with variable1=valor1 variable2=valor2 language='es' %}
+```
+> Estas opciones proporcionan flexibilidad al utilizar el tag include y permiten adaptar su comportamiento según las necesidades específicas de tu aplicación.
+
 
 #### Comentarios
 - Los comentarios en nuestras templates se pueden hacer como  en html. El problema de esto es que si le damos al inspector nos aparecera entre el codigo html.
