@@ -46,6 +46,7 @@
       - [Includes en Django](#includes-en-django)
         - [{% include %}](#-include-)
         - [{% include with %}](#-include-with-)
+      - [URLs en Django](#urls-en-django)
       - [Comentarios](#comentarios)
     - [Archivos estáticos](#archivos-estáticos)
       - [Estilos y apariencia visual con Django](#estilos-y-apariencia-visual-con-django)
@@ -926,6 +927,9 @@ Las opciones son:
 {% include 'nombre_de_archivo.html' with variable1=valor1 variable2=valor2 language='es' %}
 ```
 > Estas opciones proporcionan flexibilidad al utilizar el tag include y permiten adaptar su comportamiento según las necesidades específicas de tu aplicación.
+
+#### URLs en Django
+
 
 
 #### Comentarios
