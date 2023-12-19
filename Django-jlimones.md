@@ -16,6 +16,9 @@
       - [Instalando el modulo de Django](#instalando-el-modulo-de-django)
     - [Instalar Visual Studio Code](#instalar-visual-studio-code)
   - [Generar nuestro primer proyecto con *Django*](#generar-nuestro-primer-proyecto-con-django)
+    - [¿Que es un entorno virtual?](#que-es-un-entorno-virtual)
+    - [Cómo usar un entorno virtual en Django:](#cómo-usar-un-entorno-virtual-en-django)
+    - [Crea tu proyecto](#crea-tu-proyecto)
     - [manage.py](#managepy)
       - [Lista de comandos de manage.py](#lista-de-comandos-de-managepy)
   - [Principales componentes de Django](#principales-componentes-de-django)
@@ -39,6 +42,7 @@
       - [¿Como se utlizan?](#como-se-utlizan)
       - [Layout, bloques y herencia de plantillas](#layout-bloques-y-herencia-de-plantillas)
       - [Vistas, Templates y Variables](#vistas-templates-y-variables)
+      - [URLs en Django](#urls-en-django)
       - [Condicionales -if templates Django](#condicionales--if-templates-django)
       - [Bucle -for template Django](#bucle--for-template-django)
         - [Funcionalidades extras de bucle -for](#funcionalidades-extras-de-bucle--for)
@@ -46,7 +50,6 @@
       - [Includes en Django](#includes-en-django)
         - [{% include %}](#-include-)
         - [{% include with %}](#-include-with-)
-      - [URLs en Django](#urls-en-django)
       - [Comentarios](#comentarios)
     - [Archivos estáticos](#archivos-estáticos)
       - [Estilos y apariencia visual con Django](#estilos-y-apariencia-visual-con-django)
@@ -180,13 +183,63 @@ Crearemos un directorio donde trabajaremos con Django.
 ```
 mkdir AprendiendoDjango
 ```
+
 > Deberas usar camelCase, UpperCamelCase o snake_case.
+> 
+### ¿Que es un entorno virtual?
+
+Un entorno virtual (también conocido como virtualenv) es una herramienta que ayuda a gestionar las dependencias de un proyecto de software de manera aislada del sistema operativo y de otros proyectos. En el caso de Django (un marco de desarrollo web para Python), el uso de un entorno virtual es común y recomendado por varias razones:
+
+1. Aislamiento de Dependencias:
+
+Un entorno virtual permite tener una copia independiente de Python y las bibliotecas específicas que tu proyecto necesita. Esto asegura que las dependencias de un proyecto no interfieran con las de otro.
+2. Versiones de Python:
+
+Permite utilizar diferentes versiones de Python para diferentes proyectos. Esto es útil cuando tienes proyectos que requieren versiones específicas de Python.
+3. Facilita la Reproducibilidad:
+
+Al especificar las dependencias de tu proyecto en un archivo requirements.txt, puedes fácilmente recrear el entorno virtual en otro lugar o compartirlo con otros desarrolladores, asegurando que todos estén utilizando las mismas versiones de las bibliotecas.
+4. Evita Conflictos con el Sistema Operativo:
+
+Evita conflictos entre las bibliotecas del sistema operativo y las bibliotecas del proyecto. Un entorno virtual proporciona un espacio aislado donde las bibliotecas pueden instalarse sin afectar al sistema global.
+5. Facilita la Mantenibilidad:
+
+Hace que la gestión de dependencias sea más fácil y mantenible. Puedes tener diferentes versiones de bibliotecas para diferentes proyectos sin afectar el sistema principal.
+6. Mejora la Seguridad:
+
+Al tener un entorno virtual específico para cada proyecto, limitas el acceso a las bibliotecas y dependencias específicas de ese proyecto, reduciendo el riesgo de conflictos y mejorando la seguridad.
+
+### Cómo usar un entorno virtual en Django:
+
+Crear un Entorno Virtual:
+
+Ejecuta el siguiente comando para crear un entorno virtual en la carpeta de tu proyecto:
+```
+python -m venv venv
+```
+Activar el Entorno Virtual:
+```
+source venv/bin/activate
+```
+Desactivar el Entorno Virtual:
+
+```
+deactivate
+```
+Instalar Dependencias:
+
+Una vez que el entorno virtual está activado, puedes instalar las dependencias del proyecto utilizando pip install -r requirements.txt.
+Usar un entorno virtual es una buena práctica en el desarrollo de software en Python y es especialmente útil en proyectos web como Django, donde la gestión de dependencias es crucial.
+
 > Es buena práctica crear un archivo requeriments.txt para indicar la librerias y versiones utilizadas en el proyecto.
 ```
 pip freeze > requeriments.txt
 ```
+De este modo podemos instalar todos las dependencias necesarias para nuestro proyecto.
 
 Para iniciar un proyecto con django nos vamos a la carpeta creada y utilizamos.
+
+### Crea tu proyecto
 
 ```
 django-admin startproject aprendiendoDjango
@@ -737,6 +790,10 @@ Ejemplo index.html:
 {% endblock content %}
 ```
 
+#### URLs en Django
+Si nos observamos el fichero 
+
+
 #### Condicionales -if templates Django
 Los condicionales if funcionan exactamente como en python, solo cambia su sintaxis. Si borramos la variable "nombre" pasada en el diccionario de la funcion render() veremos como funciona.
 
@@ -816,43 +873,43 @@ En Django, los filtros son funciones que se aplican a las variables en las plant
 {{ variable|filtro }}
 ```
 > Estos son unos ejemplos de filtros:
-1. **date:**
+1) **date:**
    - **Descripción:** Formatea una fecha según el formato especificado.
    - **Ejemplo:** `{{ my_date|date:"F j, Y" }}`
 
-2. **default:**
+2) **default:**
    - **Descripción:** Establece un valor predeterminado si la variable es nula.
    - **Ejemplo:** `{{ my_variable|default:"No disponible" }}`
 
-3. **length:**
+3) **length:**
    - **Descripción:** Obtiene la longitud de una lista o cadena.
    - **Ejemplo:** `{{ my_list|length }}`
 
-4. **lower y upper:**
+4) **lower y upper:**
    - **Descripción:** Convierte una cadena a minúsculas o mayúsculas.
    - **Ejemplo:** `{{ my_string|lower }}` / `{{ my_string|upper }}`
 
-5. **default_if_none:**
+5) **default_if_none:**
    - **Descripción:** Establece un valor predeterminado solo si la variable es `None`.
    - **Ejemplo:** `{{ my_variable|default_if_none:"No disponible" }}`
 
-6. **floatformat:**
+6) **floatformat:**
    - **Descripción:** Formatea un número de punto flotante según la cantidad de decimales especificada.
    - **Ejemplo:** `{{ my_float|floatformat:2 }}`
 
-7. **slice:**
+7) **slice:**
    - **Descripción:** Obtiene una porción de una lista o cadena.
    - **Ejemplo:** `{{ my_list|slice:":2" }}`
 
-8. **yesno:**
+8) **yesno:**
    - **Descripción:** Retorna un valor específico según si la variable es True, False o None.
    - **Ejemplo:** `{{ my_bool|yesno:"Sí,No" }}`
 
-9. **linebreaks:**
+9) **linebreaks:**
    - **Descripción:** Convierte saltos de línea en etiquetas de párrafo HTML.
    - **Ejemplo:** `{{ my_text|linebreaks }}`
 
-10. **pluralize:**
+10) **pluralize:**
     - **Descripción:** Añade una "s" al final de una palabra según el valor numérico proporcionado.
     - **Ejemplo:** `Hay {{ count }} mensaje{{ count|pluralize }}.`
 
@@ -927,9 +984,6 @@ Las opciones son:
 {% include 'nombre_de_archivo.html' with variable1=valor1 variable2=valor2 language='es' %}
 ```
 > Estas opciones proporcionan flexibilidad al utilizar el tag include y permiten adaptar su comportamiento según las necesidades específicas de tu aplicación.
-
-#### URLs en Django
-
 
 
 #### Comentarios
