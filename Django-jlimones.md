@@ -1135,24 +1135,52 @@ personas_mayores = Persona.objects.filter(edad__gt=25)
 ### Migraciones en Django 
 [Tabla de contenidos](#tabla-de-contenidos)
 
-Las migraciones son una forma de realizar cambios en la estructura de la base de datos de manera controlada y evolutiva.
+Las migraciones son una forma de realizar cambios en la estructura de la base de datos de manera controlada y evolutiva. Django utiliza un sistema de migraciones para llevar a cabo estas modificaciones.
 
-1) Despues de [Generar nuestro proyecto con *Django*](#generar-nuestro-primer-proyecto-con-django).
-2) Crear una migración, 
+Pasos Comunes:
+1) **Crear una Migración:**
 
+    - Cuando realizas cambios en tus modelos, como agregar un nuevo campo o modificar una relación, necesitas crear una nueva migración para reflejar esos cambios.
+```bash
+python manage.py makemigrations
 ```
-python3 manage.py migrate
+2) **Aplicar Migraciones:**
+
+    - Luego de crear una migración, debes aplicarla para actualizar la base de datos.
+```bash
+python manage.py migrate
 ```
 
-Este paso generara una base de datos con las funcionalidades de las aplicaciones que vienen por defecto dentro de Django.
+3) **Desplegar Migraciones Específicas:**
 
-3) El siguiente paso sera arrancar nuestro servidor local:
+    - Puedes especificar el nombre de una migración para aplicar solo hasta cierto punto.
+```bash
+python manage.py migrate myapp 0003_migration_name
 ```
-python manage.py runserver
-```
-  > Al arrancarlo nos da informacion como la fecha y hora de arranque, la version de Django, la configuracion utilizada y la URL.
+4) **Desplegar Todas las Migraciones:**
 
-  > Si copiamos la URL en nuestro navegador veremos la pagina por defecto de Django.
+    - Para aplicar todas las migraciones pendientes.
+```bash
+python manage.py migrate
+```
+5) **Estado de Migraciones:**
+
+    - Puedes verificar el estado actual de las migraciones.
+```bash
+python manage.py showmigrations
+```
+
+**Rollback y Deshacer Migraciones:**
+    - Para revertir la última migración:
+
+```bash
+python manage.py migrate myapp zero
+```
+- Para deshacer todas las migraciones y volver a un estado vacío:
+
+```bash
+python manage.py migrate myapp zero
+```
 
 ### Ejemplos para entender los modelos y migraciones
 
@@ -1163,11 +1191,11 @@ python manage.py runserver
 
 Para más información -> [pylint]("https://pypi.org/project/pylint/").
 
-```
+```bash
 pip install pylint-django
 ```
 Para usarlo solo debemos hacer esto:
-```
+```bash
 pylint mi_archivo.py
 ```
 
@@ -1207,6 +1235,18 @@ class Categoria(models.Model):
 ```
 > Para informacion sobre los tipos de campos -> [models]("https://docs.djangoproject.com/en/5.0/ref/models/fields/#field-types)
 
+3) Tenemos que crear las migraciones, vamos al directorio donde se encuentra el archivo manage.py y ejecutamos:
+```
+python manage.py makemigrations
+```
+Esto generara una salida parecida a esta:
+```
+Migrations for 'myapp':
+  myapp/migrations/0001_initial.py
+    - Create model Categoria
+    - Create model Empleado
+```
+
 
 <div style="page-break-after: always;"></div>
 
@@ -1216,7 +1256,6 @@ class Categoria(models.Model):
 - [Django projects](https://www.djangoproject.com/)
 - [Tutorial Python](https://docs.python.org/es/3/tutorial/)
 - [Instalacion de Python](https://python-guide-es.readthedocs.io/es/latest/starting/install3/linux.html)
-- [video tutorial intalacion Python 3.12.0](https://www.makeuseof.com/install-python-ubuntu/)
-- [InstalacionVSCode](https://alfonsomozkoh.github.io/2020/07/01/como-instalar-visual-studio-code-en-linux.html)
+- [Instalacion VSCode](https://alfonsomozkoh.github.io/2020/07/01/como-instalar-visual-studio-code-en-linux.html)
 
 
