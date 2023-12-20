@@ -23,8 +23,7 @@
       - [Lista de comandos de manage.py](#lista-de-comandos-de-managepy)
   - [Principales componentes de Django](#principales-componentes-de-django)
   - [Cómo funciona Django](#cómo-funciona-django)
-  - [Django Avanzado](#django-avanzado)
-    - [Migraciones en Django](#migraciones-en-django)
+  - [Primer contacto con Django](#primer-contacto-con-django)
     - [Creando una app](#creando-una-app)
       - [¿Que es una *app*?](#que-es-una-app)
       - [Como crear una app](#como-crear-una-app)
@@ -42,17 +41,23 @@
       - [¿Como se utlizan?](#como-se-utlizan)
       - [Layout, bloques y herencia de plantillas](#layout-bloques-y-herencia-de-plantillas)
       - [Vistas, Templates y Variables](#vistas-templates-y-variables)
-      - [URLs en Django](#urls-en-django)
+      - [URLs en las templates](#urls-en-las-templates)
+      - [Fechas](#fechas)
       - [Condicionales -if templates Django](#condicionales--if-templates-django)
       - [Bucle -for template Django](#bucle--for-template-django)
         - [Funcionalidades extras de bucle -for](#funcionalidades-extras-de-bucle--for)
       - [Filtros](#filtros)
+        - [Crear filtros personalizados](#crear-filtros-personalizados)
       - [Includes en Django](#includes-en-django)
         - [{% include %}](#-include-)
         - [{% include with %}](#-include-with-)
       - [Comentarios](#comentarios)
     - [Archivos estáticos](#archivos-estáticos)
       - [Estilos y apariencia visual con Django](#estilos-y-apariencia-visual-con-django)
+  - [Modelos](#modelos)
+    - [Definición de la Estructura de la Base de Datos:](#definición-de-la-estructura-de-la-base-de-datos)
+- [Obtener todas las personas mayores de 25 años](#obtener-todas-las-personas-mayores-de-25-años)
+    - [Migraciones en Django](#migraciones-en-django)
   - [Fuentes](#fuentes)
 
 <div style="page-break-after: always;"></div>
@@ -328,29 +333,8 @@ python3 manage.py help
 
 - Django facilita la creación de aplicaciones web robustas al proporcionar una estructura organizada y herramientas poderosas, permitiendo a los desarrolladores construir aplicaciones de manera eficiente y mantenible. Además, su énfasis en la seguridad y las mejores prácticas lo convierten en una opción popular para el desarrollo web en Python.
 
-## Django Avanzado
+## Primer contacto con Django
 [Tabla de contenidos](#tabla-de-contenidos)
-
-### Migraciones en Django 
-[Tabla de contenidos](#tabla-de-contenidos)
-
-Las migraciones son una forma de realizar cambios en la estructura de la base de datos de maneara controlada y evolutiva.
-
-1) Despues de [Generar nuestro proyecto con *Django*](#generar-nuestro-primer-proyecto-con-django).
-2) Debemos migrarlo.
-
-```
-python3 manage.py migrate
-```
-Este paso generara una base de datos con las funcionalidades de las aplicaciones que vienen por defecto dentro de Django.
-
-3) El siguiente paso sera arrancar nuestro servidor local:
-```
-python manage.py runserver
-```
-  > Al arrancarlo nos da informacion como la fecha y hora de arranque, la version de Django, la configuracion utilizada y la URL.
-
-  > Si copiamos la URL en nuestro navegador veremos la pagina por defecto de Django.
 
 ### Creando una app
 [Tabla de contenidos](#tabla-de-contenidos)
@@ -790,9 +774,39 @@ Ejemplo index.html:
 {% endblock content %}
 ```
 
-#### URLs en Django
-Si nos observamos el fichero 
+#### URLs en las templates
+Si nos observamos el fichero *layout.html*, en los atributos href de los enlaces tenemos las direcciones [*hardcodeadas*](https://es.wikipedia.org/wiki/Codificaci%C3%B3n_r%C3%ADgida), es decir si tenemos que cambiar alguna url tambien la tendremos que cambiar en este fichero.
 
+Podemos utilizar una instruccion de una template pasandole el nombre(name) de nuestra path en urls.py.
+```django
+<li>
+    <a href="{% url 'index' %}">Inicio</a>
+</li>
+<li>
+    <a href="{% url  'hola_mundo'%}">Hola mundo</a>
+</li>
+<li>
+    <a href="{% url 'pagina' %}">Pagina 1</a>
+</li>
+<li>
+    <a href="{% url 'contacto' %}">contacto</a>
+</li>
+```
+Desde esta instrucción podemos enviar los valores de las variables que necesitamos en orden de declaración.
+```django
+ <a href="{% url 'contacto' 'Jose Carlos' 'Limones'%}">contacto</a>
+```
+o asi:
+```django
+ <a href="{% url 'contacto' nombre='Jose Carlos' apellido='Limones'%}">contacto</a>
+```
+> Ya podemos cambiar la url del path en el fichero urls.py sin tener que cambiar los enlaces a esa pagina.
+
+#### Fechas
+Podemos mostrar la fecha de mnuestro servidor de la siguiente forma:
+```django
+{% now "Y:M:D h:m:s" %}
+```
 
 #### Condicionales -if templates Django
 Los condicionales if funcionan exactamente como en python, solo cambia su sintaxis. Si borramos la variable "nombre" pasada en el diccionario de la funcion render() veremos como funciona.
@@ -915,6 +929,34 @@ En Django, los filtros son funciones que se aplican a las variables en las plant
 
 Encuentra una lista completa de filtros en la [documentación oficial de Django](https://docs.djangoproject.com/en/stable/ref/templates/builtins/#built-in-filter-reference).
 
+##### Crear filtros personalizados
+Vamos a ver un ejemplo de como  crear un filtro personalizado.
+
+1) En el directorio de nuestra app creamos un subdirectorio llamado templatetags.
+2) Dantro de este directorio creamos un fichero llamado __init__.py para que se convierta en un paquete.
+3) Creamos el fichero donde iran nuestros filtros, ***filters.py***.
+4) En el fichero lo primero que tenemos que hacer es importar las templates.
+5) El siguiente paso e crear la función que ejecutara el filtro.
+6) Ahora debemos cargar los filtros en la template para poder usarlos.
+Ejemplo filters.py:
+```python
+from django import template
+
+register = template.Library()
+
+@register.filter(name='saludo')
+
+def saludo(value):
+    return f"<h1 style='background:green;'>Bienvenido, {value}.</h1>"
+```
+Ejemplo pagina.html (template):
+```python
+{% load filters %}
+{{ "jclimones" | saludo | safe }}
+```
+> ***safe*** convierte el html. Si no lo ejecutamos nos mjuestra el codigo como tal.
+
+
 #### Includes en Django
 
 ##### {% include %} 
@@ -1007,6 +1049,7 @@ Las opciones son:
 Los archivos estáticos en el contexto del desarrollo web se refieren a recursos como archivos CSS, JavaScript e imagenes. Son aquellos que no cambian dinámicamente según la solicitud del usuario. A diferencia de los archivos dinámicos que son generados y servidos por el servidor en tiempo real.
 
 #### Estilos y apariencia visual con Django
+
 Para incluir nuestro css en el proyecto debemos seguir los siguientes pasos:
 
 1) Creamos en nuestra app un directorio llamado static y dentro de esta otro llamado css.
@@ -1032,11 +1075,137 @@ Para incluir nuestro css en el proyecto debemos seguir los siguientes pasos:
     {% load static %}
     ```
 5) En el  ***< head >***
-    ```django
-    <link rel="stylesheet" href="{% static "css/styles.css" %}">
 
-    ```
+```html
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
 
+```
+
+## Modelos
+[Tabla de contenidos](#tabla-de-contenidos)
+
+En Django, un "modelo" es una representación de una tabla en una base de datos relacional. Los modelos son utilizados para definir la estructura de la base de datos y para interactuar con ella mediante consultas. Los modelos en Django son parte del sistema de Object-Relational Mapping (ORM), que permite interactuar con la base de datos utilizando objetos de Python en lugar de consultas SQL directas.
+
+Aquí hay algunas características clave de los modelos en Django y para qué sirven:
+
+1) **Definición de la Estructura de la Base de Datos:**
+
+    - Los modelos permiten definir la estructura de la base de datos mediante clases de Python. Cada modelo representa una tabla en la base de datos.
+
+```python
+from django.db import models
+
+class Persona(models.Model):
+    nombre = models.CharField(max_length=100)
+    edad = models.IntegerField()
+```
+
+2) **Campos y Tipos de Datos:**
+
+    - Los campos en un modelo representan los diferentes tipos de datos que pueden almacenarse en la base de datos (por ejemplo, CharField para cadenas de texto, IntegerField para enteros, etc.).
+
+3) **Relaciones entre Modelos:**
+
+    - Los modelos pueden tener relaciones entre sí, como ForeignKey, OneToOneField, ManyToManyField, etc., lo que refleja las relaciones en la base de datos.
+
+```python
+class Publicación(models.Model):
+    título = models.CharField(max_length=200)
+    autor = models.ForeignKey(Persona, on_delete=models.CASCADE)
+```
+
+4) **Consultas a la Base de Datos:**
+
+Django proporciona una API de consultas que permite recuperar, filtrar, crear y actualizar registros en la base de datos utilizando métodos de los modelos.
+
+```python
+# Obtener todas las personas mayores de 25 años
+personas_mayores = Persona.objects.filter(edad__gt=25)
+```
+5) **Administrador de Django:**
+
+- Django incluye un potente sistema de administración que aprovecha los modelos para proporcionar una interfaz de administración automáticamente generada.
+
+6) **Validación de Datos:**
+
+    - Los modelos también pueden incluir reglas de validación para garantizar la integridad de los datos almacenados en la base de datos.
+
+> En resumen, los modelos en Django son una parte fundamental del desarrollo web, ya que facilitan la interacción con la base de datos y proporcionan una forma sencilla y eficiente de definir y manipular los datos de la aplicación.
+
+### Migraciones en Django 
+[Tabla de contenidos](#tabla-de-contenidos)
+
+Las migraciones son una forma de realizar cambios en la estructura de la base de datos de manera controlada y evolutiva.
+
+1) Despues de [Generar nuestro proyecto con *Django*](#generar-nuestro-primer-proyecto-con-django).
+2) Crear una migración, 
+
+```
+python3 manage.py migrate
+```
+
+Este paso generara una base de datos con las funcionalidades de las aplicaciones que vienen por defecto dentro de Django.
+
+3) El siguiente paso sera arrancar nuestro servidor local:
+```
+python manage.py runserver
+```
+  > Al arrancarlo nos da informacion como la fecha y hora de arranque, la version de Django, la configuracion utilizada y la URL.
+
+  > Si copiamos la URL en nuestro navegador veremos la pagina por defecto de Django.
+
+### Ejemplos para entender los modelos y migraciones
+
+***Recomendacion***
+> Es aconsejable utilizar el paquete de python llamado pylint.
+
+- Pylint es una herramienta de análisis estático para código Python. Su objetivo principal es detectar errores y problemas en el código fuente, así como aplicar convenciones de estilo definidas en las PEP (Python Enhancement Proposals), como PEP 8.
+
+Para más información -> [pylint]("https://pypi.org/project/pylint/").
+
+```
+pip install pylint-django
+```
+Para usarlo solo debemos hacer esto:
+```
+pylint mi_archivo.py
+```
+
+> Para los ejemplos vamos a utilizar la base de datos que viene por defecto SQLite que esta almacenada en el fichero ***db.sqlite3***.
+
+Si observamos el archivo de configuración de Django(*settings.py*) vemos que hay declarado un diccionario llamado ***DATABASES***. A continuacion te doy una explicacion con detalle:
+
+1) **default**:
+    - Esto indica que estamos configurando la base de datos predeterminada para nuestra aplicación. Puedes tener múltiples bases de datos en una aplicación Django y asignar nombres distintos a cada una.
+2) **ENGINE**:
+    - Aquí especificamos el motor de la base de datos que Django utilizará. En este caso, 'django.db.backends.sqlite3' indica que estamos usando SQLite como motor de base de datos. SQLite es una base de datos ligera que se almacena en un archivo local y es una opción común para el desarrollo.
+3) **NAME**:
+    - Esto especifica la ruta al archivo de la base de datos.
+        - *BASE_DIR* es una variable que apunta al directorio base de tu proyecto Django. Con la expresión BASE_DIR / 'db.sqlite3', estamos construyendo la ruta completa al archivo db.sqlite3 dentro del directorio base (Que en el caso de nuestra aplicación esta en la raiz).
+
+### Creando el primer modelo
+
+1) Localizamos y abrimnos el archivo **models.py** 
+2) Creamos 2 clases, **Empleado** y **Categoria** con los siguientes atributos:
+```python
+from django.db import models
+
+class Empleado(models.Model):
+    nombre = models.CharField(max_length=100)
+    apellidos = models.CharField(max_length=100)
+    edad = models.models.IntegerField()
+    autorizado = models.BooleanField()
+    carta_presentacion = models.TextField()
+    fecha_alta = models.DateTimeField(auto_now_add=True)
+
+
+class Categoria(models.Model):
+    nombre = models.CharField(max_length=100)
+    nivel = models.CharField(max_length=150)
+    antiguedad = models.DateField()
+
+```
+> Para informacion sobre los tipos de campos -> [models]("https://docs.djangoproject.com/en/5.0/ref/models/fields/#field-types)
 
 
 <div style="page-break-after: always;"></div>
