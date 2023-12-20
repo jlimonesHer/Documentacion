@@ -59,7 +59,11 @@
     - [Migraciones en Django](#migraciones-en-django)
     - [Ejemplos para entender los modelos y migraciones](#ejemplos-para-entender-los-modelos-y-migraciones)
     - [Crear y aplicar el primer modelo](#crear-y-aplicar-el-primer-modelo)
+  - [Bases de datos y Consiltas en Django](#bases-de-datos-y-consiltas-en-django)
     - [Consultas básicas](#consultas-básicas)
+    - [Relaciones entre Modelos](#relaciones-entre-modelos)
+    - [Ejemplo para crear un objeto en la base de datos](#ejemplo-para-crear-un-objeto-en-la-base-de-datos)
+    - [Ejemplo recoger datos de la base de datos](#ejemplo-recoger-datos-de-la-base-de-datos)
   - [Fuentes](#fuentes)
 
 ## 1- Introducción
@@ -306,7 +310,7 @@ python3 manage.py help
   - **createcachetable**: Crea la tabla de cache en la base de datos.
   - **dbshell**: Accede a la shell de la base de datos.
   - **diffsettinng**: Muestra las diferencias entre la configuración actual y la configuración por defecto.
-  - dumpdata: Exporta datos de la base de datos enformato JSON.
+  - dumpdata: Exporta datos de la base de datos en formato JSON.
   - **flush**: Borra todos los datos de lña base de datos  sin afectar a la estructura.
   - **inspectdb**: Genera modelos de Django  basados en una base de datos existente.
   - **loaddata**: Carga datos desde archivos fixtures.
@@ -1435,6 +1439,11 @@ sqlitebrowser
 
 - En la pestaña file, pinchamos en abrir base de datos y buscamos en el directorio de nuestra aplicación, ahora en la barra de navegación izquierda deberia aparecernos nuestros modelos en forma de tabla SQL.
 
+## Bases de datos y Consiltas en Django
+
+[Tabla de contenidos](#tabla-de-contenidos)
+
+
 ### Consultas básicas
 Django proporciona una API para realizar consultas a la base de datos de manera sencilla.
 
@@ -1463,6 +1472,114 @@ Django proporciona una API para realizar consultas a la base de datos de manera 
   ```python
   specific_book = Book.objects.get(title='The Great Gatsby')
   ```
+
+### Relaciones entre Modelos
+
+- Django facilita la definición de relaciones entre modelos. Por ejemplo, una relación de clave foránea se puede agregar para representar una relación de muchos a uno.
+
+```python
+class Author(models.Model):
+    name = models.CharField(max_length=50)
+
+class Book(models.Model):
+    title = models.CharField(max_length=100)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    publication_date = models.DateField()
+```
+
+- Crear un objeto relacionado:
+
+```python
+author = Author.objects.create(name='F. Scott Fitzgerald')
+book = Book.objects.create(title='The Great Gatsby', author=author, publication_date='1925-04-10')
+```
+
+- Consultar objetos relacionados:
+```python
+books_by_fitzgerald = Book.objects.filter(author__name='F. Scott Fitzgerald')
+```
+
+> Estos son solo ejemplos básicos de cómo trabajar con bases de datos en Django. Django proporciona una API rica y potente para realizar consultas, gestionar relaciones y realizar operaciones en la base de datos de manera eficiente.
+
+### Ejemplo para crear un objeto en la base de datos
+
+[Tabla de contenidos](#tabla-de-contenidos)
+
+Como hemos aprendido no necesitamos utilizar(aunque se puede) consultas SQL para comunicarnos con la base de datos, si no que vamos a utilizar las capas de abstracción que nos ofrece este framework.
+
+Ahora vemaos como se hace:
+- Ejemplo views.py:
+
+```python
+from myapp.models import Empleado, Puesto
+def crear_empleado(request):
+    empleado = Empleado(
+        nombre = "Jose Carlos",
+        apellidos = "Limones Hdez" ,
+        edad = 38,
+        autorizado = True,
+        carta_presentacion = "Hola, esta es mi primera consulta a la base de datos desde Django",
+    )
+
+    empleado.save()
+
+    return HttpResponse(f"Empleado creado: {empleado.nombre}")
+```
+- Ejemplo urls.py
+
+```python
+path("crear_empleado", views.crear_empleado, name="crear_empleado")
+```
+
+> Ahora si abrimos en el navegador la ***< url servido Django >/crear_empleado*** nos creara nuestro primer empleado en la tabla myapp_empleado.
+- Si lo que queremos es pasarle los atributos de nuestro objeto por la url, nos vamos a urls.py
+```python
+    path("crear_empleado/<str:nombre>/<str:apellidos>/<int:edad>/<str:autorizado>/<str:carta_presentacion>", views.crear_empleado, name="crear empleado")
+
+```
+- Ejemplo views.py
+```python
+def crear_empleado(request, nombre, apellidos, edad, autorizado, carta_presentacion):
+    empleado = Empleado(
+        nombre = nombre,
+        apellidos = apellidos ,
+        edad = edad,
+        autorizado = autorizado,
+        carta_presentacion = carta_presentacion,
+    )
+
+    empleado.save()
+
+    return HttpResponse(f"Empleado creado: {empleado.nombre}")
+```
+- En el navegador:
+```bash
+< url servidor django >/Jose Carlos/Limones Hdez/38/True/Hola, esta es mi primera consulta a la base de datos desde Django
+```
+
+### Ejemplo recoger datos de la base de datos
+
+[Tabla de contenidos](#tabla-de-contenidos)
+
+- Ejemplo 1 views.py
+```python
+def mostrar_empleado(request):
+  empleado = Empleado.objects.get(pk=6)
+  return HttpResponse(f"El empleado a mostrar es {empleado.nombre}")
+```
+
+- Ejemplo 2 views.py
+```python
+def mostrar_empleado(request):
+  empleado = Empleado.objects.get(nombre="Helena")
+  return HttpResponse(f"El empleado a mostrar es {empleado.nombre}")
+```
+- Ejemplo urls.py
+```python
+path('empleado', views.empleado, name="mostrar_empleado")
+```
+
+> Ahora si escribimos la url correcta en el navegador nos mostrara la consulta.
 
 ## Fuentes
 
