@@ -55,9 +55,6 @@
     - [Archivos estáticos](#archivos-estáticos)
       - [Estilos y apariencia visual con Django](#estilos-y-apariencia-visual-con-django)
   - [Modelos](#modelos)
-    - [Definición de la Estructura de la Base de Datos:](#definición-de-la-estructura-de-la-base-de-datos)
-- [Obtener todas las personas mayores de 25 años](#obtener-todas-las-personas-mayores-de-25-años)
-    - [Migraciones en Django](#migraciones-en-django)
   - [Fuentes](#fuentes)
 
 <div style="page-break-after: always;"></div>
@@ -1088,6 +1085,9 @@ En Django, un "modelo" es una representación de una tabla en una base de datos 
 
 Aquí hay algunas características clave de los modelos en Django y para qué sirven:
 
+### Caracteristicas clave de los modelos
+[Tabla de contenidos](#tabla-de-contenidos)
+
 1) **Definición de la Estructura de la Base de Datos:**
 
     - Los modelos permiten definir la estructura de la base de datos mediante clases de Python. Cada modelo representa una tabla en la base de datos.
@@ -1118,8 +1118,8 @@ class Publicación(models.Model):
 
 Django proporciona una API de consultas que permite recuperar, filtrar, crear y actualizar registros en la base de datos utilizando métodos de los modelos.
 
+> Obtener todas las personas mayores de 25 años
 ```python
-# Obtener todas las personas mayores de 25 años
 personas_mayores = Persona.objects.filter(edad__gt=25)
 ```
 5) **Administrador de Django:**
@@ -1211,7 +1211,7 @@ Si observamos el archivo de configuración de Django(*settings.py*) vemos que ha
     - Esto especifica la ruta al archivo de la base de datos.
         - *BASE_DIR* es una variable que apunta al directorio base de tu proyecto Django. Con la expresión BASE_DIR / 'db.sqlite3', estamos construyendo la ruta completa al archivo db.sqlite3 dentro del directorio base (Que en el caso de nuestra aplicación esta en la raiz).
 
-### Creando el primer modelo
+### Crear y aplicar el primer modelo
 
 1) Localizamos y abrimnos el archivo **models.py** 
 2) Creamos 2 clases, **Empleado** y **Categoria** con los siguientes atributos:
@@ -1236,7 +1236,7 @@ class Categoria(models.Model):
 > Para informacion sobre los tipos de campos -> [models]("https://docs.djangoproject.com/en/5.0/ref/models/fields/#field-types)
 
 3) Tenemos que crear las migraciones, vamos al directorio donde se encuentra el archivo manage.py y ejecutamos:
-```
+```bash
 python manage.py makemigrations
 ```
 Esto generara una salida parecida a esta:
@@ -1246,6 +1246,38 @@ Migrations for 'myapp':
     - Create model Categoria
     - Create model Empleado
 ```
+4) Aplicamos las migraciones:
+```bash
+python3 manage.py migrate
+```
+Salida:
+```bash
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, myapp, sessions
+Running migrations:
+  Applying myapp.0001_initial... OK
+```
+
+Para poder ver si todo se ha creado correctamente necesitamos una aplicación como ***DB Browser for SQLite***.
+
+- Instalacion *SQLite*
+Debian/Ubuntu:
+```bash
+sudo apt-get update
+sudo apt install sqlite3
+```
+- Instalacion *DB Browser for SQLite*
+```bash
+sudo apt-get update
+```
+- Con el siguiente comando se abrira la interfaz grafica de esta aplicacion.
+```bash
+sqlitebrowser
+```
+- En la pestaña file, pinchamos en abrir base de datos y buscamos en el directorio de nuestra aplicación, ahora en la barra de navegación izquierda deberia aparecernos nuestros modelos en forma de tabla SQL.
+
+### Consultas basicas
+
 
 
 <div style="page-break-after: always;"></div>
