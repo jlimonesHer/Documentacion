@@ -59,12 +59,13 @@
     - [Migraciones en Django](#migraciones-en-django)
     - [Ejemplos para entender los modelos y migraciones](#ejemplos-para-entender-los-modelos-y-migraciones)
     - [Crear y aplicar el primer modelo](#crear-y-aplicar-el-primer-modelo)
-  - [Bases de datos y Consiltas en Django](#bases-de-datos-y-consiltas-en-django)
-    - [Consultas básicas](#consultas-básicas)
     - [Relaciones entre Modelos](#relaciones-entre-modelos)
+  - [Bases de datos y Consiltas en Django](#bases-de-datos-y-consiltas-en-django)
+    - [Consultas básicas (CRUD)](#consultas-básicas-crud)
     - [Ejemplo para crear un objeto en la base de datos](#ejemplo-para-crear-un-objeto-en-la-base-de-datos)
     - [Ejemplo obtener datos de la base de datos](#ejemplo-obtener-datos-de-la-base-de-datos)
     - [Ejemplo modificar datos de la base de datos](#ejemplo-modificar-datos-de-la-base-de-datos)
+    - [Más ejemplos de consultas a la base de datos](#más-ejemplos-de-consultas-a-la-base-de-datos)
   - [Fuentes](#fuentes)
 
 ## 1- Introducción
@@ -1440,12 +1441,40 @@ sqlitebrowser
 
 - En la pestaña file, pinchamos en abrir base de datos y buscamos en el directorio de nuestra aplicación, ahora en la barra de navegación izquierda deberia aparecernos nuestros modelos en forma de tabla SQL.
 
+### Relaciones entre Modelos
+
+- Django facilita la definición de relaciones entre modelos. Por ejemplo, una relación de clave foránea se puede agregar para representar una relación de muchos a uno.
+
+```python
+class Author(models.Model):
+    name = models.CharField(max_length=50)
+
+class Book(models.Model):
+    title = models.CharField(max_length=100)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    publication_date = models.DateField()
+```
+
+- Crear un objeto relacionado:
+
+```python
+author = Author.objects.create(name='F. Scott Fitzgerald')
+book = Book.objects.create(title='The Great Gatsby', author=author, publication_date='1925-04-10')
+```
+
+- Consultar objetos relacionados:
+```python
+books_by_fitzgerald = Book.objects.filter(author__name='F. Scott Fitzgerald')
+```
+
+> Estos son solo ejemplos básicos de cómo trabajar con bases de datos en Django. Django proporciona una API rica y potente para realizar consultas, gestionar relaciones y realizar operaciones en la base de datos de manera eficiente.
+
+
 ## Bases de datos y Consiltas en Django
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
-
-### Consultas básicas
+### Consultas básicas (CRUD)
 Django proporciona una API para realizar consultas a la base de datos de manera sencilla.
 
 - **Obtener todos los objetos de un modelo**
@@ -1474,33 +1503,6 @@ Django proporciona una API para realizar consultas a la base de datos de manera 
   specific_book = Book.objects.get(title='The Great Gatsby')
   ```
 
-### Relaciones entre Modelos
-
-- Django facilita la definición de relaciones entre modelos. Por ejemplo, una relación de clave foránea se puede agregar para representar una relación de muchos a uno.
-
-```python
-class Author(models.Model):
-    name = models.CharField(max_length=50)
-
-class Book(models.Model):
-    title = models.CharField(max_length=100)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    publication_date = models.DateField()
-```
-
-- Crear un objeto relacionado:
-
-```python
-author = Author.objects.create(name='F. Scott Fitzgerald')
-book = Book.objects.create(title='The Great Gatsby', author=author, publication_date='1925-04-10')
-```
-
-- Consultar objetos relacionados:
-```python
-books_by_fitzgerald = Book.objects.filter(author__name='F. Scott Fitzgerald')
-```
-
-> Estos son solo ejemplos básicos de cómo trabajar con bases de datos en Django. Django proporciona una API rica y potente para realizar consultas, gestionar relaciones y realizar operaciones en la base de datos de manera eficiente.
 
 ### Ejemplo para crear un objeto en la base de datos
 
@@ -1599,6 +1601,86 @@ def editar_empleado(request, id):
 ```python
 path('editar_empleado/<int:id>', views.editar_empleado, name="editar_empleado")
 ```
+
+### Más ejemplos de consultas a la base de datos
+
+[Tabla de contenidos](#tabla-de-contenidos)
+
+- Creamos una template nueva empleados.html:
+
+```django
+{% extends "layout.html" %}
+
+{% block title %}
+Listados de Empleados
+{% endblock title %}
+
+{% block content %}
+<h1>Lista de empleados por nombre</h1>
+<ul>
+    {% for empleado in  empleados_por_nombre %}
+        <li>{{empleado.nombre}} {{empleado.apellidos}}</li>
+    {% endfor %}
+<ul>
+<h1>Lista de empleados por id reverso</h1>
+<ul>
+    {% for empleado in  empleados_id_reverso %}
+        <li>{{empleado.nombre}} {{empleado.apellidos}}</li>
+    {% endfor %}
+<ul>
+<h1>Lista de empleados por defecto</h1>
+<ul>
+    {% for empleado in  empleados_por_defecto %}
+        <li>{{empleado.nombre}} {{empleado.apellidos}}</li>
+    {% endfor %}
+<ul>
+<h1>Lista de empleados por defecto(4 elementos)</h1>
+<ul>
+    {% for empleado in  empleados_hasta_id4 %}
+        <li>{{empleado.nombre}} {{empleado.apellidos}}</li>
+    {% endfor %}
+<ul>
+<h1>Lista de empleados por defecto(del 5 al 7)</h1>
+<ul>
+    {% for empleado in  empleados_hasta_id4 %}
+        <li>{{empleado.nombre}} {{empleado.apellidos}}</li>
+    {% endfor %}
+<ul>
+<h1>Lista de empleados por con opcion de borrado</h1>
+<ul>
+    {% for empleado in  empleados_por_defecto %}
+        <li>{{empleado.nombre}} {{empleado.apellidos}}</li>
+        <a href="{% url 'borrar' empleado.id %}">Borrar empleado</a>
+    {% endfor %}
+<ul>
+{% endblock content %}
+```
+
+- Ejemplo views.py
+```python
+def empleados(request):
+    empleados_por_nombre = Empleado.objects.order_by('nombre')
+    empleados_id_reverso = Empleado.objects.order_by('-id')
+    empleados_por_defecto = Empleado.objects.all()
+    empleados_hasta_id4 = Empleado.objects.all()[:4]
+    empleados_del_5_al_7 = Empleado.objects.all()[5:7]
+
+    return render(request, 'empleados.html', {
+        'empleados_por_nombre': empleados_por_nombre,
+        'empleados_id_reverso': empleados_id_reverso,
+        'empleados_por_defecto': empleados_por_defecto,
+        'empleados_hasta_id4': empleados_hasta_id4,
+        'empleados_del_5_al_7': empleados_hasta_id4,
+    })
+
+def borrar_empleado(request, id):
+    empleado = Empleado.objects.get(pk=id)
+    empleado.delete()
+
+    return redirect('empleados')
+```
+
+> Practica conotras opciones para apredender mas sobre consultas.
 
 ## Fuentes
 
