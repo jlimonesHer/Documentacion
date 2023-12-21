@@ -63,7 +63,8 @@
     - [Consultas básicas](#consultas-básicas)
     - [Relaciones entre Modelos](#relaciones-entre-modelos)
     - [Ejemplo para crear un objeto en la base de datos](#ejemplo-para-crear-un-objeto-en-la-base-de-datos)
-    - [Ejemplo recoger datos de la base de datos](#ejemplo-recoger-datos-de-la-base-de-datos)
+    - [Ejemplo obtener datos de la base de datos](#ejemplo-obtener-datos-de-la-base-de-datos)
+    - [Ejemplo modificar datos de la base de datos](#ejemplo-modificar-datos-de-la-base-de-datos)
   - [Fuentes](#fuentes)
 
 ## 1- Introducción
@@ -1557,7 +1558,7 @@ def crear_empleado(request, nombre, apellidos, edad, autorizado, carta_presentac
 < url servidor django >/Jose Carlos/Limones Hdez/38/True/Hola, esta es mi primera consulta a la base de datos desde Django
 ```
 
-### Ejemplo recoger datos de la base de datos
+### Ejemplo obtener datos de la base de datos
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -1580,6 +1581,24 @@ path('empleado', views.empleado, name="mostrar_empleado")
 ```
 
 > Ahora si escribimos la url correcta en el navegador nos mostrara la consulta.
+
+### Ejemplo modificar datos de la base de datos
+
+[Tabla de contenidos](#tabla-de-contenidos)
+
+- Ejemplo 1 views.py
+```python
+def editar_empleado(request, id):
+    empleado = Empleado.objects.get(pk=id)
+    empleado.autorizado = False
+    empleado.save()
+    return HttpResponse(f"La autorizacion de {empleado.nombre} a cambiado a {empleado.autorizado}")
+```
+
+- Ejemplo urls.py
+```python
+path('editar_empleado/<int:id>', views.editar_empleado, name="editar_empleado")
+```
 
 ## Fuentes
 
