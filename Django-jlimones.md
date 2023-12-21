@@ -62,10 +62,12 @@
     - [Relaciones entre Modelos](#relaciones-entre-modelos)
   - [Bases de datos y Consiltas en Django](#bases-de-datos-y-consiltas-en-django)
     - [Consultas básicas (CRUD)](#consultas-básicas-crud)
-    - [Ejemplo para crear un objeto en la base de datos](#ejemplo-para-crear-un-objeto-en-la-base-de-datos)
-    - [Ejemplo obtener datos de la base de datos](#ejemplo-obtener-datos-de-la-base-de-datos)
-    - [Ejemplo modificar datos de la base de datos](#ejemplo-modificar-datos-de-la-base-de-datos)
-    - [Más ejemplos de consultas a la base de datos](#más-ejemplos-de-consultas-a-la-base-de-datos)
+    - [Ejemplo para CREAR(Create) un objeto en la base de datos](#ejemplo-para-crearcreate-un-objeto-en-la-base-de-datos)
+    - [Ejemplo LEER(Read) datos de la base de datos](#ejemplo-leerread-datos-de-la-base-de-datos)
+      - [Listar Elementos de la base de datos](#listar-elementos-de-la-base-de-datos)
+    - [Ejemplo ACTUALIZAR(Update) datos de la base de datos](#ejemplo-actualizarupdate-datos-de-la-base-de-datos)
+    - [Ejemplo ELIMINAR(Delete) datos y otros ejemplos de consultas a la base de datos.](#ejemplo-eliminardelete-datos-y-otros-ejemplos-de-consultas-a-la-base-de-datos)
+    - [Lookups](#lookups)
   - [Fuentes](#fuentes)
 
 ## 1- Introducción
@@ -1504,7 +1506,7 @@ Django proporciona una API para realizar consultas a la base de datos de manera 
   ```
 
 
-### Ejemplo para crear un objeto en la base de datos
+### Ejemplo para CREAR(Create) un objeto en la base de datos
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -1555,12 +1557,30 @@ def crear_empleado(request, nombre, apellidos, edad, autorizado, carta_presentac
 
     return HttpResponse(f"Empleado creado: {empleado.nombre}")
 ```
+
+
 - En el navegador:
 ```bash
 < url servidor django >/Jose Carlos/Limones Hdez/38/True/Hola, esta es mi primera consulta a la base de datos desde Django
 ```
 
-### Ejemplo obtener datos de la base de datos
+- Ahora utilizaremos ***create*** en vez de ***save***:
+  
+- Ejemplo views.py
+
+```python
+def crear_empleado(request, nombre, apellidos, edad, autorizado, carta_presentacion):
+    empleado = Empleado.objects.create(
+        nombre = nombre,
+        apellidos = apellidos ,
+        edad = edad,
+        autorizado = autorizado,
+        carta_presentacion = carta_presentacion,
+    )
+    return HttpResponse(f"Empleado creado: {empleado.nombre}")
+```
+
+### Ejemplo LEER(Read) datos de la base de datos
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -1584,27 +1604,7 @@ path('empleado', views.empleado, name="mostrar_empleado")
 
 > Ahora si escribimos la url correcta en el navegador nos mostrara la consulta.
 
-### Ejemplo modificar datos de la base de datos
-
-[Tabla de contenidos](#tabla-de-contenidos)
-
-- Ejemplo 1 views.py
-```python
-def editar_empleado(request, id):
-    empleado = Empleado.objects.get(pk=id)
-    empleado.autorizado = False
-    empleado.save()
-    return HttpResponse(f"La autorizacion de {empleado.nombre} a cambiado a {empleado.autorizado}")
-```
-
-- Ejemplo urls.py
-```python
-path('editar_empleado/<int:id>', views.editar_empleado, name="editar_empleado")
-```
-
-### Más ejemplos de consultas a la base de datos
-
-[Tabla de contenidos](#tabla-de-contenidos)
+#### Listar Elementos de la base de datos
 
 - Creamos una template nueva empleados.html:
 
@@ -1646,13 +1646,6 @@ Listados de Empleados
         <li>{{empleado.nombre}} {{empleado.apellidos}}</li>
     {% endfor %}
 <ul>
-<h1>Lista de empleados por con opcion de borrado</h1>
-<ul>
-    {% for empleado in  empleados_por_defecto %}
-        <li>{{empleado.nombre}} {{empleado.apellidos}}</li>
-        <a href="{% url 'borrar' empleado.id %}">Borrar empleado</a>
-    {% endfor %}
-<ul>
 {% endblock content %}
 ```
 
@@ -1672,7 +1665,51 @@ def empleados(request):
         'empleados_hasta_id4': empleados_hasta_id4,
         'empleados_del_5_al_7': empleados_hasta_id4,
     })
+```
 
+- Ejemplo urls.py
+
+```python
+path('empleados/', views.empleados, name="empleados")
+```
+
+### Ejemplo ACTUALIZAR(Update) datos de la base de datos
+
+[Tabla de contenidos](#tabla-de-contenidos)
+
+- Ejemplo 1 views.py
+```python
+def editar_empleado(request, id):
+    empleado = Empleado.objects.get(pk=id)
+    empleado.autorizado = False
+    empleado.save()
+    return HttpResponse(f"La autorizacion de {empleado.nombre} a cambiado a {empleado.autorizado}")
+```
+
+- Ejemplo urls.py
+```python
+path('editar_empleado/<int:id>', views.editar_empleado, name="editar_empleado")
+```
+
+### Ejemplo ELIMINAR(Delete) datos y otros ejemplos de consultas a la base de datos.
+
+[Tabla de contenidos](#tabla-de-contenidos)
+
+- Creamos una template nueva empleados.html:
+
+```django
+<h1>Lista de empleados por con opcion de borrado</h1>
+<ul>
+    {% for empleado in  empleados_por_defecto %}
+        <li>{{empleado.nombre}} {{empleado.apellidos}}</li>
+        <a href="{% url 'borrar' empleado.id %}">Borrar empleado</a>
+    {% endfor %}
+<ul>
+{% endblock content %}
+```
+
+- Ejemplo views.py
+```python
 def borrar_empleado(request, id):
     empleado = Empleado.objects.get(pk=id)
     empleado.delete()
@@ -1680,7 +1717,55 @@ def borrar_empleado(request, id):
     return redirect('empleados')
 ```
 
-> Practica conotras opciones para apredender mas sobre consultas.
+> Practica con otras opciones para apredender mas sobre consultas.
+
+### Lookups
+
+Supongamos que tienes algunos registros de empleados en tu base de datos.
+
+- Obtener todos los empleados:
+
+```python
+empleados = Empleado.objects.all()
+```
+- Obtener empleados mayores de 30 años:
+
+```python
+empleados_mayores_30 = Empleado.objects.filter(edad__gt=30)
+```
+- Obtener empleados autorizados:
+
+```python
+empleados_autorizados = Empleado.objects.filter(autorizado=True)
+```
+- Obtener empleados cuya carta de presentación contiene la palabra 'Django':
+
+```python
+empleados_con_django = Empleado.objects.filter(carta_presentacion__icontains='Django')
+```
+- Obtener empleados que fueron dados de alta después de una fecha específica:
+
+```python
+from datetime import datetime
+fecha_limite = datetime(2023, 1, 1)
+empleados_despues_de_fecha = Empleado.objects.filter(fecha_alta__gt=fecha_limite)
+```
+- Obtener un empleado por nombre y apellidos exactos:
+
+```python
+empleado_exacto = Empleado.objects.get(nombre='NombreExacto', apellidos='ApellidosExactos')
+```
+- Obtener empleados con imágenes nulas:
+
+```python
+empleados_sin_imagen = Empleado.objects.filter(imagen='null')
+```
+- Obtener empleados ordenados por edad de forma descendente:
+
+```python
+empleados_ordenados_por_edad = Empleado.objects.order_by('-edad')
+```
+- Estos son solo algunos ejemplos. Puedes combinar múltiples condiciones y utilizar diferentes operadores para crear consultas más complejas según tus necesidades
 
 ## Fuentes
 
