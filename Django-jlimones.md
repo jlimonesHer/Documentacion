@@ -68,6 +68,13 @@
     - [Ejemplo ACTUALIZAR(Update) datos de la base de datos](#ejemplo-actualizarupdate-datos-de-la-base-de-datos)
     - [Ejemplo ELIMINAR(Delete) datos y otros ejemplos de consultas a la base de datos.](#ejemplo-eliminardelete-datos-y-otros-ejemplos-de-consultas-a-la-base-de-datos)
     - [Lookups](#lookups)
+    - [Consultas Avanzadas y Agregaciones en Django.](#consultas-avanzadas-y-agregaciones-en-django)
+      - [Consultas Avanzadas:](#consultas-avanzadas)
+  - [Consultas(CRUD) utilizando SQL](#consultascrud-utilizando-sql)
+      - [Consultas con JOIN](#consultas-con-join)
+  - [Django admin Y operaciones CRUD](#django-admin-y-operaciones-crud)
+    - [Operaciones CRUD básicas con admin:](#operaciones-crud-básicas-con-admin)
+    - [Formularios en Django](#formularios-en-django)
   - [Fuentes](#fuentes)
 
 ## 1- Introducción
@@ -222,29 +229,28 @@ mkdir AprendiendoDjango
 ```
 
 > Deberas usar camelCase, UpperCamelCase o snake_case.
->
+
 ### ¿Que es un entorno virtual?
 
 Un entorno virtual (también conocido como virtualenv) es una herramienta que ayuda a gestionar las dependencias de un proyecto de software de manera aislada del sistema operativo y de otros proyectos. En el caso de Django (un marco de desarrollo web para Python), el uso de un entorno virtual es común y recomendado por varias razones:
 
-1. Aislamiento de Dependencias:
+- Aislamiento de Dependencias:
+  - Un entorno virtual permite tener una copia independiente de Python y las bibliotecas específicas que tu proyecto necesita. Esto asegura que las dependencias de un proyecto no interfieran con las de otro.
 
-Un entorno virtual permite tener una copia independiente de Python y las bibliotecas específicas que tu proyecto necesita. Esto asegura que las dependencias de un proyecto no interfieran con las de otro.
-2. Versiones de Python:
+- Versiones de Python:
+  - Permite utilizar diferentes versiones de Python para diferentes proyectos. Esto es útil cuando tienes proyectos que requieren versiones específicas de Python.
 
-Permite utilizar diferentes versiones de Python para diferentes proyectos. Esto es útil cuando tienes proyectos que requieren versiones específicas de Python.
-3. Facilita la Reproducibilidad:
+- Facilita la Reproducibilidad:
+  - Al especificar las dependencias de tu proyecto en un archivo requirements.txt, puedes fácilmente recrear el entorno virtual en otro lugar o compartirlo con otros desarrolladores, asegurando que todos estén utilizando las mismas versiones de las bibliotecas.
 
-Al especificar las dependencias de tu proyecto en un archivo requirements.txt, puedes fácilmente recrear el entorno virtual en otro lugar o compartirlo con otros desarrolladores, asegurando que todos estén utilizando las mismas versiones de las bibliotecas.
-4. Evita Conflictos con el Sistema Operativo:
+- Evita Conflictos con el Sistema Operativo:
+  - Evita conflictos entre las bibliotecas del sistema operativo y las bibliotecas del proyecto. Un entorno virtual proporciona un espacio aislado donde las bibliotecas pueden instalarse sin afectar al sistema global.
 
-Evita conflictos entre las bibliotecas del sistema operativo y las bibliotecas del proyecto. Un entorno virtual proporciona un espacio aislado donde las bibliotecas pueden instalarse sin afectar al sistema global.
-5. Facilita la Mantenibilidad:
+- Facilita la Mantenibilidad:
+  - Hace que la gestión de dependencias sea más fácil y mantenible. Puedes tener diferentes versiones de bibliotecas para diferentes proyectos sin afectar el sistema principal.
 
-Hace que la gestión de dependencias sea más fácil y mantenible. Puedes tener diferentes versiones de bibliotecas para diferentes proyectos sin afectar el sistema principal.
-6. Mejora la Seguridad:
-
-Al tener un entorno virtual específico para cada proyecto, limitas el acceso a las bibliotecas y dependencias específicas de ese proyecto, reduciendo el riesgo de conflictos y mejorando la seguridad.
+- Mejora la Seguridad:
+  - Al tener un entorno virtual específico para cada proyecto, limitas el acceso a las bibliotecas y dependencias específicas de ese proyecto, reduciendo el riesgo de conflictos y mejorando la seguridad.
 
 ### Cómo usar un entorno virtual en Django
 
@@ -1366,10 +1372,15 @@ Si observamos el archivo de configuración de Django(*settings.py*) vemos que ha
 [Tabla de contenidos](#tabla-de-contenidos)
 
 - Localizamos y abrimnos el archivo **models.py**
-- Creamos 2 clases, **Empleado** y **Categoria** con los siguientes atributos:
+- Creamos 2 clases, **Empleado** y **Puesto** con los siguientes atributos:
 
 ```python
 from django.db import models
+
+class Puesto(models.Model):
+    nombre = models.CharField(max_length=100)
+    nivel = models.CharField(max_length=150)
+    antiguedad = models.DateField()
 
 class Empleado(models.Model):
     nombre = models.CharField(max_length=100)
@@ -1378,13 +1389,6 @@ class Empleado(models.Model):
     autorizado = models.BooleanField()
     carta_presentacion = models.TextField()
     fecha_alta = models.DateTimeField(auto_now_add=True)
-
-
-class Categoria(models.Model):
-    nombre = models.CharField(max_length=100)
-    nivel = models.CharField(max_length=150)
-    antiguedad = models.DateField()
-
 ```
 
 > Para informacion sobre los tipos de campos -> [models]("https://docs.djangoproject.com/en/5.0/ref/models/fields/#field-types)
@@ -1400,7 +1404,7 @@ Esto generara una salida parecida a esta:
 ```bash
 Migrations for 'myapp':
   myapp/migrations/0001_initial.py
-    - Create model Categoria
+    - Create model Puesto
     - Create model Empleado
 ```
 
@@ -1721,6 +1725,8 @@ def borrar_empleado(request, id):
 
 ### Lookups
 
+[Tabla de contenidos](#tabla-de-contenidos)
+
 Supongamos que tienes algunos registros de empleados en tu base de datos.
 
 - Obtener todos los empleados:
@@ -1766,6 +1772,343 @@ empleados_sin_imagen = Empleado.objects.filter(imagen='null')
 empleados_ordenados_por_edad = Empleado.objects.order_by('-edad')
 ```
 - Estos son solo algunos ejemplos. Puedes combinar múltiples condiciones y utilizar diferentes operadores para crear consultas más complejas según tus necesidades
+
+### Consultas Avanzadas y Agregaciones en Django.
+
+[Tabla de contenidos](#tabla-de-contenidos)
+
+- Vamos a explorar algunas características más avanzadas relacionadas con consultas y agregaciones en Django.
+
+#### Consultas Avanzadas:
+
+- Consultas con múltiples condiciones:
+
+> Puedes encadenar múltiples condiciones utilizando el método filter().
+
+```python
+recent_fiction_books = Book.objects.filter(
+    genre='Fiction',
+    publication_date__gte='2022-01-01'
+)
+```
+
+- Consultas con operadores lógicos:
+
+> Django permite utilizar operadores lógicos como Q para realizar consultas más complejas.
+
+```python
+from django.db.models import Q
+
+books_query = Book.objects.filter(
+    Q(genre='Fiction') | Q(genre='Mystery'),
+    publication_date__gte='2022-01-01'
+)
+```
+
+- Agregaciones en Django:
+> Django proporciona funciones de agregación para realizar cálculos en conjuntos de datos.
+
+- Conteo de objetos:
+
+```python
+total_books = Book.objects.count()
+```
+
+- Agregación de valores:
+
+```python
+from django.db.models import Sum
+
+total_pages = Book.objects.aggregate(total_pages=Sum('num_pages'))
+```
+
+- Agrupación y Anotación:
+
+> Puedes agrupar objetos y realizar anotaciones para agregar información adicional.
+
+```python
+from django.db.models import Count
+
+authors_with_book_count = Author.objects.annotate(book_count=Count('book'))
+```
+- Transacciones:
+> Django maneja las transacciones de manera automática, pero también puedes utilizarlas explícitamente.
+
+```python
+from django.db import transaction
+
+try:
+    with transaction.atomic():
+        # Realizar operaciones en la base de datos
+        book = Book.objects.create(title='New Book', author=author, publication_date='2023-01-01')
+except IntegrityError:
+    # Manejar errores de integridad
+    pass
+```
+
+Estos son solo algunos ejemplos de las capacidades avanzadas de consultas y agregaciones en Django. La documentación oficial de Django es una excelente referencia para explorar más opciones y casos de uso específicos: Django QuerySet API.
+
+- En nuestro ejemplo:
+  - Ejemplo views.py
+    ```python
+    def empleados(request, empleado_id):
+    empleado = Empleado.objects.get(id=empleado_id)
+    puesto = empleado.puesto.name
+    nombre_empleado = empleado.nombre
+
+    context = {
+        'nombre_empleado': nombre_empleado,
+        'puesto': puesto,
+    }
+
+    return render(request, 'empleados.html', context)
+    ```
+
+    - Ejemplo urls.py
+      ```python
+      path('empleados/<int:empleado_id>', views.empleados, name="empleados_id"),
+      ```
+
+    - Ejemplo empleados. html
+      ```django
+      <h1>Empleado y cargo</h1>
+      <p>Nombre: {{ nombre_empleado }}</p>
+      <p>Puesto: {{ puesto }}</p>
+      ```
+
+## Consultas(CRUD) utilizando SQL
+
+Puedes realizar consultas directamente en SQL utilizando el método raw de Django. Aquí tienes algunos ejemplos de cómo podrías hacerlo:
+
+- Crear datos:
+  - Ejemplo views.py
+    ```python
+    from django.db import connection
+
+    def crear_empleado_sql(request):
+        with connection.cursor() as cursor:
+            nombre = "Ivan"
+            apellidos = "Rodriguez"
+            edad = 45
+            autorizado = True
+            carta_presentacion = "No uses div!"
+            fecha_alta = "2023-12-22 12:00:00"
+
+            # Consulta SQL para la inserción
+            query = """
+                INSERT INTO myapp_empleado (nombre, apellidos, edad, autorizado, carta_presentacion, fecha_alta)
+                VALUES (%s, %s, %s, %s, %s, %s);
+            """
+
+            # Ejecutar la consulta SQL
+            cursor.execute(query, [nombre, apellidos, edad, autorizado, carta_presentacion, fecha_alta])
+
+            # Importante: Hacer commit para aplicar los cambios
+            connection.commit()
+            return redirect('empleados')
+    ```
+
+> En el caso del ejemplo que hemos estado suiguiendo deberia borrar el campo de imagen de la base de datos para hacer la llamada mas facil.
+
+- Leer datos:
+
+> Ahora veremos un método mucho mas facil pero solo se puede usar en el caso e leer datos, el método ***raw()***
+
+  - Ejemplo views.py
+    ```python
+    def empleados(request):
+        empleados_mayores_30 = Empleado.objects.raw("SELECT * FROM myapp_empleado WHERE edad > %s", [30])
+
+        return render(request, 'empleados.html', {
+            'empleados_mayores_30': empleados_mayores_30,
+        })
+    ```
+
+    - Ejemplo empleados.html
+    ```html
+    <h1>Empleados Mayores de 30</h1>
+    <ul>
+        {% for empleado in empleados_mayores_30 %}
+            <li>{{ empleado.nombre }} {{ empleado.apellidos }} - Edad: {{ empleado.edad }}</li>
+        {% endfor %}
+    </ul>
+    ```
+
+- Actualizar datos:
+  - Ejemplo views.py
+    ```python
+    def actualizar_empleado_sql(request, id):
+    # Obtener los nuevos valores que deseas asignar
+    nuevo_nombre = "Nuevo nombre"
+    nuevos_apellidos = "Nuevos apellidos"
+    nueva_edad = 30
+    nuevo_autorizado = False
+    nueva_carta_presentacion = "Nueva carta de presentación"
+    nueva_fecha_alta = "2023-12-22 12:00:00"
+
+    with connection.cursor() as cursor:
+        # Construir y ejecutar la consulta SQL de actualización
+        query = """
+            UPDATE myapp_empleado SET nombre=%s, apellidos=%s, edad=%s, autorizado=%s, carta_presentacion=%s, fecha_alta=%s WHERE id=%s;
+            """
+        cursor.execute(query, [nuevo_nombre, nuevos_apellidos, nueva_edad, nuevo_autorizado, nueva_carta_presentacion, nueva_fecha_alta, id])
+
+    return redirect('empleados')
+    ```
+
+- Eliminar datos:
+  - Ejemplo views.py
+  ```python
+  def eliminar_empleado_sql(request, nombre):
+    with connection.cursor() as cursor:
+        # Construir y ejecutar la consulta SQL de eliminación
+        query = """
+            DELETE FROM myapp_empleado
+            WHERE nombre = %s;
+        """
+        cursor.execute(query, [nombre])
+
+    return redirect('empleados')
+  ```
+
+#### Consultas con JOIN
+
+En SQL, la cláusula JOIN se utiliza para combinar registros de dos o más tablas en base a una condición relacionada entre ellas. El propósito de un JOIN es combinar información de diferentes tablas que comparten una relación a través de claves primarias y foráneas.
+
+- Ejemplo de JOIN:
+
+```SQL
+SELECT *
+FROM tabla1
+LEFT JOIN tabla2 ON tabla1.columna = tabla2.columna;
+```
+
+- Ahora empezaremos a utilizar la relación entre tablas declarando un nuevo atributo a nuestra clase **Empleado**:
+```django
+puesto = models.ForeignKey(Puesto, on_delete=models.CASCADE)
+```
+- Si deseas realizar una consulta que involucre ambas tablas (Empleado y Puesto), puedes hacerlo de la siguiente manera:
+
+```python
+from django.db import connection
+
+with connection.cursor() as cursor:
+    cursor.execute("SELECT * FROM tuapp_empleado WHERE edad > %s", [30])
+    empleados_mayores_30 = cursor.fetchall()
+```
+
+- Si deseas agregar filtros y ordenar los resultados:
+```python
+with connection.cursor() as cursor:
+    cursor.execute("""
+        SELECT nombre, apellidos, edad
+        FROM myapp_empleado
+        WHERE edad > %s AND autorizado = %s
+        ORDER BY edad DESC
+    """, [30, True])
+    resultados_filtrados = cursor.fetchall()
+```
+
+> Para aprender mas sobre SQL te recomiendo ir a [SQL](https://support.microsoft.com/es-es/topic/access-sql-conceptos-b%C3%A1sicos-vocabulario-y-sintaxis-444d0303-cde1-424e-9a74-e8dc3e460671)
+
+## Django admin Y operaciones CRUD
+
+[Tabla de contenidos](#tabla-de-contenidos)
+
+El panel de administración de Django es una herramienta poderosa que facilita la administración de modelos y la realización de operaciones CRUD (Crear, Leer, Actualizar, Eliminar) sin necesidad de crear interfaces de administración personalizadas.
+
+- Activar el Panel de Administración:
+  - Ejemplo myapp/admin.py
+    ```python
+    from django.contrib import admin
+    from .models import Empleado, Puesto
+
+    admin.site.register(Empleado)
+    admin.site.register(Puesto)
+    ```
+- Configura el superususario usando:
+  ```bash
+  python manage.py createsuperuser
+  ```
+
+- En el navegador añadiremos  **/admin** a la direccion de nustro servidor local.
+- Una vez dentro veremos los modelos que se crean por defecto y despues las de nuestra aplicación.
+
+### Operaciones CRUD básicas con admin:
+
+[Tabla de contenidos](#tabla-de-contenidos)
+
+- Crear un Nuevo Objeto:
+  - En el panel de administración, selecciona tu modelo y haz clic en "Add".
+- Leer (Ver) Objetos:
+  - Visualiza todos los objetos y realiza búsquedas y filtros en el panel.
+- Actualizar un Objeto:
+  -Edita un objeto existente en el panel de administración.
+- Eliminar un Objeto:
+  - Selecciona un objeto y haz clic en "Delete".
+- Personalización del Panel de Administración:
+  - Puedes personalizar la apariencia y el comportamiento del panel de administración.
+- Personalizar Listado de Objetos:
+  - En el archivo **admin.py**, puedes definir la clase **ModelAdmin** y personalizar el listado de objetos.
+    - Ejemplo admin.py
+      ```python
+      from django.contrib import admin
+      from .models import Empleado, Puesto
+
+      admin.site.register(Empleado)
+      admin.site.register(Puesto)
+      ```
+- Personalizar Listado de objetos:
+  ```python
+  class EmpleadoAdmin(admin.ModelAdmin):
+        list_display = (
+        'nombre',
+        'apellidos', 
+        'edad',
+        'autorizado',
+        'carta_presentacion',
+        'fecha_alta',
+        )
+
+  admin.site.register(Empleado, EmpleadoAdmin)
+  ```
+
+- Filtros y busquedas por agrupaciones:
+  ```python
+  class EmpleadoAdmin(admin.ModelAdmin):
+    list_filter = ('nombre', 'fecha_alta')
+    search_fields = ('nombre', 'puesto__name')
+    date_hierarchy = 'fecha_alta'
+
+  admin.site.register(Empleado, EmpleadoAdmin)
+  ```
+
+- Personalización del Formulario de Edición:
+  > En este caso tenemos que cambiar nuestro modelo de empleado por < puestos = models.ManyToManyField(Puesto) >
+  ```python
+  fields = ('nombre', 'apellidos', 'edad', 'autorizado', 'carta_presentacion')
+  filter_horizontal = ('puestos',)
+  ```
+
+- Acceso a Modelos Relacionados:
+Si tienes relaciones entre modelos, el panel de administración facilita el acceso a los objetos relacionados.
+
+  - Inlines:
+    - Puedes usar clases inline para mostrar y editar objetos relacionados dentro del formulario principal.
+      ```python
+      class PuestoInline(admin.TabularInline):
+      model = Puesto
+      extra = 1
+
+
+      class EmpleadoAdmin(admin.ModelAdmin):
+      inlines = [PuestoInline]
+      ```
+
+> Estos son soloalgunos ejemplos de cómo persolnalizar el panel de administraciòn, para mas informacion visite [Django admin](https://docs.djangoproject.com/en/5.0/ref/contrib/admin/).
+
+### Formularios en Django
+
 
 ## Fuentes
 
