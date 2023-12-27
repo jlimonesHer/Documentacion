@@ -75,6 +75,11 @@
   - [Django admin Y operaciones CRUD](#django-admin-y-operaciones-crud)
     - [Operaciones CRUD básicas con admin:](#operaciones-crud-básicas-con-admin)
     - [Formularios en Django](#formularios-en-django)
+      - [Método GET](#método-get)
+      - [Método POST](#método-post)
+  - [Pendientes de estructurar:](#pendientes-de-estructurar)
+    - [Excepciones](#excepciones)
+        - [get\_object\_or\_404](#get_object_or_404)
   - [Fuentes](#fuentes)
 
 ## 1- Introducción
@@ -2105,9 +2110,164 @@ Si tienes relaciones entre modelos, el panel de administración facilita el acce
       inlines = [PuestoInline]
       ```
 
-> Estos son soloalgunos ejemplos de cómo persolnalizar el panel de administraciòn, para mas informacion visite [Django admin](https://docs.djangoproject.com/en/5.0/ref/contrib/admin/).
+> Estos son solo algunos ejemplos de cómo persolnalizar el panel de administración, para mas informacion visite [Django admin](https://docs.djangoproject.com/en/5.0/ref/contrib/admin/).
 
 ### Formularios en Django
+
+[Tabla de contenidos](#tabla-de-contenidos)
+
+A continuación vamos a aprender como utilizar Django con formularios utilizando varios métodos.
+
+#### Método GET 
+Con este método obtenemos información de la base de datos mediante un formulario. Enviamos los datos de la consulta mediante la url y recibimos la respuesta del servidor.
+
+- Ejemplo views.py:
+  ```python
+  from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
+
+  def mostrar_el_empleado(request):
+      return render(request, 'mostrar_1empleado.html')
+
+  def get_empleado(request):
+      if request.method == 'GET':
+          id_empleado = request.GET.get('id_empleado')
+          print(f"El id enviado es: {id_empleado}")
+
+          try:
+              # Intenta obtener el objeto Empleado con el ID proporcionado
+              empleado = get_object_or_404(Empleado, id=id_empleado)
+              return render(request, 'mostrar_el_empleado.html', {'empleado': empleado})
+          except:
+              # Si no se encuentra el empleado, muestra un mensaje
+              return render(request, 'mostrar_el_empleado.html', {'empleado': None})
+      else:
+          return HttpResponse("<h2>No se puede mostrar el empleado</h2>")
+  ```
+
+- Ejemplo urls.py:
+  ```python
+  path('mostrar_el_empleado/', views.mostrar_el_empleado, name="mostrar_el_empleado"),
+  path('get_empleado/', views.get_empleado, name="get"),
+  ```
+
+- Ejemplo template, mostrar_el_empleado.html:
+  ```django
+  {% extends "layout.html" %}
+
+  {% block title %}
+  El emlpeado es:
+  {% endblock title %}
+
+  {% block content %}
+  <h1 class="title">Busca el empleado</h1>
+  <form action="{% url 'get' %}" method="GET">
+      <label for="id_empleado">id_empleado</label>
+      <input type="number" name="id_empleado" placeholder="Pon el id del empleado">
+      <input type="submit" value="Mostrar">
+  </form>
+  {% if empleado %}
+      <ul>
+          <li>El empleado es {{ empleado.nombre }} y su edad es de {{empleado.edad}} años</li>
+      </ul>
+  {% else %}
+      <p>Empleado no encontrado</p>
+  {% endif %}
+  {% endblock content %}
+  ```
+
+  > En el capitulo [excepciones](#excepciones) estan las explicaiones sobre el manejo de excepciones.
+
+  #### Método POST 
+
+
+## Pendientes de estructurar:
+
+### Excepciones
+
+[Tabla de contenidos](#tabla-de-contenidos)
+
+
+En Django, el manejo de excepciones se utiliza para controlar situaciones inesperadas o errores durante el procesamiento de una solicitud. A continuación, te proporcionaré una visión general del manejo de excepciones en Django:
+
+1. Http404:
+En el contexto de Django, Http404 es una excepción específica que se utiliza para indicar que la página solicitada no se ha encontrado. Puedes levantar esta excepción manualmente en tu vista si deseas mostrar una página de error 404 personalizada.
+go
+Copy code
+```python
+python
+Copy code
+from django.http import Http404
+
+def mi_vista(request):
+    # Algo salió mal y queremos mostrar una página de error 404
+    raise Http404("La página que buscas no se encuentra.")
+```
+2. Manejo de Excepciones en Vistas:
+En las vistas de Django, puedes utilizar bloques try y except para manejar excepciones y tomar acciones específicas cuando se producen.
+go
+Copy code
+```python
+python
+Copy code
+from django.http import HttpResponse
+
+def mi_vista(request):
+    try:
+        # Código que puede generar una excepción
+        resultado = 1 / 0
+    except ZeroDivisionError:
+        # Manejo específico para la excepción ZeroDivisionError
+        return HttpResponse("No se puede dividir por cero.")
+```
+3. Manejo de Excepciones en Plantillas:
+Puedes manejar excepciones directamente en plantillas de Django utilizando el bloque {% try %} ... {% except %} ... {% endtry %}.
+css
+Copy code
+```html
+go
+Copy code
+{% try %}
+    {{ variable|default:"No disponible" }}
+{% except %}
+    Ocurrió un error al obtener la variable.
+{% endtry %}
+```
+4. Middleware de Manejo de Excepciones:
+Django proporciona un middleware llamado django.middleware.common.CommonMiddleware que maneja automáticamente las excepciones Http404 y redirige a la página de error 404 definida en tu configuración.
+go
+Copy code
+```python
+perl
+Copy code
+MIDDLEWARE = [
+    # ...
+    'django.middleware.common.CommonMiddleware',
+    # ...
+]
+```
+5. Personalización de Páginas de Error:
+Puedes personalizar las páginas de error 404 y 500 en tu aplicación. Django busca plantillas específicas, como 404.html y 500.html, en tu directorio de plantillas para mostrar páginas de error personalizadas.
+6. Manejo de Excepciones Genéricas:
+Django también proporciona clases de vistas genéricas, como django.views.generic.base.View, que manejan automáticamente ciertas excepciones, como Http404.
+En resumen, el manejo de excepciones en Django es una parte fundamental para mejorar la robustez y la experiencia del usuario al enfrentar situaciones imprevistas durante la ejecución de tu aplicación web.
+
+##### get_object_or_404
+
+**get_object_or_404** es una función útil en Django que se utiliza para recuperar un objeto de la base de datos según ciertos criterios de búsqueda. Su propósito principal es simplificar el manejo de errores cuando se trabaja con bases de datos.
+
+- Función:
+  - get_object_or_404 es una función proporcionada por Django que reside en django.shortcuts.
+Se utiliza para intentar obtener un objeto de la base de datos. Si el objeto no existe, en lugar de devolver None, devuelve un error Http404 que se puede manejar para mostrar una página de error personalizada.
+
+- Parámetros:
+  - El primer argumento es el modelo desde el cual deseas obtener el objeto.
+Los argumentos siguientes son utilizados para filtrar el objeto. En el ejemplo, id=id_objeto significa que se está filtrando por el campo id del modelo, y se compara con el valor proporcionado en id_objeto.
+
+- Manejo de Errores:
+  - Si el objeto se encuentra, get_object_or_404 lo devuelve.
+Si el objeto no se encuentra, lanza una excepción Http404.
+Esta excepción se captura comúnmente en una vista de Django, y luego puedes personalizar cómo manejarla, como redirigir a una página de error 404 personalizada o mostrar un mensaje específico.
+
 
 
 ## Fuentes
