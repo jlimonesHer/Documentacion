@@ -77,6 +77,8 @@
     - [Formularios en Django](#formularios-en-django)
       - [Método GET](#método-get)
       - [Método POST](#método-post)
+    - [csrf\_token](#csrf_token)
+    - [Formularios Basados en Clases](#formularios-basados-en-clases)
   - [Pendientes de estructurar:](#pendientes-de-estructurar)
     - [Excepciones](#excepciones)
         - [get\_object\_or\_404](#get_object_or_404)
@@ -2177,7 +2179,136 @@ Con este método obtenemos información de la base de datos mediante un formular
 
   > En el capitulo [excepciones](#excepciones) estan las explicaiones sobre el manejo de excepciones.
 
-  #### Método POST 
+#### Método POST 
+
+El método POST es uno de los métodos HTTP utilizados para enviar datos encriptados al servidor desde el cliente. Este método se utiliza comúnmente para enviar información sensible, como datos de formularios.
+
+- Ejemplo views.py
+  ```python
+  def save_empleado(request):
+    if request.method == 'POST':
+        # Obtener los datos del request
+        nombre = request.POST['nombre']
+        apellidos = request.POST['apellidos']
+        edad = request.POST['edad']
+        autorizado = request.POST['autorizado'] 
+        carta_presentacion = request.POST['carta']
+
+        empleado = Empleado.objects.create(
+            nombre=nombre,
+            apellidos=apellidos,
+            edad=edad,
+            autorizado=autorizado,
+            carta_presentacion=carta_presentacion,
+        )
+
+        return redirect('empleados')
+    else:
+        return HttpResponse("<h2>No se ha podido crear el nuevo empleado</h2>")
+
+    def create_empleado(request):
+    return render(request, 'create_empleado.html')
+  ```
+
+- Ejemplo urls.py
+  ```python
+  path('save_empleado/', views.save_empleado, name="save"),
+  path('create_empleado/', views.create_empleado, name="create_empleado"),
+  ```
+
+- Ejemplo template, create_empleado.html
+  ```django
+  {% extends "layout.html" %}
+
+  {% block title %}
+  Formularios en Django
+  {% endblock title %}
+
+
+  {% block content %}
+  <h1 class="title">Formularios en Django</h1>
+  <form action="{% url 'save' %}" method="POST">
+      {% csrf_token %}
+      <label for="nombre">Nombre</label>
+      <input type="text" name="nombre" placeholder="Pon tu nombre">
+      <label for="apellidos">Apellidos</label>
+      <input type="text" name="apellidos" placeholder="Pon tus apellidos">
+      <label for="edad">Edad</label>
+      <input type="number" name="edad" id="edad" placeholder="Pon tu edad">
+      <label for="check">Lo autorizas?</label>
+      <select name="autorizado" id="autorizado">
+          <option value="1">Si</option>
+          <option value="0">No</option>
+      </select>
+      <label for="carta">Carta</label>
+      <textarea name="carta" id="carta"></textarea>
+      <input type="submit" value="Guardar">
+  </form>
+
+  {% endblock content %}
+  ```
+
+### csrf_token
+
+[Tabla de contenidos](#tabla-de-contenidos)
+
+El token CSRF (Cross-Site Request Forgery) es una medida de seguridad que ayuda a proteger las aplicaciones web contra ataques CSRF. Un ataque CSRF ocurre cuando un atacante engaña a un usuario para que realice una acción no deseada en una aplicación web en la que el usuario está autenticado. El token CSRF en Django es una característica que ayuda a prevenir este tipo de ataques.
+
+**Detalles sobre {% csrf_token %} en Django:**
+
+- Generación del Token:
+
+  - En un formulario HTML en Django, debes incluir el token CSRF para proteger contra ataques CSRF. Puedes agregar el token utilizando el tag {% csrf_token %}.
+    ```django
+    <form method="post" action="/mi_ruta/">
+        {% csrf_token %}
+        <!-- Campos del formulario -->
+        <input type="text" name="nombre" />
+        <input type="submit" value="Enviar" />
+    </form>
+    ```
+
+- Ubicación en el Formulario:
+
+  - El tag {% csrf_token %} generalmente se coloca dentro del formulario, preferiblemente justo después de la apertura de la etiqueta ```<form> ```Django genera y maneja automáticamente el token.
+  
+- Necesidad del Token:
+
+  - Django requiere que el token CSRF se incluya en todas las solicitudes POST para proteger contra ataques CSRF. Si intentas enviar un formulario POST sin incluir el token, Django generará un error Forbidden (403).
+
+- Protección de Formularios Ajax:
+
+  - Si estás enviando formularios a través de peticiones Ajax, también debes incluir el token CSRF en la solicitud. Puedes obtener el valor del token desde el atributo csrfmiddlewaretoken del formulario.
+    ```javascript
+    // Ejemplo de enviar un formulario mediante Ajax con jQuery
+    $.ajax({
+        type: 'POST',
+        url: '/mi_ruta/',
+        data: {
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+            nombre: 'valor_del_nombre',
+        },
+        success: function(response) {
+            console.log(response);
+        },
+    });
+    ```
+
+- Manejo en Vistas:
+
+  - En el lado del servidor, Django maneja automáticamente la validación del token CSRF. No es necesario realizar ninguna acción especial en tus vistas para verificar el token, siempre y cuando el formulario se envíe correctamente.
+
+- Doble Verificación en Formularios Ajax (Opcional):
+
+  - Si estás construyendo una aplicación con formularios Ajax, puedes duplicar la verificación del token CSRF en el servidor accediendo a request.POST['csrfmiddlewaretoken'] en tus vistas para garantizar la seguridad adicional.
+El uso de {% csrf_token %} es una buena práctica en el desarrollo de aplicaciones Django para garantizar la seguridad de las solicitudes POST. Este enfoque ayuda a proteger tu aplicación contra ataques CSRF y mantiene un nivel adicional de seguridad en la interacción entre el cliente y el servidor.
+
+
+### Formularios Basados en Clases
+
+[Tabla de contenidos](#tabla-de-contenidos)
+
+
 
 
 ## Pendientes de estructurar:
@@ -2185,6 +2316,7 @@ Con este método obtenemos información de la base de datos mediante un formular
 ### Excepciones
 
 [Tabla de contenidos](#tabla-de-contenidos)
+
 
 
 En Django, el manejo de excepciones se utiliza para controlar situaciones inesperadas o errores durante el procesamiento de una solicitud. A continuación, te proporcionaré una visión general del manejo de excepciones en Django:
@@ -2202,7 +2334,7 @@ def mi_vista(request):
     # Algo salió mal y queremos mostrar una página de error 404
     raise Http404("La página que buscas no se encuentra.")
 ```
-2. Manejo de Excepciones en Vistas:
+1. Manejo de Excepciones en Vistas:
 En las vistas de Django, puedes utilizar bloques try y except para manejar excepciones y tomar acciones específicas cuando se producen.
 go
 Copy code
@@ -2219,7 +2351,7 @@ def mi_vista(request):
         # Manejo específico para la excepción ZeroDivisionError
         return HttpResponse("No se puede dividir por cero.")
 ```
-3. Manejo de Excepciones en Plantillas:
+1. Manejo de Excepciones en Plantillas:
 Puedes manejar excepciones directamente en plantillas de Django utilizando el bloque {% try %} ... {% except %} ... {% endtry %}.
 css
 Copy code
@@ -2232,7 +2364,7 @@ Copy code
     Ocurrió un error al obtener la variable.
 {% endtry %}
 ```
-4. Middleware de Manejo de Excepciones:
+1. Middleware de Manejo de Excepciones:
 Django proporciona un middleware llamado django.middleware.common.CommonMiddleware que maneja automáticamente las excepciones Http404 y redirige a la página de error 404 definida en tu configuración.
 go
 Copy code
@@ -2245,9 +2377,9 @@ MIDDLEWARE = [
     # ...
 ]
 ```
-5. Personalización de Páginas de Error:
+1. Personalización de Páginas de Error:
 Puedes personalizar las páginas de error 404 y 500 en tu aplicación. Django busca plantillas específicas, como 404.html y 500.html, en tu directorio de plantillas para mostrar páginas de error personalizadas.
-6. Manejo de Excepciones Genéricas:
+1. Manejo de Excepciones Genéricas:
 Django también proporciona clases de vistas genéricas, como django.views.generic.base.View, que manejan automáticamente ciertas excepciones, como Http404.
 En resumen, el manejo de excepciones en Django es una parte fundamental para mejorar la robustez y la experiencia del usuario al enfrentar situaciones imprevistas durante la ejecución de tu aplicación web.
 
