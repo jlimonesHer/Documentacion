@@ -16,6 +16,10 @@
     - [Instalación de *Django* en linux](#instalación-de-django-en-linux)
       - [Instalando el modulo de Django](#instalando-el-modulo-de-django)
     - [Instalar Visual Studio Code](#instalar-visual-studio-code)
+  - [Programación orientada a objetos en PYTHON](#programación-orientada-a-objetos-en-python)
+    - [Clases y Objetos:](#clases-y-objetos)
+    - [Encapsulamiento](#encapsulamiento)
+    - [Abstracción](#abstracción)
   - [Generar nuestro primer proyecto con *Django*](#generar-nuestro-primer-proyecto-con-django)
     - [¿Que es un entorno virtual?](#que-es-un-entorno-virtual)
     - [Cómo usar un entorno virtual en Django](#cómo-usar-un-entorno-virtual-en-django)
@@ -79,6 +83,8 @@
       - [Método POST](#método-post)
     - [csrf\_token](#csrf_token)
     - [Formularios Basados en Clases](#formularios-basados-en-clases)
+    - [Validacion de formularios "Validators"](#validacion-de-formularios-validators)
+    - [Mensajes/Sesiones Flash](#mensajessesiones-flash)
   - [Pendientes de estructurar:](#pendientes-de-estructurar)
     - [Excepciones](#excepciones)
         - [get\_object\_or\_404](#get_object_or_404)
@@ -224,6 +230,161 @@ Ahora podemos abrir VSCode desde la terminal.
 ```bash
 code
 ```
+
+## Programación orientada a objetos en PYTHON
+
+[Tabla de contenidos](#tabla-de-contenidos)
+
+La Programación Orientada a Objetos (POO) es un paradigma de programación que se basa en el concepto de "objetos". Un objeto es una instancia de una clase, y una clase es un conjunto de atributos y métodos que definen el comportamiento de los objetos.
+
+En Python, todo es un objeto. Las variables, funciones y hasta los tipos de datos son objetos.
+
+### Clases y Objetos:
+
+[Tabla de contenidos](#tabla-de-contenidos)
+
+- En POO, una clase es una plantilla para crear objetos. Los objetos son instancias de una clase. Vamos a crear una clase simple llamada Persona:
+
+  ```python
+  class Persona:
+      def __init__(self, nombre, edad):
+          self.nombre = nombre
+          self.edad = edad
+
+      def saludar(self):
+          print(f"Hola, soy {self.nombre} y tengo {self.edad} años.")
+  ```
+> En este ejemplo, Persona es una clase que tiene un constructor __init__ y un método saludar. El método __init__ se llama automáticamente cuando se crea un objeto de la clase, y se utiliza para inicializar los atributos del objeto. self hace referencia al objeto actual.
+
+- Crear Objetos:
+  - Ahora, podemos crear objetos de la clase Persona:
+
+    ```python
+    # Crear objetos
+    persona1 = Persona("Juan", 25)
+    persona2 = Persona("María", 30)
+
+    # Llamar al método saludar
+    persona1.saludar()
+    persona2.saludar()
+    ```
+Aquí, persona1 y persona2 son instancias de la clase Persona. Al llamar al método saludar, cada objeto imprime un mensaje personalizado.
+
+- Atributos y Métodos:
+  - Los atributos son variables asociadas a un objeto, mientras que los métodos son funciones asociadas a un objeto. En el ejemplo anterior, nombre y edad son atributos, y saludar es un método.
+
+    ```python
+    # Acceder a atributos
+    print(persona1.nombre)  # Imprime "Juan"
+    print(persona2.edad)    # Imprime 30
+    ```
+
+- Herencia:
+  - La herencia permite que una clase herede atributos y métodos de otra. Vamos a crear una clase llamada Estudiante que hereda de Persona:
+
+    ```python
+    class Estudiante(Persona):
+        def __init__(self, nombre, edad, curso):
+            super().__init__(nombre, edad)
+            self.curso = curso
+
+        def estudiar(self):
+            print(f"{self.nombre} está estudiando en el curso {self.curso}.")
+    ```
+
+En este ejemplo, Estudiante hereda de Persona. El método __init__ de Estudiante utiliza super() para llamar al constructor de la clase padre.
+
+Polimorfismo:
+El polimorfismo permite que objetos de diferentes clases respondan al mismo método. Por ejemplo:
+
+    ```python
+    def presentar(objeto):
+        objeto.saludar()
+
+    # Crear objetos
+    persona = Persona("Carlos", 22)
+    estudiante = Estudiante("Ana", 19, "Matemáticas")
+
+    # Llamar al método usando polimorfismo
+    presentar(persona)      # Imprime "Hola, soy Carlos y tengo 22 años."
+    presentar(estudiante)   # Imprime "Hola, soy Ana y tengo 19 años."
+    ```
+
+> En este caso, el método presentar puede recibir tanto objetos de la clase Persona como de la clase Estudiante gracias al polimorfismo.
+
+### Encapsulamiento
+
+[Tabla de contenidos](#tabla-de-contenidos)
+
+El encapsulamiento es uno de los conceptos fundamentales de la Programación Orientada a Objetos (POO) que se refiere a la ocultación de los detalles internos de una clase y la restricción del acceso directo a ciertos componentes de esa clase. En otras palabras, encapsular una clase significa que los detalles internos de la implementación de esa clase están ocultos y solo se pueden acceder y manipular a través de una interfaz pública.
+
+En Python, la encapsulación se logra mediante convenciones y prácticas, ya que el lenguaje no impone restricciones estrictas en el acceso a los miembros de una clase. Sin embargo, hay algunas convenciones comunes que se siguen para lograr encapsulación:
+
+- Nombres con un guion bajo (Convención de "Nombre Débil"):
+
+  - Los miembros de una clase que se consideran privados o internos a menudo se nombran con un guion bajo al principio del nombre. Por ejemplo: _variable_privada, _metodo_privado.
+  Nombres con dos guiones bajos (Mangling):
+
+  - Los miembros que se deben hacer aún más privados pueden utilizar la técnica de "mangling" agregando dos guiones bajos al principio del nombre. Por ejemplo: __variable_mangle, __metodo_mangle.
+  Métodos Getter y Setter:
+
+  - Se pueden proporcionar métodos públicos para obtener (get) y establecer (set) valores de variables privadas. Esto permite un control más preciso sobre la manipulación de los datos internos de la clase.
+  A continuación, un ejemplo simple de encapsulamiento en Python:
+
+    ```python
+    class MiClase:
+        def __init__(self):
+            self.__variable_privada = 10  # Variable privada
+
+        def obtener_variable_privada(self):
+            return self.__variable_privada
+
+        def establecer_variable_privada(self, nuevo_valor):
+            if nuevo_valor > 0:
+                self.__variable_privada = nuevo_valor
+            else:
+                print("El valor debe ser mayor que 0.")
+    ```
+
+En este ejemplo, __variable_privada es una variable privada que solo puede ser accedida dentro de la propia clase MiClase. Los métodos obtener_variable_privada y establecer_variable_privada proporcionan una interfaz pública para acceder y modificar el valor de la variable privada. Esto permite que la clase tenga un control más preciso sobre cómo se manipulan sus datos internos.
+
+Es importante destacar que estas convenciones son simplemente acuerdos entre los programadores y no imponen restricciones reales en el acceso a los miembros de la clase. En Python, la filosofía es "somos todos adultos aquí", confiando en que los programadores seguirán las convenciones para mantener la integridad y la seguridad de la implementación de la clase.
+
+### Abstracción
+
+[Tabla de contenidos](#tabla-de-contenidos)
+
+La abstracción es un concepto clave en la Programación Orientada a Objetos (POO) que se refiere a la simplificación de la realidad al aislar y enfocarse en los aspectos esenciales de un objeto o sistema, mientras se ignoran los detalles menos relevantes. En términos simples, la abstracción permite modelar objetos del mundo real en un programa de manera más simple y manejable.
+
+En POO, la abstracción se logra a través de la creación de clases y la definición de interfaces. Aquí hay algunos puntos clave relacionados con la abstracción:
+
+La abstracción de datos implica la representación de datos complejos mediante estructuras de datos más simples y la ocultación de detalles innecesarios.
+Por ejemplo, un objeto que representa una cuenta bancaria puede abstractamente tener métodos como depositar y retirar, sin necesidad de conocer los detalles de cómo se almacenan los datos internamente.
+Abstracción de Procesos:
+
+La abstracción de procesos implica representar operaciones complejas como métodos más simples y manejables.
+Por ejemplo, un objeto que representa un vehículo puede tener un método arrancar que abstractamente inicia el motor, sin entrar en los detalles específicos de cómo se realiza esa operación.
+Aquí hay un ejemplo simple de abstracción en Python:
+
+```python
+class FiguraGeometrica:
+    def calcular_area(self):
+        pass
+
+    def calcular_perimetro(self):
+        pass
+
+class Circulo(FiguraGeometrica):
+    def __init__(self, radio):
+        self.radio = radio
+
+    def calcular_area(self):
+        return 3.14 * self.radio**2
+
+    def calcular_perimetro(self):
+        return 2 * 3.14 * self.radio
+```
+En este ejemplo, FiguraGeometrica es una clase abstracta que define métodos (calcular_area y calcular_perimetro) sin proporcionar una implementación. La clase Circulo hereda de FiguraGeometrica y proporciona una implementación específica para esos métodos. Los detalles internos de cómo se calcula el área y el perímetro de un círculo están ocultos para el usuario, quien simplemente utiliza la interfaz proporcionada por la clase abstracta. Esto es un ejemplo de cómo la abstracción permite representar de manera simple y manejable conceptos más complejos.
 
 ## Generar nuestro primer proyecto con *Django*
 
@@ -450,7 +611,8 @@ python3 manage.py startapp
 - los "shortcuts" (atajos) son funciones y clases proporcionadas por el módulo django.shortcuts que facilitan y simplifican tareas comunes en el desarrollo de aplicaciones web. Estos atajos son una manera conveniente de realizar operaciones que se realizan frecuentemente sin tener que escribir una cantidad extensa de código.
 
 > Para mas informacion sobre -> [SHORTCUTS](https://docs.djangoproject.com/en/5.0/topics/http/shortcuts/).
->> Para continuar a partir de este punto deberia tener unas nociones basicas de fundamentos de la programacion y una base de programacopn y sintaxis de [Python](https://docs.python.org/es/3.12/tutorial/index.html).
+>> Para continuar a partir de este punto deberia tener unas nociones basicas de fundamentos de la programacion y una base de programacón y sintaxis de [Python](https://docs.python.org/es/3.12/tutorial/index.html).
+
 
 #### Creando una vista(Ejemplo)
 
@@ -2309,6 +2471,215 @@ El uso de {% csrf_token %} es una buena práctica en el desarrollo de aplicacion
 [Tabla de contenidos](#tabla-de-contenidos)
 
 
+En Django, los formularios basados en clases son una forma de definir y trabajar con formularios utilizando clases de Python en lugar de funciones. Estos formularios están diseñados para aprovechar la orientación a objetos y proporcionan una estructura más organizada y reutilizable para definir la lógica del formulario.
+
+- Ejemplo views.py
+  ```python
+  from myapp.forms import FormEmpleado # Importamos el forms.py que crearemos a continuación
+
+  def create_full_empleado(request):
+    if request.method == 'POST':
+        formulario = FormEmpleado(request.POST)
+
+
+        if formulario.is_valid():
+            data_form = formulario.cleaned_data
+
+            nombre = data_form['nombre']
+            apellidos = data_form['apellidos']
+            edad = data_form['edad']
+            autorizado = data_form['autorizado']
+            carta = data_form['carta']
+            print('Esta entrando')
+            empleado = Empleado.objects.create(
+                nombre = nombre,
+                apellidos = apellidos ,
+                edad = edad,
+                autorizado = autorizado,
+                carta_presentacion = carta,
+            )
+            return redirect('empleados')
+    else:
+        formulario = FormEmpleado()
+        print('No esta entrando')
+    
+    return render(request, 'create_full_empleado.html', {
+        'form': formulario
+    })
+  ```
+
+  - Método HTTP:
+
+    - Verifica si la solicitud es una solicitud POST.
+    - Si es POST, significa que el formulario ha sido enviado.
+
+  - Creación del formulario:
+
+    - Crea una instancia del formulario FormEmpleado utilizando los datos de la solicitud POST (si está presente). Si no hay datos POST, se crea un formulario vacío.
+    - FormEmpleado es un formulario basado en una clase, presumiblemente definido en algún lugar de tu aplicación, y contiene campos para los atributos de un Empleado, como nombre, apellidos, edad, etc.
+
+  - Validación del formulario:
+
+    - Verifica si el formulario es válido llamando al método is_valid(). Este método realiza validaciones en los datos ingresados y devuelve True si el formulario es válido, o False en caso contrario.
+
+  - Acceso a los datos del formulario:
+
+    - Si el formulario es válido, se accede a los datos limpios (cleaned_data) del formulario. Estos son los datos que han pasado las validaciones del formulario.
+    - Se extraen los valores específicos del formulario, como nombre, apellidos, edad, etc.
+
+  - Creación del objeto Empleado:
+
+    - Se utiliza la función Empleado.objects.create() para crear un nuevo objeto Empleado en la base de datos utilizando los valores extraídos del formulario.
+
+  - Redirección:
+
+    - Después de crear el objeto Empleado, redirige al usuario a la vista 'empleados'. Puedes ajustar esto según tus rutas y nombres de vistas específicos.
+
+  - Formulario no válido o solicitud GET:
+
+    - Si la solicitud no es POST (es decir, una solicitud GET) o si el formulario no es válido, se renderiza la plantilla 'create_full_empleado.html' con el formulario para que el usuario pueda completar los datos.
+
+- Ejemplo urls.py
+  ```python
+  path('create_full_empleado/', views.create_full_empleado, name="create_full_empleado")
+  ```
+
+- A continuacion crearemos un archivo en el directorio de nuestra aplicacion ***myapp*** llamado forms.py
+  - Ejemplo forms.py
+    ```python
+    from django import forms
+
+    class FormEmpleado(forms.Form):
+        nombre = forms.CharField(
+            label = 'Nombre'
+        )
+        apellidos = forms.CharField(
+            label = 'Apellidos'
+        )
+        edad = forms.IntegerField(
+            label = 'Edad'
+        )
+        opciones = [
+            (1, 'Si'),
+            (0, 'No'),
+        ]
+        autorizado = forms.TypedChoiceField(
+            label = '¿Autorizado?',
+            choices=opciones,
+            widget=forms.Select
+        )
+        carta = forms.CharField(
+            label = 'Carta de presentacion',
+            widget=forms.Textarea
+        )
+    ```
+
+- Ahora cargaremos nuestro formulario en la template:
+
+  - Ejemplo template, create_full_empleado.html
+    ```python
+    {% extends "layout.html" %}
+
+    {% block title %}
+    Formularios en Django
+    {% endblock title %}
+
+
+    {% block content %}
+    <h1 class="title">Formularios en Django</h1>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Guardar">
+    </form>
+
+    {% endblock content %}
+    ```
+
+
+### Validacion de formularios "Validators"
+
+[Tabla de contenidos](#tabla-de-contenidos)
+
+- Los "validators" son funciones o clases que se utilizan para validar los datos ingresados en los campos de un modelo. Estos validators permiten establecer reglas específicas sobre qué datos son aceptables y cuáles no en un campo determinado.
+
+- En la template debemos insertar una condicion para mostrar el error:
+  ```django
+  {% if form.errors %}
+    <strong>Hay Errores en el formulario</strong>
+  {% endif %}
+  ```
+
+- Ejemplo forms.py
+  ```python
+  from django import forms
+  from django.core import validators
+
+  class FormEmpleado(forms.Form):
+      nombre = forms.CharField(
+          label = 'Nombre',
+          required=True,
+          validators=[
+              validators.MaxLengthValidator(20, 'El nombre es demasiado largo'), # El número máximo de carácteres es de 20.
+              validators.RegexValidator('^[A-Za-z0-9ñ ]*$', 'Caracteres no validos', 'Invalid_name') # Solo se puede utilizar los carácteres especificados.
+          ]
+      )
+  ```
+> Esto es solo un ejemplo, para mas detalles visite [Django validators](https://docs.djangoproject.com/en/5.0/ref/validators/#maxlengthvalidator) .
+
+
+### Mensajes/Sesiones Flash
+
+[Tabla de contenidos](#tabla-de-contenidos)
+
+Las sesiones flash son un mecanismo utilizado en muchos frameworks web, incluyendo Django, para enviar mensajes temporales entre las solicitudes del usuario. Estos mensajes generalmente se utilizan para mostrar notificaciones o mensajes informativos después de realizar una acción, como enviar un formulario.
+
+- Ejemplo viwes.py
+  ```python
+  from django.contrib import messages
+
+  def create_full_empleado(request):
+      if request.method == 'POST':
+          formulario = FormEmpleado(request.POST)
+
+          if formulario.is_valid():
+              data_form = formulario.cleaned_data
+
+              nombre = data_form['nombre']
+              apellidos = data_form['apellidos']
+              edad = data_form['edad']
+              autorizado = data_form['autorizado']
+              carta = data_form['carta']
+              empleado = Empleado.objects.create(
+                  nombre = nombre,
+                  apellidos = apellidos ,
+                  edad = edad,
+                  autorizado = autorizado,
+                  carta_presentacion = carta,
+              )
+
+              messages.success(request, f'El empleado: {empleado.id} llamado {empleado.nombre} se ha creado correctamente')
+
+              return redirect('empleados')
+      else:
+          formulario = FormEmpleado()
+      
+      return render(request, 'create_full_empleado.html', {
+          'form': formulario
+      })
+  ```
+
+- Ejemplo template:
+  ```python
+  {% if messages %}
+    {% for message in messages %}
+        <div class="message">
+            {{ message }}
+        </div>
+    {% endfor %}
+  {% endif %}
+  ```
+
 
 
 ## Pendientes de estructurar:
@@ -2323,11 +2694,7 @@ En Django, el manejo de excepciones se utiliza para controlar situaciones inespe
 
 1. Http404:
 En el contexto de Django, Http404 es una excepción específica que se utiliza para indicar que la página solicitada no se ha encontrado. Puedes levantar esta excepción manualmente en tu vista si deseas mostrar una página de error 404 personalizada.
-go
-Copy code
 ```python
-python
-Copy code
 from django.http import Http404
 
 def mi_vista(request):
@@ -2336,11 +2703,7 @@ def mi_vista(request):
 ```
 1. Manejo de Excepciones en Vistas:
 En las vistas de Django, puedes utilizar bloques try y except para manejar excepciones y tomar acciones específicas cuando se producen.
-go
-Copy code
 ```python
-python
-Copy code
 from django.http import HttpResponse
 
 def mi_vista(request):
@@ -2353,11 +2716,7 @@ def mi_vista(request):
 ```
 1. Manejo de Excepciones en Plantillas:
 Puedes manejar excepciones directamente en plantillas de Django utilizando el bloque {% try %} ... {% except %} ... {% endtry %}.
-css
-Copy code
-```html
-go
-Copy code
+```django
 {% try %}
     {{ variable|default:"No disponible" }}
 {% except %}
@@ -2366,11 +2725,7 @@ Copy code
 ```
 1. Middleware de Manejo de Excepciones:
 Django proporciona un middleware llamado django.middleware.common.CommonMiddleware que maneja automáticamente las excepciones Http404 y redirige a la página de error 404 definida en tu configuración.
-go
-Copy code
 ```python
-perl
-Copy code
 MIDDLEWARE = [
     # ...
     'django.middleware.common.CommonMiddleware',
