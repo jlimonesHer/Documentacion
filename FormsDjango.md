@@ -13,6 +13,7 @@
   - [1- Introducción](#1--introducción)
   - [Formularios generados por Django](#formularios-generados-por-django)
     - [Validacion de formularios "Validators"](#validacion-de-formularios-validators)
+    - [Mensajes/Sesiones Flash](#mensajessesiones-flash)
   - [Fuentes](#fuentes)
 
 ## 1- Introducción
@@ -27,6 +28,8 @@ En este manual vamos a ver ejemplos de como se pueden generar formularios desde 
 
 - Ejemplo views.py
   ```python
+  from myapp.forms import FormEmpleado # Importamos el forms.py que crearemos a continuación
+
   def create_full_empleado(request):
     if request.method == 'POST':
         formulario = FormEmpleado(request.POST)
@@ -177,8 +180,57 @@ En este manual vamos a ver ejemplos de como se pueden generar formularios desde 
 > Esto es solo un ejemplo, para mas detalles visite [Django validators](https://docs.djangoproject.com/en/5.0/ref/validators/#maxlengthvalidator) .
 
 
+### Mensajes/Sesiones Flash
 
+[Tabla de contenidos](#tabla-de-contenidos)
 
+Las sesiones flash son un mecanismo utilizado en muchos frameworks web, incluyendo Django, para enviar mensajes temporales entre las solicitudes del usuario. Estos mensajes generalmente se utilizan para mostrar notificaciones o mensajes informativos después de realizar una acción, como enviar un formulario.
+
+- Ejemplo viwes.py
+  ```python
+  from django.contrib import messages
+
+  def create_full_empleado(request):
+      if request.method == 'POST':
+          formulario = FormEmpleado(request.POST)
+
+          if formulario.is_valid():
+              data_form = formulario.cleaned_data
+
+              nombre = data_form['nombre']
+              apellidos = data_form['apellidos']
+              edad = data_form['edad']
+              autorizado = data_form['autorizado']
+              carta = data_form['carta']
+              empleado = Empleado.objects.create(
+                  nombre = nombre,
+                  apellidos = apellidos ,
+                  edad = edad,
+                  autorizado = autorizado,
+                  carta_presentacion = carta,
+              )
+
+              messages.success(request, f'El empleado: {empleado.id} llamado {empleado.nombre} se ha creado correctamente')
+
+              return redirect('empleados')
+      else:
+          formulario = FormEmpleado()
+      
+      return render(request, 'create_full_empleado.html', {
+          'form': formulario
+      })
+  ```
+
+- Ejemplo template:
+  ```python
+  {% if messages %}
+    {% for message in messages %}
+        <div class="message">
+            {{ message }}
+        </div>
+    {% endfor %}
+  {% endif %}
+  ```
 
 
 ## Fuentes
