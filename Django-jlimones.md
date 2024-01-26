@@ -25,7 +25,7 @@
   - [4.0. Generar nuestro primer proyecto con *Django*](#40-generar-nuestro-primer-proyecto-con-django)
     - [4.1 ¿Que es un entorno virtual?](#41-que-es-un-entorno-virtual)
     - [4.2. Cómo usar un entorno virtual en Django](#42-cómo-usar-un-entorno-virtual-en-django)
-    - [4.3.Crea tu proyecto](#43crea-tu-proyecto)
+    - [4.3. Crea tu proyecto](#43-crea-tu-proyecto)
     - [4.4. manage.py](#44-managepy)
       - [4.4.1 Lista de comandos de manage.py](#441-lista-de-comandos-de-managepy)
   - [5.0. Principales componentes de Django](#50-principales-componentes-de-django)
@@ -89,7 +89,7 @@
     - [11.6. Mensajes/Sesiones Flash](#116-mensajessesiones-flash)
   - [12.0. Excepciones](#120-excepciones)
     - [12.1. get\_object\_or\_404](#121-get_object_or_404)
-  - [Fuentes](#fuentes)
+  - [13.0. Fuentes](#130-fuentes)
 
 ## 1.0 Introducción
 
@@ -467,7 +467,7 @@ De este modo podemos instalar todos las dependencias necesarias para nuestro pro
 
 Para iniciar un proyecto con django nos vamos a la carpeta creada y utilizamos.
 
-### 4.3.Crea tu proyecto
+### 4.3. Crea tu proyecto
 [Tabla de contenidos](#tabla-de-contenidos)
 
 ```console
@@ -2800,7 +2800,7 @@ Esta excepción se captura comúnmente en una vista de Django, y luego puedes pe
 
 
 
-## Fuentes
+## 13.0. Fuentes
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
