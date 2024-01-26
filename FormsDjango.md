@@ -14,6 +14,9 @@
   - [Formularios generados por Django](#formularios-generados-por-django)
     - [Validacion de formularios "Validators"](#validacion-de-formularios-validators)
     - [Mensajes/Sesiones Flash](#mensajessesiones-flash)
+    - [Login y Registro](#login-y-registro)
+    - [Mensaje Flash](#mensaje-flash)
+    - [LOGIN](#login)
   - [Fuentes](#fuentes)
 
 ## 1- Introducción
@@ -232,7 +235,154 @@ Las sesiones flash son un mecanismo utilizado en muchos frameworks web, incluyen
   {% endif %}
   ```
 
+### Login y Registro
+[Tabla de contenidos](#tabla-de-contenidos)
 
+- Ejemplo layout.html:
+```django
+<li>
+    <a href="{% url 'register' %}">Registro</a>
+</li> 
+```
+
+- Ejemplo urls.py:
+```python
+urlpatterns = [
+    path('', views.index, name="index"),
+    path('inicio/', views.index, name="inicio"),
+    path('registro/', views.register_page, name="register"),
+]
+```
+
+- Ejemplo register.html:
+```python
+{% extends "layouts/layout.html" %}
+
+{% block title %}
+    {{title}}
+{% endblock title %}
+
+{% block content %}
+<h1> {{title}}</h1>
+
+    {{register_form.errors}}
+
+<form method="POST" action="">
+    {% csrf_token %}
+
+    {% comment "" %}
+    {{register_form}}
+    {% endcomment %}
+
+    {% for field in register_form %}
+        <label>{{field.label}}</label>
+        {{field}}
+    {% endfor %}
+    <input type="submit" value="Registrarse"/>
+</form>
+
+{% endblock content %}
+```
+- Ejemplo forms.py:
+```python
+from django import forms
+from django.core import validators
+
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+
+class RegisterForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
+```
+- Ejemplo views.py
+```python
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm
+from .forms import RegisterForm
+
+# Create your views here.
+def index(request):
+    return render(request, 'mainapp/index.html', {
+        'title': 'Inicio'
+    })
+
+def about(request):
+    return render(request, 'mainapp/about.html', {
+        'title': 'Sobre nosotros',
+    })
+
+
+def register_page(request):
+
+    register_form = RegisterForm()
+
+    if request.method == 'POST':
+        register_form = RegisterForm(request.POST)
+
+        if register_form.is_valid():
+            register_form.save()
+
+            return redirect('inicio')
+
+    return render(request, 'users/register.html',{
+        'title': 'Registro',
+        'register_form': register_form
+    })
+```
+
+### Mensaje Flash
+
+- En views.py:
+```python
+from django.contrib import messages
+
+ messages.success(request, 'Te has registrado correctamente')
+```
+
+- Ejemplo css:
+```css
+.alert-success {
+    padding: 20px;
+    background-color: #2ba977;
+    color: white;
+    text-align: center;
+    margin-bottom: 10px;
+}
+```
+
+### LOGIN
+
+- Ejemplo urls.py
+```python
+path('login/', views.login_page, name="login"),
+```
+
+- Ejemplo login.html:
+```django
+{% extends "layouts/layout.html" %}
+
+{% block title %}
+    {{title}}
+{% endblock title %}
+
+{% block content %}
+<h1> {{title}}</h1>
+
+    {{register_form.errors}}
+
+<form method="POST" action="">
+    {% csrf_token %}
+    <label for="username">Nombre de usuario</label>
+    <input type="text" name="username"/>
+    <label for="password">Contraseña</label>
+    <input type="password" name="password"/>
+    <input type="submit" value="Login"/>
+</form>
+
+{% endblock content %}
+```
 ## Fuentes
 
 [Tabla de contenidos](#tabla-de-contenidos)

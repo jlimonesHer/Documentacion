@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "../../proyecto_Django"
+		},
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../../../ft_transcendence"
+		},
+		{
+			"path": "../../../../minitranscendent"
+		}
+	],
+	"settings": {
+		"git.ignoreLimitWarning": true
+	}
+}

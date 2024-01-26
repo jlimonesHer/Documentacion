@@ -1,101 +1,121 @@
+---
+title: Python y Django
+created: '2024-01-13T12:18:53.697Z'
+modified: '2024-01-13T12:24:01.764Z'
+---
+
 # Python y Django
 
 --------------
 
 [//]: # (version: 1.0)
 [//]: # (author: Jose Carlos Limones Hernandez)
-[//]: # (date: 2020-12-8)
+[//]: # (date: 2024-15-01)
 
 ## Tabla de contenidos
 
 - [Python y Django](#python-y-django)
   - [Tabla de contenidos](#tabla-de-contenidos)
-  - [1.0 Introducción](#10-introducción)
-    - [1.1. ¿Que es **Python**?](#11-que-es-python)
-    - [1.2.¿Que es **Django**?](#12que-es-django)
-  - [2.0.Instalación](#20instalación)
+  - [1- Introducción](#1--introducción)
+  - [2.Instalación](#2instalación)
     - [2.1.Instalacion de Python en linux](#21instalacion-de-python-en-linux)
-    - [2.2. Instalación de *Django* en linux](#22-instalación-de-django-en-linux)
-    - [2.3 Instalar Visual Studio Code](#23-instalar-visual-studio-code)
-    - [2.4 Instalando el modulo de Django](#24-instalando-el-modulo-de-django)
-  - [3.0. Programación orientada a objetos en PYTHON](#30-programación-orientada-a-objetos-en-python)
-    - [3.1. Clases y Objetos:](#31-clases-y-objetos)
-    - [3.2. Encapsulamiento](#32-encapsulamiento)
-    - [3.3. Abstracción](#33-abstracción)
-  - [4.0. Generar nuestro primer proyecto con *Django*](#40-generar-nuestro-primer-proyecto-con-django)
-    - [4.1 ¿Que es un entorno virtual?](#41-que-es-un-entorno-virtual)
-    - [4.2. Cómo usar un entorno virtual en Django](#42-cómo-usar-un-entorno-virtual-en-django)
-    - [4.3.Crea tu proyecto](#43crea-tu-proyecto)
-    - [4.4. manage.py](#44-managepy)
-      - [4.4.1 Lista de comandos de manage.py](#441-lista-de-comandos-de-managepy)
-  - [5.0. Principales componentes de Django](#50-principales-componentes-de-django)
-  - [6.0. Cómo funciona Django](#60-cómo-funciona-django)
-  - [7.0. Primer contacto con Django](#70-primer-contacto-con-django)
-    - [7.1. Creando una app](#71-creando-una-app)
-      - [7.1.1. ¿Que es una *app*?](#711-que-es-una-app)
-      - [7.1.2. Como crear una app](#712-como-crear-una-app)
-    - [7.2 Vistas](#72-vistas)
-      - [7.2.1. Creando una vista(Ejemplo)](#721-creando-una-vistaejemplo)
-      - [7.2.2. Utilizar el metodo en una URL](#722-utilizar-el-metodo-en-una-url)
-      - [7.2.3. Hello World](#723-hello-world)
-      - [7.2.4. Multiples vistas y URLs](#724-multiples-vistas-y-urls)
-    - [7.3. Navegación entre rutas](#73-navegación-entre-rutas)
-    - [7.4. parámetros en ruta](#74-parámetros-en-ruta)
-    - [7.5. Parámetros opcionales](#75-parámetros-opcionales)
-    - [7.6. Redirecciones](#76-redirecciones)
-    - [7.7. Vistas Base](#77-vistas-base)
-    - [7.8. Templates en Django](#78-templates-en-django)
-      - [7.8.1 ¿Como se utlizan?](#781-como-se-utlizan)
-      - [7.8.2. Layout, bloques y herencia de plantillas](#782-layout-bloques-y-herencia-de-plantillas)
-      - [7.8.3. Vistas, Templates y Variables](#783-vistas-templates-y-variables)
-      - [7.8.4. URLs en las templates](#784-urls-en-las-templates)
-      - [7.8.5.Fechas](#785fechas)
-      - [7.8.6. Condicionales -if templates Django](#786-condicionales--if-templates-django)
-      - [7.8.7. Bucle -for template Django](#787-bucle--for-template-django)
-      - [7.8.8. Funcionalidades extras de bucle -for](#788-funcionalidades-extras-de-bucle--for)
-      - [7.8.9. Filtros](#789-filtros)
-      - [7.8.10. Crear filtros personalizados](#7810-crear-filtros-personalizados)
-    - [7.9. Includes en Django](#79-includes-en-django)
-      - [7.9.1. {% include %}](#791--include-)
-      - [7.9.2. {% include with %}](#792--include-with-)
-      - [7.9.3. Comentarios](#793-comentarios)
-    - [7.10. Archivos estáticos](#710-archivos-estáticos)
-      - [7.10.1. Estilos y apariencia visual con Django](#7101-estilos-y-apariencia-visual-con-django)
-  - [8.0. Modelos](#80-modelos)
-    - [8.1. Migraciones en Django](#81-migraciones-en-django)
-    - [8.2. Ejemplos para entender los modelos y migraciones](#82-ejemplos-para-entender-los-modelos-y-migraciones)
-    - [8.3. Crear y aplicar el primer modelo](#83-crear-y-aplicar-el-primer-modelo)
-    - [8.4. Relaciones entre Modelos](#84-relaciones-entre-modelos)
-  - [9.0. Bases de datos y Consiltas en Django](#90-bases-de-datos-y-consiltas-en-django)
-    - [9.1. Consultas básicas (CRUD)](#91-consultas-básicas-crud)
-    - [9.2. Ejemplo para CREAR(Create) un objeto en la base de datos](#92-ejemplo-para-crearcreate-un-objeto-en-la-base-de-datos)
-    - [9.3. Ejemplo LEER(Read) datos de la base de datos](#93-ejemplo-leerread-datos-de-la-base-de-datos)
-      - [9.3.1. Listar Elementos de la base de datos](#931-listar-elementos-de-la-base-de-datos)
-    - [9.4. Ejemplo ACTUALIZAR(Update) datos de la base de datos](#94-ejemplo-actualizarupdate-datos-de-la-base-de-datos)
-    - [9.5. Ejemplo ELIMINAR(Delete) datos y otros ejemplos de consultas a la base de datos.](#95-ejemplo-eliminardelete-datos-y-otros-ejemplos-de-consultas-a-la-base-de-datos)
-    - [9.6. Lookups](#96-lookups)
-    - [9.7. Consultas Avanzadas y Agregaciones en Django.](#97-consultas-avanzadas-y-agregaciones-en-django)
-      - [9.7.1. Consultas Avanzadas:](#971-consultas-avanzadas)
-  - [10.0. Consultas(CRUD) utilizando SQL](#100-consultascrud-utilizando-sql)
-    - [10.1. Consultas con JOIN](#101-consultas-con-join)
-  - [11.0. Django admin Y operaciones CRUD](#110-django-admin-y-operaciones-crud)
-    - [11.1. Operaciones CRUD básicas con admin:](#111-operaciones-crud-básicas-con-admin)
-    - [11.2.0. Formularios en Django](#1120-formularios-en-django)
-      - [11.2.1. Método GET](#1121-método-get)
-      - [11.2.2. Método POST](#1122-método-post)
-    - [11.3. csrf\_token](#113-csrf_token)
-    - [11.4. Formularios Basados en Clases](#114-formularios-basados-en-clases)
-    - [11.5. Validacion de formularios "Validators"](#115-validacion-de-formularios-validators)
-    - [11.6. Mensajes/Sesiones Flash](#116-mensajessesiones-flash)
-  - [12.0. Excepciones](#120-excepciones)
-    - [12.1. get\_object\_or\_404](#121-get_object_or_404)
+    - [Instalación de *Django* en linux](#instalación-de-django-en-linux)
+      - [Instalando el modulo de Django](#instalando-el-modulo-de-django)
+    - [Instalar Visual Studio Code](#instalar-visual-studio-code)
+  - [Programación orientada a objetos en PYTHON](#programación-orientada-a-objetos-en-python)
+    - [Clases y Objetos:](#clases-y-objetos)
+    - [Encapsulamiento](#encapsulamiento)
+    - [Abstracción](#abstracción)
+  - [Generar nuestro primer proyecto con *Django*](#generar-nuestro-primer-proyecto-con-django)
+    - [¿Que es un entorno virtual?](#que-es-un-entorno-virtual)
+    - [Cómo usar un entorno virtual en Django](#cómo-usar-un-entorno-virtual-en-django)
+    - [Crea tu proyecto](#crea-tu-proyecto)
+    - [manage.py](#managepy)
+      - [Lista de comandos de manage.py](#lista-de-comandos-de-managepy)
+  - [Principales componentes de Django](#principales-componentes-de-django)
+  - [Cómo funciona Django](#cómo-funciona-django)
+  - [Primer contacto con Django](#primer-contacto-con-django)
+    - [Creando una app](#creando-una-app)
+      - [¿Que es una *app*?](#que-es-una-app)
+      - [Como crear una app](#como-crear-una-app)
+    - [Vistas](#vistas)
+      - [Creando una vista(Ejemplo)](#creando-una-vistaejemplo)
+      - [Utilizar el metodo en una URL](#utilizar-el-metodo-en-una-url)
+      - [Hello World](#hello-world)
+      - [Multiples vistas y URLs](#multiples-vistas-y-urls)
+    - [Navegación entre rutas](#navegación-entre-rutas)
+    - [parámetros en ruta](#parámetros-en-ruta)
+    - [Parámetros opcionales](#parámetros-opcionales)
+    - [Redirecciones](#redirecciones)
+    - [Vistas Base](#vistas-base)
+    - [Templates en Django](#templates-en-django)
+      - [¿Como se utlizan?](#como-se-utlizan)
+      - [Layout, bloques y herencia de plantillas](#layout-bloques-y-herencia-de-plantillas)
+      - [Vistas, Templates y Variables](#vistas-templates-y-variables)
+      - [URLs en las templates](#urls-en-las-templates)
+      - [Fechas](#fechas)
+      - [Condicionales -if templates Django](#condicionales--if-templates-django)
+      - [Bucle -for template Django](#bucle--for-template-django)
+        - [Funcionalidades extras de bucle -for](#funcionalidades-extras-de-bucle--for)
+      - [Filtros](#filtros)
+        - [Crear filtros personalizados](#crear-filtros-personalizados)
+      - [Includes en Django](#includes-en-django)
+        - [{% include %}](#-include-)
+        - [{% include with %}](#-include-with-)
+      - [Comentarios](#comentarios)
+    - [Archivos estáticos](#archivos-estáticos)
+      - [Estilos y apariencia visual con Django](#estilos-y-apariencia-visual-con-django)
+  - [Modelos](#modelos)
+    - [Migraciones en Django](#migraciones-en-django)
+    - [Ejemplos para entender los modelos y migraciones](#ejemplos-para-entender-los-modelos-y-migraciones)
+    - [Crear y aplicar el primer modelo](#crear-y-aplicar-el-primer-modelo)
+    - [Relaciones entre Modelos](#relaciones-entre-modelos)
+  - [Bases de datos y Consiltas en Django](#bases-de-datos-y-consiltas-en-django)
+    - [Consultas básicas (CRUD)](#consultas-básicas-crud)
+    - [Ejemplo para CREAR(Create) un objeto en la base de datos](#ejemplo-para-crearcreate-un-objeto-en-la-base-de-datos)
+    - [Ejemplo LEER(Read) datos de la base de datos](#ejemplo-leerread-datos-de-la-base-de-datos)
+      - [Listar Elementos de la base de datos](#listar-elementos-de-la-base-de-datos)
+    - [Ejemplo ACTUALIZAR(Update) datos de la base de datos](#ejemplo-actualizarupdate-datos-de-la-base-de-datos)
+    - [Ejemplo ELIMINAR(Delete) datos y otros ejemplos de consultas a la base de datos.](#ejemplo-eliminardelete-datos-y-otros-ejemplos-de-consultas-a-la-base-de-datos)
+    - [Lookups](#lookups)
+    - [Consultas Avanzadas y Agregaciones en Django.](#consultas-avanzadas-y-agregaciones-en-django)
+      - [Consultas Avanzadas:](#consultas-avanzadas)
+  - [Consultas(CRUD) utilizando SQL](#consultascrud-utilizando-sql)
+      - [Consultas con JOIN](#consultas-con-join)
+  - [Django admin Y operaciones CRUD](#django-admin-y-operaciones-crud)
+    - [Operaciones CRUD básicas con admin:](#operaciones-crud-básicas-con-admin)
+    - [Formularios en Django](#formularios-en-django)
+      - [Método GET](#método-get)
+      - [Método POST](#método-post)
+    - [csrf\_token](#csrf_token)
+    - [Formularios Basados en Clases](#formularios-basados-en-clases)
+    - [Validacion de formularios "Validators"](#validacion-de-formularios-validators)
+    - [Mensajes/Sesiones Flash](#mensajessesiones-flash)
+  - [Pendientes de estructurar:](#pendientes-de-estructurar)
+    - [Excepciones](#excepciones)
+        - [get\_object\_or\_404](#get_object_or_404)
   - [Fuentes](#fuentes)
 
-## 1.0 Introducción
+## 1- Introducción
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
-### 1.1. ¿Que es **Python**?
+> [!NOTE]  
+> Highlights information that users should take into account, even when skimming.
+
+> [!TIP]
+> Optional information to help a user be more successful.
+
+> [!IMPORTANT]  
+> Crucial information necessary for users to succeed.
+
+> [!WARNING]  
+> Critical content demanding immediate user attention due to potential risks.
+
+> [!CAUTION]
+> Negative potential consequences of an action.
+
+¿Que es **Python**?
 
 - **Python** es un lenguaje de programación interpretado cuya filosofía hace hincapié en una sintaxis muy limpia y un código legible.
 
@@ -103,7 +123,7 @@
 
 - La sintaxis es fácil de entender puesto que es cercana al lenguaje natural.
 
-### 1.2.¿Que es **Django**?
+¿Que es **Django**?
 
 - **Django** es un framework web de python gratuito y de codigo abierto que fomenta un desarrollo rapido y un diseño limpio y pragmatico.
 - **Django** Django fue diseñado para ayudar a los desarrolladores a llevar las aplicaciones desde el concepto hasta su finalización lo más rápido posible.
@@ -112,7 +132,7 @@
 - Su version actual es  **Django 5.0** aunque su version mas estable y con errores menores solucionados es **Django 4.2.8**.
 - **Django** es un framework que respeta y utiliza el modelo MVC [(Modelo Vista Controlador)](https://es.wikipedia.org/wiki/Modelo%E2%80%93vista%E2%80%93controlador), que basicamente es un patron de diseño arquitectònico que nos permite separar la logica de negocio de la interfaz de usuario.
 
-## 2.0.Instalación
+## 2.Instalación
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -122,35 +142,29 @@
 
 - Para ver si tenemos instalado Python y en el caso de que este instalado ver que version tenemos:
 
-```console
+```bash
 python --version
 ```
->[!NOTE]
-> En algunos Sistemas tenemos que utilizar el comando **python3**.
-```console
-python3 --version
-```
 
-> [!IMPORTANT]
 > Si tenemos instalada a partir de la version 3 no es necesario seguir los siguientes pasos a no ser que deseemos instalar la ultima version de Python.
-> 
+
 - Lo siguiente que tendemos que hacer es actualizar la lista de paquetes con:
 
-```console
+```bash
 sudo apt-get update
 ```
 
 - para descargar la ultima versiòn de python:
   - Primero debemos descargar el PPA(Personal Package Archive) llamado "deadsnake", que proporciona versiones actualizadas de python para tu sistema y volveremos a actualizar la lista de paquetes:
 
-```console
+```bash
 sudo add-apt-repository ppa:deadsnakes/ppa
 sudo apt-get update
 ```
 
 - Descargamos la version que deseemos con wget y la descomprimimos:
 
-```console
+```bash
 wget https://www.python.org/ftp/python/3.x.y/Python-3.x.y.tgz
 tar -xvf Python-3.x.y.tgz
 ```
@@ -158,88 +172,87 @@ tar -xvf Python-3.x.y.tgz
 - Ahora configuramos el entorno de compilacion. Esto analiza la congiguracion del sistema yestablece opciones especificas para compilar Python de acuerdo con las capacidades y configuraciones de tu maquina.
   - --enable-optimizations: Esta opción indica que se deben incluir optimizaciones durante el proceso de compilación. Esto puede aumentar el rendimiento de la ejecución de Python, ya que el código se compilará con optimizaciones específicas para tu arquitectura.
 
-```console
+```bash
 cd Python-3.x.y
 ./configure --enable-optimizations
 ```
 
 - Ahora compilaremos los archivos necesarios con el comando:(Esto llevara unos minutos)
 
-```console
+```bash
 sudo make install
 ```
 
 Ahora ejecute el comando:
 
-```console
+```bash
 python3
 ```
 
 y podrá usar Python en la terminal.
 
-### 2.2. Instalación de *Django* en linux
+### Instalación de *Django* en linux
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
 Lo primero que debemos hacer es saber si tenemos instalado el gestor de paquetes de Python.
 
-```console
+```bash
 pip --version
 ```
 
 > En caso de que este instalado nos dira la version del gestor de paquetes.
 
-### 2.3 Instalar Visual Studio Code
+#### Instalando el modulo de Django
+
+Para instalar este paquete debemos utilizar
+
+```bash
+sudo apt install python3-django
+```
+
+Ahora con el siguiente comando comprobamos que Django esta instalado y su version:
+
+```bash
+pip list | grep Django
+```
+
+### Instalar Visual Studio Code
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
 Empezamos Actualizando paquetes:
 
-```console
+```bash
 sudo apt-get update
 ```
 
 Lo siguiente sera descargar el repositorio de Visual Studio Code:
 
-```console
+```bash
 sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
 ```
 
 Ahora actualizamos el sistema de nuevo y e instalamos VSCode.
 
-```console
+```bash
 sudo apt update
 sudo apt install code
 ```
 
 Veremos la version instalada con:
 
-```console
+```bash
 code -v
 ```
 
 Ahora podemos abrir VSCode desde la terminal.
 
-```console
+```bash
 code
 ```
 
-### 2.4 Instalando el modulo de Django
-[Tabla de contenidos](#tabla-de-contenidos)
-
-Para instalar este paquete debemos utilizar
-
-```console
-sudo apt install python3-django
-```
-
-Ahora con el siguiente comando comprobamos que Django esta instalado y su version:
-
-```console
-pip list | grep Django
-```
-
-## 3.0. Programación orientada a objetos en PYTHON
+## Programación orientada a objetos en PYTHON
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -247,7 +260,7 @@ La Programación Orientada a Objetos (POO) es un paradigma de programación que 
 
 En Python, todo es un objeto. Las variables, funciones y hasta los tipos de datos son objetos.
 
-### 3.1. Clases y Objetos:
+### Clases y Objetos:
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -262,7 +275,8 @@ En Python, todo es un objeto. Las variables, funciones y hasta los tipos de dato
       def saludar(self):
           print(f"Hola, soy {self.nombre} y tengo {self.edad} años.")
   ```
-> En este ejemplo, Persona es una clase que tiene un constructor __init__ y un método saludar. El método __init__ se llama automáticamente cuando se crea un objeto de la clase, y se utiliza para inicializar los atributos del objeto. self hace referencia al objeto actual.
+>[!NOTE]
+ En este ejemplo, Persona es una clase que tiene un constructor __init__ y un método saludar. El método __init__ se llama automáticamente cuando se crea un objeto de la clase, y se utiliza para inicializar los atributos del objeto. self hace referencia al objeto actual.
 
 - Crear Objetos:
   - Ahora, podemos crear objetos de la clase Persona:
@@ -320,7 +334,7 @@ El polimorfismo permite que objetos de diferentes clases respondan al mismo mét
 
 > En este caso, el método presentar puede recibir tanto objetos de la clase Persona como de la clase Estudiante gracias al polimorfismo.
 
-### 3.2. Encapsulamiento
+### Encapsulamiento
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -358,7 +372,7 @@ En este ejemplo, __variable_privada es una variable privada que solo puede ser a
 
 Es importante destacar que estas convenciones son simplemente acuerdos entre los programadores y no imponen restricciones reales en el acceso a los miembros de la clase. En Python, la filosofía es "somos todos adultos aquí", confiando en que los programadores seguirán las convenciones para mantener la integridad y la seguridad de la implementación de la clase.
 
-### 3.3. Abstracción
+### Abstracción
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -394,20 +408,19 @@ class Circulo(FiguraGeometrica):
 ```
 En este ejemplo, FiguraGeometrica es una clase abstracta que define métodos (calcular_area y calcular_perimetro) sin proporcionar una implementación. La clase Circulo hereda de FiguraGeometrica y proporciona una implementación específica para esos métodos. Los detalles internos de cómo se calcula el área y el perímetro de un círculo están ocultos para el usuario, quien simplemente utiliza la interfaz proporcionada por la clase abstracta. Esto es un ejemplo de cómo la abstracción permite representar de manera simple y manejable conceptos más complejos.
 
-## 4.0. Generar nuestro primer proyecto con *Django*
+## Generar nuestro primer proyecto con *Django*
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
 Crearemos un directorio donde trabajaremos con Django.
 
-```console
+```bash
 mkdir AprendiendoDjango
 ```
 
 > Deberas usar camelCase, UpperCamelCase o snake_case.
 
-### 4.1 ¿Que es un entorno virtual?
-[Tabla de contenidos](#tabla-de-contenidos)
+### ¿Que es un entorno virtual?
 
 Un entorno virtual (también conocido como virtualenv) es una herramienta que ayuda a gestionar las dependencias de un proyecto de software de manera aislada del sistema operativo y de otros proyectos. En el caso de Django (un marco de desarrollo web para Python), el uso de un entorno virtual es común y recomendado por varias razones:
 
@@ -429,26 +442,25 @@ Un entorno virtual (también conocido como virtualenv) es una herramienta que ay
 - Mejora la Seguridad:
   - Al tener un entorno virtual específico para cada proyecto, limitas el acceso a las bibliotecas y dependencias específicas de ese proyecto, reduciendo el riesgo de conflictos y mejorando la seguridad.
 
-### 4.2. Cómo usar un entorno virtual en Django
-[Tabla de contenidos](#tabla-de-contenidos)
+### Cómo usar un entorno virtual en Django
 
 Crear un Entorno Virtual:
 
 Ejecuta el siguiente comando para crear un entorno virtual en la carpeta de tu proyecto:
 
-```console
+```bash
 python -m venv venv
 ```
 
 Activar el Entorno Virtual:
 
-```console
+```bash
 source venv/bin/activate
 ```
 
 Desactivar el Entorno Virtual:
 
-```console
+```bash
 deactivate
 ```
 
@@ -459,7 +471,7 @@ Usar un entorno virtual es una buena práctica en el desarrollo de software en P
 
 > Es buena práctica crear un archivo requeriments.txt para indicar la librerias y versiones utilizadas en el proyecto.
 
-```console
+```bash
 pip freeze > requeriments.txt
 ```
 
@@ -467,27 +479,25 @@ De este modo podemos instalar todos las dependencias necesarias para nuestro pro
 
 Para iniciar un proyecto con django nos vamos a la carpeta creada y utilizamos.
 
-### 4.3.Crea tu proyecto
-[Tabla de contenidos](#tabla-de-contenidos)
+### Crea tu proyecto
 
-```console
+```bash
 django-admin startproject aprendiendoDjango
 ```
 
 Esto nos creara un directorio con el nombre del proyecto con varios ficheros que veremos mas adelante entre ellos esta manage.py.
 
-### 4.4. manage.py
-[Tabla de contenidos](#tabla-de-contenidos)
+### manage.py
 
 El fichero creado manage.py es un script de line de comandos que se utiliza para realizar tareas administrativas realacionadas con un proyecto Django y se encuentra en el directorio raiz del proyecto.
 
 Con el siguiente comando veremos todos los comandos y que poodemos hacer con ellos:
 
-```console
+```bash
 python3 manage.py help
 ```
 
-#### 4.4.1 Lista de comandos de manage.py
+#### Lista de comandos de manage.py
 
 - [auth]
   - **changepassword**: permite cambiar la contraseña de un usuario.
@@ -526,7 +536,7 @@ python3 manage.py help
   - **findstatic**: Muestra la ubicación de un archivo estático.
   - **runserver**: Inicia el servidor de desarrollo de Django.
 
-## 5.0. Principales componentes de Django
+## Principales componentes de Django
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -545,7 +555,7 @@ python3 manage.py help
 7) **Manejo de URL**
     > Django utiliza un sistema de enrutamiento basados en patrones de URL para dirigir lsa solicitudes a las vistas correspondientes.
 
-## 6.0. Cómo funciona Django
+## Cómo funciona Django
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -562,13 +572,15 @@ python3 manage.py help
 
 - Django facilita la creación de aplicaciones web robustas al proporcionar una estructura organizada y herramientas poderosas, permitiendo a los desarrolladores construir aplicaciones de manera eficiente y mantenible. Además, su énfasis en la seguridad y las mejores prácticas lo convierten en una opción popular para el desarrollo web en Python.
 
-## 7.0. Primer contacto con Django
+## Primer contacto con Django
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
-### 7.1. Creando una app
+### Creando una app
 
-#### 7.1.1. ¿Que es una *app*?
+[Tabla de contenidos](#tabla-de-contenidos)
+
+#### ¿Que es una *app*?
 
 - Si miramos el directorio creado en el capitulo anterior dentro veremos una serie de archivos y una carpeta con el nombre de nuestro proyecto, esto es un paquete donde tenemos el archivo ***settings.py***.
 - Empezaremos a configurarlo por ***INSTALLED_APPS***.
@@ -597,18 +609,18 @@ INSTALLED_APPS = [
 
 - En resumen, una aplicación es un paquete dentro de Django y todas estas aplicaciones forman nuestro proyecto.
 
-#### 7.1.2. Como crear una app
+#### Como crear una app
 
 1) abre la terminal en el directorio creado para el proyecto(AprendiendoDjango).
 2) Para crear una app:
 
-```console
+```bash
 python3 manage.py startapp
 ```
 
 > Esto generara un directorio con varios archivos que iremos viendo.
 
-### 7.2 Vistas
+### Vistas
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -624,8 +636,7 @@ python3 manage.py startapp
 >> Para continuar a partir de este punto deberia tener unas nociones basicas de fundamentos de la programacion y una base de programacón y sintaxis de [Python](https://docs.python.org/es/3.12/tutorial/index.html).
 
 
-#### 7.2.1. Creando una vista(Ejemplo)
-[Tabla de contenidos](#tabla-de-contenidos)
+#### Creando una vista(Ejemplo)
 
 - En el fichero views.py, debemos importar HttpResponse, que es un objeto que representa la respuesta HTTP que sera enviada al navegador de lusuario cuando se realiza una solicitud a la vista.
 
@@ -647,8 +658,7 @@ HttpResponse(content=b'', status=200, content_type='text/html', charset=None)
 
 Para ver el funcionamiento de nuestra vista necesitamos cargar el metodo o utilizarlo en una URL.
 
-#### 7.2.2. Utilizar el metodo en una URL
-[Tabla de contenidos](#tabla-de-contenidos)
+#### Utilizar el metodo en una URL
 
 Para utilizar el metodo en una URL debemos abrir el fichero llamado *urls.py* del directorio con el mismo nombre creado dentro de nuestro proyecto.
 
@@ -672,8 +682,7 @@ urlpatterns = [
   - views.hola_mundo -> especifica la funcion que se ejecutara cuando la URL coincida.
   - name="hola_mundo" -> Asigna un nombre a la URL. Este nombre puede ser utilizado en otras partes del código para referenciar esta URL de manera más fácil. Por ejemplo, en las plantillas o en la generación de URLs dentro de las vistas.
 
-#### 7.2.3. Hello World
-[Tabla de contenidos](#tabla-de-contenidos)
+#### Hello World
 
 Ya tenemos nuestra primera vista preparada para verla en el navegador.
 
@@ -681,7 +690,7 @@ Ya tenemos nuestra primera vista preparada para verla en el navegador.
 
 - Debemos arrancar el servidor de Django:
 
-```console
+```bash
 python3 manage.py runserver
 ```
 
@@ -690,8 +699,7 @@ python3 manage.py runserver
 
 **Ya tenemos El hola mundo!**
 
-#### 7.2.4. Multiples vistas y URLs
-[Tabla de contenidos](#tabla-de-contenidos)
+#### Multiples vistas y URLs
 
 Ahora crearemos otro método en *views.py*, por ejemplo una pagina de inicio:
 
@@ -715,7 +723,7 @@ urlpatterns = [
 
 En este ejemplo dejamos vacia la cadena que recoge como primer argumento para que al abrir la raiz de la URL nos muestre nuestra pagina de inicio.
 
-### 7.3. Navegación entre rutas
+### Navegación entre rutas
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -763,7 +771,7 @@ def pagina(request):
 
 > *Recuerda modificar el fichero urls.py*.
 
-### 7.4. parámetros en ruta
+### parámetros en ruta
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -784,7 +792,7 @@ def contacto(request, nombre):
 
 Ahora probamos en nuestro navegador:
 
-```console
+```bash
 http://127.0.0.1:8000/contacto/jose%20Carlos
 ```
 
@@ -807,11 +815,11 @@ def contacto(request, nombre, apellido):
 
 - En el navegador:
 
-```console
+```bash
 http://127.0.0.1:8000/contacto/Jose%20Carlos/Limones
 ```
 
-### 7.5. Parámetros opcionales
+### Parámetros opcionales
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -837,7 +845,7 @@ path('contacto/<str:nombre>', views.contacto, name="contacto"),
 path('contacto/<str:nombre>/<str:apellido>', views.contacto, name="contacto")
 ```
 
-### 7.6. Redirecciones
+### Redirecciones
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -871,13 +879,13 @@ Django viene con una aplicación de redirecciones opcional. Te permite almacenar
 
   - Ahora nos redirigira a contacto con los paramtros pasados escribiendo en el navegador:
 
-   ```console
+   ```bash
    http://127.0.0.1:8000/pagina/1
    ```
   
 > Recuerda que debemos mantener el path anterior.
 
-### 7.7. Vistas Base
+### Vistas Base
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -918,7 +926,7 @@ urlpatterns = [
 
 > ["get", "post", "put", "patch", "delete", "head", "options", "trace"]
 
-### 7.8. Templates en Django
+### Templates en Django
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -926,13 +934,13 @@ Hasta ahora hemos trabajado con el codigo html directamente en las vista, pero e
 
 En Django, los templates son archivos de texto que contienen marcadores o placeholders que luego son reemplazados por valores específicos cuando la página se renderiza dinámicamente. Estos marcadores están rodeados por doble llave y siguen la sintaxis del lenguaje de plantillas de Django
 
-#### 7.8.1 ¿Como se utlizan?
+#### ¿Como se utlizan?
 >
 > Si estas utilizando Visual Studio Code puedes descargarte su extension, pichando en la pestaña de la barra de navegacion izquierda y poniendo en el buscador *Django*. Te aparecera la primera.
 
 - Los templates hacen que nustras app esten mejor estructuradas y organizadas para ello hay que crear nuestra carpeta de templates dentro de el directorio de la app.
 
-```console
+```bash
 cd myapp
 mkdir templates
 ```
@@ -960,7 +968,7 @@ def pagina(request, redirigir = 0):
 
 De esta forma nos mostrara nuestro primer template.
 
-#### 7.8.2. Layout, bloques y herencia de plantillas
+#### Layout, bloques y herencia de plantillas
 
 - Como vemos el codigo no es limpio ¿como soluciona esto Django?
 - Django utiliza un sistema de bloques y herencia que nos deja un proyecto estructurado y codigo limpio.
@@ -1045,7 +1053,7 @@ Para solucinar esto debemos indicar a nuestro template que debe heredar el conte
 {{ block.super }}
 ```
 
-#### 7.8.3. Vistas, Templates y Variables
+#### Vistas, Templates y Variables
 
 Django nos da la posibilidad de enviar variables de nuestras vistas a los templates.
 
@@ -1085,9 +1093,7 @@ Ejemplo index.html:
 {% endblock content %}
 ```
 
-#### 7.8.4. URLs en las templates
-
-[Tabla de contenidos](#tabla-de-contenidos)
+#### URLs en las templates
 
 Si nos observamos el fichero *layout.html*, en los atributos href de los enlaces tenemos las direcciones [*hardcodeadas*](https://es.wikipedia.org/wiki/Codificaci%C3%B3n_r%C3%ADgida), es decir si tenemos que cambiar alguna url tambien la tendremos que cambiar en este fichero.
 
@@ -1122,9 +1128,7 @@ o asi:
 
 > Ya podemos cambiar la url del path en el fichero urls.py sin tener que cambiar los enlaces a esa pagina.
 
-#### 7.8.5.Fechas
-
-[Tabla de contenidos](#tabla-de-contenidos)
+#### Fechas
 
 Podemos mostrar la fecha de mnuestro servidor de la siguiente forma:
 
@@ -1132,9 +1136,7 @@ Podemos mostrar la fecha de mnuestro servidor de la siguiente forma:
 {% now "Y:M:D h:m:s" %}
 ```
 
-#### 7.8.6. Condicionales -if templates Django
-
-[Tabla de contenidos](#tabla-de-contenidos)
+#### Condicionales -if templates Django
 
 Los condicionales if funcionan exactamente como en python, solo cambia su sintaxis. Si borramos la variable "nombre" pasada en el diccionario de la funcion render() veremos como funciona.
 
@@ -1148,9 +1150,7 @@ Ejemplo index.html:
 {% endif %}
 ```
 
-#### 7.8.7. Bucle -for template Django
-
-[Tabla de contenidos](#tabla-de-contenidos)
+#### Bucle -for template Django
 
 Los bucles for al igual que los if solo cambia su sintaxis, veamos un ejemplo.
 
@@ -1178,9 +1178,7 @@ Ejemplo index.html:
 </ul>
 ```
 
-#### 7.8.8. Funcionalidades extras de bucle -for
-
-[Tabla de contenidos](#tabla-de-contenidos)
+##### Funcionalidades extras de bucle -for
 
 - for...empty:
   - Puedes utilizar **empty** para manejar el caso de que la secuencia este vacia
@@ -1223,9 +1221,7 @@ Ejemplo index.html:
 - forloop.first: True si es la primera iteración.
 - forloop.last: True si es la última iteración.
 
-#### 7.8.9. Filtros
-
-[Tabla de contenidos](#tabla-de-contenidos)
+#### Filtros
 
 En Django, los filtros son funciones que se aplican a las variables en las plantillas para modificar su contenido o formato. Los filtros permiten realizar diversas operaciones, desde el formateo de cadenas hasta la manipulación de datos en las plantillas. Los filtros se aplican a las variables utilizando el siguiente formato:
 
@@ -1277,9 +1273,7 @@ En Django, los filtros son funciones que se aplican a las variables en las plant
 
 Encuentra una lista completa de filtros en la [documentación oficial de Django](https://docs.djangoproject.com/en/stable/ref/templates/builtins/#built-in-filter-reference).
 
-#### 7.8.10. Crear filtros personalizados
-
-[Tabla de contenidos](#tabla-de-contenidos)
+##### Crear filtros personalizados
 
 Vamos a ver un ejemplo de como  crear un filtro personalizado.
 
@@ -1311,11 +1305,9 @@ Ejemplo pagina.html (template):
 
 > ***safe*** convierte el html. Si no lo ejecutamos nos mjuestra el codigo como tal.
 
-### 7.9. Includes en Django
+#### Includes en Django
 
-#### 7.9.1. {% include %}
-
-[Tabla de contenidos](#tabla-de-contenidos)
+##### {% include %}
 
 En Django, el tag {% include %} se utiliza para incluir el contenido de otro archivo de plantilla dentro de la plantilla actual. Esto es útil para dividir grandes plantillas en partes más pequeñas y manejables, o para reutilizar bloques de contenido en varias plantillas.
 
@@ -1351,9 +1343,7 @@ Ejemplo contenido_template.html:
 
 Y si, respeta el valor de las variables de la vista.
 
-#### 7.9.2. {% include with %}
-
-[Tabla de contenidos](#tabla-de-contenidos)
+##### {% include with %}
 
 En Django, el {% include %} con la opción with permite pasar variables adicionales al archivo de plantilla incluido. Esto es útil cuando necesitas proporcionar datos específicos para el contenido que estás incluyendo.
 
@@ -1404,9 +1394,7 @@ Las opciones son:
 
 > Estas opciones proporcionan flexibilidad al utilizar el tag include y permiten adaptar su comportamiento según las necesidades específicas de tu aplicación.
 
-#### 7.9.3. Comentarios
-
-[Tabla de contenidos](#tabla-de-contenidos)
+#### Comentarios
 
 - Los comentarios en nuestras templates se pueden hacer como  en html. El problema de esto es que si le damos al inspector nos aparecera entre el codigo html.
 - Pero si lo hacemos con Django sera un comentario que queda para el codigo fuente.
@@ -1424,21 +1412,19 @@ Las opciones son:
     {% endcomment %}
     ```
 
-### 7.10. Archivos estáticos
+### Archivos estáticos
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
 Los archivos estáticos en el contexto del desarrollo web se refieren a recursos como archivos CSS, JavaScript e imagenes. Son aquellos que no cambian dinámicamente según la solicitud del usuario. A diferencia de los archivos dinámicos que son generados y servidos por el servidor en tiempo real.
 
-#### 7.10.1. Estilos y apariencia visual con Django
-
-[Tabla de contenidos](#tabla-de-contenidos)
+#### Estilos y apariencia visual con Django
 
 Para incluir nuestro css en el proyecto debemos seguir los siguientes pasos:
 
 - Creamos en nuestra app un directorio llamado static y dentro de esta otro llamado css.
 
-```console
+```bash
 mkdir static
 cd static
 mkdir css
@@ -1470,7 +1456,7 @@ Ejemplo layout.html:
 <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 ```
 
-## 8.0. Modelos
+## Modelos
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -1478,7 +1464,7 @@ En Django, un "modelo" es una representación de una tabla en una base de datos 
 
 Aquí hay algunas características clave de los modelos en Django y para qué sirven.
 
-### 8.1. Migraciones en Django
+### Migraciones en Django
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -1490,7 +1476,7 @@ Pasos Comunes:
 
   - Cuando realizas cambios en tus modelos, como agregar un nuevo campo o modificar una relación, necesitas crear una nueva migración para reflejar esos cambios.
 
-```console
+```bash
 python manage.py makemigrations
 ```
 
@@ -1498,7 +1484,7 @@ python manage.py makemigrations
 
   - Luego de crear una migración, debes aplicarla para actualizar la base de datos.
 
-```console
+```bash
 python manage.py migrate
 ```
 
@@ -1506,7 +1492,7 @@ python manage.py migrate
 
   - Puedes especificar el nombre de una migración para aplicar solo hasta cierto punto.
 
-```console
+```bash
 python manage.py migrate myapp 0003_migration_name
 ```
 
@@ -1514,7 +1500,7 @@ python manage.py migrate myapp 0003_migration_name
 
   - Para aplicar todas las migraciones pendientes.
 
-```console
+```bash
 python manage.py migrate
 ```
 
@@ -1522,24 +1508,24 @@ python manage.py migrate
 
   - Puedes verificar el estado actual de las migraciones.
 
-```console
+```bash
 python manage.py showmigrations
 ```
 
 **Rollback y Deshacer Migraciones:**
     - Para revertir la última migración:
 
-```console
+```bash
 python manage.py migrate myapp zero
 ```
 
 - Para deshacer todas las migraciones y volver a un estado vacío:
 
-```console
+```bash
 python manage.py migrate myapp zero
 ```
 
-### 8.2. Ejemplos para entender los modelos y migraciones
+### Ejemplos para entender los modelos y migraciones
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -1550,13 +1536,13 @@ Recomendacion
 
 Para más información -> [pylint]("https://pypi.org/project/pylint/").
 
-```console
+```bash
 pip install pylint-django
 ```
 
 Para usarlo solo debemos hacer esto:
 
-```console
+```bash
 pylint mi_archivo.py
 ```
 
@@ -1572,7 +1558,7 @@ Si observamos el archivo de configuración de Django(*settings.py*) vemos que ha
     - Esto especifica la ruta al archivo de la base de datos.
         - *BASE_DIR* es una variable que apunta al directorio base de tu proyecto Django. Con la expresión BASE_DIR / 'db.sqlite3', estamos construyendo la ruta completa al archivo db.sqlite3 dentro del directorio base (Que en el caso de nuestra aplicación esta en la raiz).
 
-### 8.3. Crear y aplicar el primer modelo
+### Crear y aplicar el primer modelo
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -1600,13 +1586,13 @@ class Empleado(models.Model):
 
 - Tenemos que crear las migraciones, vamos al directorio donde se encuentra el archivo manage.py y ejecutamos:
 
-```console
+```bash
 python manage.py makemigrations
 ```
 
 Esto generara una salida parecida a esta:
 
-```console
+```bash
 Migrations for 'myapp':
   myapp/migrations/0001_initial.py
     - Create model Puesto
@@ -1615,13 +1601,13 @@ Migrations for 'myapp':
 
 - Aplicamos las migraciones:
 
-```console
+```bash
 python3 manage.py migrate
 ```
 
 Salida:
 
-```console
+```bash
 Operations to perform:
   Apply all migrations: admin, auth, contenttypes, myapp, sessions
 Running migrations:
@@ -1633,28 +1619,26 @@ Para poder ver si todo se ha creado correctamente necesitamos una aplicación co
 - Instalacion *SQLite*
 Debian/Ubuntu:
 
-```console
+```bash
 sudo apt-get update
 sudo apt install sqlite3
 ```
 
 - Instalacion *DB Browser for SQLite*
 
-```console
+```bash
 sudo apt-get update
 ```
 
 - Con el siguiente comando se abrira la interfaz grafica de esta aplicacion.
 
-```console
+```bash
 sqlitebrowser
 ```
 
 - En la pestaña file, pinchamos en abrir base de datos y buscamos en el directorio de nuestra aplicación, ahora en la barra de navegación izquierda deberia aparecernos nuestros modelos en forma de tabla SQL.
 
-### 8.4. Relaciones entre Modelos
-
-[Tabla de contenidos](#tabla-de-contenidos)
+### Relaciones entre Modelos
 
 - Django facilita la definición de relaciones entre modelos. Por ejemplo, una relación de clave foránea se puede agregar para representar una relación de muchos a uno.
 
@@ -1683,12 +1667,11 @@ books_by_fitzgerald = Book.objects.filter(author__name='F. Scott Fitzgerald')
 > Estos son solo ejemplos básicos de cómo trabajar con bases de datos en Django. Django proporciona una API rica y potente para realizar consultas, gestionar relaciones y realizar operaciones en la base de datos de manera eficiente.
 
 
-## 9.0. Bases de datos y Consiltas en Django
-
-### 9.1. Consultas básicas (CRUD)
+## Bases de datos y Consiltas en Django
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
+### Consultas básicas (CRUD)
 Django proporciona una API para realizar consultas a la base de datos de manera sencilla.
 
 - **Obtener todos los objetos de un modelo**
@@ -1718,7 +1701,7 @@ Django proporciona una API para realizar consultas a la base de datos de manera 
   ```
 
 
-### 9.2. Ejemplo para CREAR(Create) un objeto en la base de datos
+### Ejemplo para CREAR(Create) un objeto en la base de datos
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -1772,7 +1755,7 @@ def crear_empleado(request, nombre, apellidos, edad, autorizado, carta_presentac
 
 
 - En el navegador:
-```console
+```bash
 < url servidor django >/Jose Carlos/Limones Hdez/38/True/Hola, esta es mi primera consulta a la base de datos desde Django
 ```
 
@@ -1792,7 +1775,7 @@ def crear_empleado(request, nombre, apellidos, edad, autorizado, carta_presentac
     return HttpResponse(f"Empleado creado: {empleado.nombre}")
 ```
 
-### 9.3. Ejemplo LEER(Read) datos de la base de datos
+### Ejemplo LEER(Read) datos de la base de datos
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -1816,7 +1799,7 @@ path('empleado', views.empleado, name="mostrar_empleado")
 
 > Ahora si escribimos la url correcta en el navegador nos mostrara la consulta.
 
-#### 9.3.1. Listar Elementos de la base de datos
+#### Listar Elementos de la base de datos
 
 - Creamos una template nueva empleados.html:
 
@@ -1885,7 +1868,7 @@ def empleados(request):
 path('empleados/', views.empleados, name="empleados")
 ```
 
-### 9.4. Ejemplo ACTUALIZAR(Update) datos de la base de datos
+### Ejemplo ACTUALIZAR(Update) datos de la base de datos
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -1903,7 +1886,7 @@ def editar_empleado(request, id):
 path('editar_empleado/<int:id>', views.editar_empleado, name="editar_empleado")
 ```
 
-### 9.5. Ejemplo ELIMINAR(Delete) datos y otros ejemplos de consultas a la base de datos.
+### Ejemplo ELIMINAR(Delete) datos y otros ejemplos de consultas a la base de datos.
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -1931,7 +1914,7 @@ def borrar_empleado(request, id):
 
 > Practica con otras opciones para apredender mas sobre consultas.
 
-### 9.6. Lookups
+### Lookups
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -1981,15 +1964,13 @@ empleados_ordenados_por_edad = Empleado.objects.order_by('-edad')
 ```
 - Estos son solo algunos ejemplos. Puedes combinar múltiples condiciones y utilizar diferentes operadores para crear consultas más complejas según tus necesidades
 
-### 9.7. Consultas Avanzadas y Agregaciones en Django.
+### Consultas Avanzadas y Agregaciones en Django.
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
 - Vamos a explorar algunas características más avanzadas relacionadas con consultas y agregaciones en Django.
 
-#### 9.7.1. Consultas Avanzadas:
-
-[Tabla de contenidos](#tabla-de-contenidos)
+#### Consultas Avanzadas:
 
 - Consultas con múltiples condiciones:
 
@@ -2086,9 +2067,7 @@ Estos son solo algunos ejemplos de las capacidades avanzadas de consultas y agre
       <p>Puesto: {{ puesto }}</p>
       ```
 
-## 10.0. Consultas(CRUD) utilizando SQL
-
-[Tabla de contenidos](#tabla-de-contenidos)
+## Consultas(CRUD) utilizando SQL
 
 Puedes realizar consultas directamente en SQL utilizando el método raw de Django. Aquí tienes algunos ejemplos de cómo podrías hacerlo:
 
@@ -2183,9 +2162,7 @@ Puedes realizar consultas directamente en SQL utilizando el método raw de Djang
     return redirect('empleados')
   ```
 
-### 10.1. Consultas con JOIN
-
-[Tabla de contenidos](#tabla-de-contenidos)
+#### Consultas con JOIN
 
 En SQL, la cláusula JOIN se utiliza para combinar registros de dos o más tablas en base a una condición relacionada entre ellas. El propósito de un JOIN es combinar información de diferentes tablas que comparten una relación a través de claves primarias y foráneas.
 
@@ -2225,7 +2202,7 @@ with connection.cursor() as cursor:
 
 > Para aprender mas sobre SQL te recomiendo ir a [SQL](https://support.microsoft.com/es-es/topic/access-sql-conceptos-b%C3%A1sicos-vocabulario-y-sintaxis-444d0303-cde1-424e-9a74-e8dc3e460671)
 
-## 11.0. Django admin Y operaciones CRUD
+## Django admin Y operaciones CRUD
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -2241,14 +2218,14 @@ El panel de administración de Django es una herramienta poderosa que facilita l
     admin.site.register(Puesto)
     ```
 - Configura el superususario usando:
-  ```console
+  ```bash
   python manage.py createsuperuser
   ```
 
 - En el navegador añadiremos  **/admin** a la direccion de nustro servidor local.
 - Una vez dentro veremos los modelos que se crean por defecto y despues las de nuestra aplicación.
 
-### 11.1. Operaciones CRUD básicas con admin:
+### Operaciones CRUD básicas con admin:
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -2321,13 +2298,13 @@ Si tienes relaciones entre modelos, el panel de administración facilita el acce
 
 > Estos son solo algunos ejemplos de cómo persolnalizar el panel de administración, para mas informacion visite [Django admin](https://docs.djangoproject.com/en/5.0/ref/contrib/admin/).
 
-### 11.2.0. Formularios en Django
+### Formularios en Django
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
 A continuación vamos a aprender como utilizar Django con formularios utilizando varios métodos.
 
-#### 11.2.1. Método GET 
+#### Método GET 
 Con este método obtenemos información de la base de datos mediante un formulario. Enviamos los datos de la consulta mediante la url y recibimos la respuesta del servidor.
 
 - Ejemplo views.py:
@@ -2386,9 +2363,7 @@ Con este método obtenemos información de la base de datos mediante un formular
 
   > En el capitulo [excepciones](#excepciones) estan las explicaiones sobre el manejo de excepciones.
 
-#### 11.2.2. Método POST 
-
-[Tabla de contenidos](#tabla-de-contenidos)
+#### Método POST 
 
 El método POST es uno de los métodos HTTP utilizados para enviar datos encriptados al servidor desde el cliente. Este método se utiliza comúnmente para enviar información sensible, como datos de formularios.
 
@@ -2457,7 +2432,7 @@ El método POST es uno de los métodos HTTP utilizados para enviar datos encript
   {% endblock content %}
   ```
 
-### 11.3. csrf_token
+### csrf_token
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -2513,7 +2488,7 @@ El token CSRF (Cross-Site Request Forgery) es una medida de seguridad que ayuda 
 El uso de {% csrf_token %} es una buena práctica en el desarrollo de aplicaciones Django para garantizar la seguridad de las solicitudes POST. Este enfoque ayuda a proteger tu aplicación contra ataques CSRF y mantiene un nivel adicional de seguridad en la interacción entre el cliente y el servidor.
 
 
-### 11.4. Formularios Basados en Clases
+### Formularios Basados en Clases
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -2644,7 +2619,7 @@ En Django, los formularios basados en clases son una forma de definir y trabajar
     ```
 
 
-### 11.5. Validacion de formularios "Validators"
+### Validacion de formularios "Validators"
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -2675,7 +2650,7 @@ En Django, los formularios basados en clases son una forma de definir y trabajar
 > Esto es solo un ejemplo, para mas detalles visite [Django validators](https://docs.djangoproject.com/en/5.0/ref/validators/#maxlengthvalidator) .
 
 
-### 11.6. Mensajes/Sesiones Flash
+### Mensajes/Sesiones Flash
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -2727,7 +2702,11 @@ Las sesiones flash son un mecanismo utilizado en muchos frameworks web, incluyen
   {% endif %}
   ```
 
-## 12.0. Excepciones
+
+
+## Pendientes de estructurar:
+
+### Excepciones
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -2781,7 +2760,7 @@ Puedes personalizar las páginas de error 404 y 500 en tu aplicación. Django bu
 Django también proporciona clases de vistas genéricas, como django.views.generic.base.View, que manejan automáticamente ciertas excepciones, como Http404.
 En resumen, el manejo de excepciones en Django es una parte fundamental para mejorar la robustez y la experiencia del usuario al enfrentar situaciones imprevistas durante la ejecución de tu aplicación web.
 
-### 12.1. get_object_or_404
+##### get_object_or_404
 
 **get_object_or_404** es una función útil en Django que se utiliza para recuperar un objeto de la base de datos según ciertos criterios de búsqueda. Su propósito principal es simplificar el manejo de errores cuando se trabaja con bases de datos.
 
@@ -2808,3 +2787,4 @@ Esta excepción se captura comúnmente en una vista de Django, y luego puedes pe
 - [Tutorial Python](https://docs.python.org/es/3/tutorial/)
 - [Instalacion de Python](https://python-guide-es.readthedocs.io/es/latest/starting/install3/linux.html)
 - [Instalacion VSCode](https://alfonsomozkoh.github.io/2020/07/01/como-instalar-visual-studio-code-en-linux.html)
+
