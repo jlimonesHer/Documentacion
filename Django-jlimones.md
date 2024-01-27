@@ -1,7 +1,7 @@
 ---
 attachments: [Clipboard_2023-10-24-13-35-42.png, Clipboard_2023-10-24-13-36-21.png, Clipboard_2023-10-24-13-37-51.png, Clipboard_2023-10-24-14-10-11.png]
 favorited: true
-title: PLANTILLA
+title: Django
 created: '2023-12-10T13:32:01.838Z'
 modified: '2024-01-27T12:15:27.497Z'
 ---
