@@ -106,8 +106,8 @@
 ### 1.2.¿Que es **Django**?
 
 - **Django** es un framework web de python gratuito y de codigo abierto que fomenta un desarrollo rapido y un diseño limpio y pragmatico.
-- **Django** Django fue diseñado para ayudar a los desarrolladores a llevar las aplicaciones desde el concepto hasta su finalización lo más rápido posible.
-- Ayuda a los desarrolladores a evitar muchos errores de seguridade comunes.
+- **Django** fue diseñado para ayudar a los desarrolladores a llevar las aplicaciones desde el concepto hasta su finalización lo más rápido posible.
+- Ayuda a los desarrolladores a evitar muchos errores de seguridad comunes.
 - Es muy escalable, algunos de los sitios más concurridos de la web aprovechan la capacidad de Django para escalar de forma rápida y flexible.
 - Su version actual es  **Django 5.0** aunque su version mas estable y con errores menores solucionados es **Django 4.2.8**.
 - **Django** es un framework que respeta y utiliza el modelo MVC [(Modelo Vista Controlador)](https://es.wikipedia.org/wiki/Modelo%E2%80%93vista%E2%80%93controlador), que basicamente es un patron de diseño arquitectònico que nos permite separar la logica de negocio de la interfaz de usuario.
@@ -262,6 +262,7 @@ En Python, todo es un objeto. Las variables, funciones y hasta los tipos de dato
       def saludar(self):
           print(f"Hola, soy {self.nombre} y tengo {self.edad} años.")
   ```
+>[!NOTE]
 > En este ejemplo, Persona es una clase que tiene un constructor __init__ y un método saludar. El método __init__ se llama automáticamente cuando se crea un objeto de la clase, y se utiliza para inicializar los atributos del objeto. self hace referencia al objeto actual.
 
 - Crear Objetos:
@@ -302,22 +303,22 @@ Aquí, persona1 y persona2 son instancias de la clase Persona. Al llamar al mét
 
 En este ejemplo, Estudiante hereda de Persona. El método __init__ de Estudiante utiliza super() para llamar al constructor de la clase padre.
 
-Polimorfismo:
-El polimorfismo permite que objetos de diferentes clases respondan al mismo método. Por ejemplo:
+- Polimorfismo:
+  - El polimorfismo permite que objetos de diferentes clases respondan al mismo método. Por ejemplo:
 
-    ```python
-    def presentar(objeto):
-        objeto.saludar()
+```python
+def presentar(objeto):
+    objeto.saludar()
 
-    # Crear objetos
-    persona = Persona("Carlos", 22)
-    estudiante = Estudiante("Ana", 19, "Matemáticas")
+# Crear objetos
+persona = Persona("Carlos", 22)
+estudiante = Estudiante("Ana", 19, "Matemáticas")
 
-    # Llamar al método usando polimorfismo
-    presentar(persona)      # Imprime "Hola, soy Carlos y tengo 22 años."
-    presentar(estudiante)   # Imprime "Hola, soy Ana y tengo 19 años."
-    ```
-
+# Llamar al método usando polimorfismo
+presentar(persona)      # Imprime "Hola, soy Carlos y tengo 22 años."
+presentar(estudiante)   # Imprime "Hola, soy Ana y tengo 19 años."
+```
+>[!NOTE]
 > En este caso, el método presentar puede recibir tanto objetos de la clase Persona como de la clase Estudiante gracias al polimorfismo.
 
 ### 3.2. Encapsulamiento
@@ -356,21 +357,23 @@ En Python, la encapsulación se logra mediante convenciones y prácticas, ya que
 
 En este ejemplo, __variable_privada es una variable privada que solo puede ser accedida dentro de la propia clase MiClase. Los métodos obtener_variable_privada y establecer_variable_privada proporcionan una interfaz pública para acceder y modificar el valor de la variable privada. Esto permite que la clase tenga un control más preciso sobre cómo se manipulan sus datos internos.
 
-Es importante destacar que estas convenciones son simplemente acuerdos entre los programadores y no imponen restricciones reales en el acceso a los miembros de la clase. En Python, la filosofía es "somos todos adultos aquí", confiando en que los programadores seguirán las convenciones para mantener la integridad y la seguridad de la implementación de la clase.
+>[!IMPORTANT]
+>Es importante destacar que estas convenciones son simplemente acuerdos entre los programadores y no imponen restricciones reales en el acceso a los miembros de la clase. En Python, la filosofía es "somos todos adultos aquí", confiando en que los programadores seguirán las convenciones para mantener la integridad y la seguridad de la implementación de la clase.
 
 ### 3.3. Abstracción
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
-La abstracción es un concepto clave en la Programación Orientada a Objetos (POO) que se refiere a la simplificación de la realidad al aislar y enfocarse en los aspectos esenciales de un objeto o sistema, mientras se ignoran los detalles menos relevantes. En términos simples, la abstracción permite modelar objetos del mundo real en un programa de manera más simple y manejable.
+- La abstracción es un concepto clave en la Programación Orientada a Objetos (POO) que se refiere a la simplificación de la realidad al aislar y enfocarse en los aspectos esenciales de un objeto o sistema, mientras se ignoran los detalles menos relevantes. En términos simples, la abstracción permite modelar objetos del mundo real en un programa de manera más simple y manejable.
 
-En POO, la abstracción se logra a través de la creación de clases y la definición de interfaces. Aquí hay algunos puntos clave relacionados con la abstracción:
+- En POO, la abstracción se logra a través de la creación de clases y la definición de interfaces. Aquí hay algunos puntos clave relacionados con la abstracción:
 
-La abstracción de datos implica la representación de datos complejos mediante estructuras de datos más simples y la ocultación de detalles innecesarios.
+- La abstracción de datos implica la representación de datos complejos mediante estructuras de datos más simples y la ocultación de detalles innecesarios.
 Por ejemplo, un objeto que representa una cuenta bancaria puede abstractamente tener métodos como depositar y retirar, sin necesidad de conocer los detalles de cómo se almacenan los datos internamente.
-Abstracción de Procesos:
 
-La abstracción de procesos implica representar operaciones complejas como métodos más simples y manejables.
+- Abstracción de Procesos:
+  - La abstracción de procesos implica representar operaciones complejas como métodos más simples y manejables.
+
 Por ejemplo, un objeto que representa un vehículo puede tener un método arrancar que abstractamente inicia el motor, sin entrar en los detalles específicos de cómo se realiza esa operación.
 Aquí hay un ejemplo simple de abstracción en Python:
 
@@ -403,7 +406,7 @@ Crearemos un directorio donde trabajaremos con Django.
 ```console
 mkdir AprendiendoDjango
 ```
-
+>[!IMPORTANT]
 > Deberas usar camelCase, UpperCamelCase o snake_case.
 
 ### 4.1 ¿Que es un entorno virtual?
@@ -457,6 +460,7 @@ Instalar Dependencias:
 Una vez que el entorno virtual está activado, puedes instalar las dependencias del proyecto utilizando pip install -r requirements.txt.
 Usar un entorno virtual es una buena práctica en el desarrollo de software en Python y es especialmente útil en proyectos web como Django, donde la gestión de dependencias es crucial.
 
+>[!NOTE]
 > Es buena práctica crear un archivo requeriments.txt para indicar la librerias y versiones utilizadas en el proyecto.
 
 ```console
@@ -550,7 +554,7 @@ python3 manage.py help
 [Tabla de contenidos](#tabla-de-contenidos)
 
 1) **Solicitud y enrutamiento**
-    > Cuando se recibe una solicitud HTTP, el sistema de enrutsamiento de Django(definido en el archivo "urls.py") dirige la solicitud a ubna vista especifica.
+    > Cuando se recibe una solicitud HTTP, el sistema de enrutamiento de Django(definido en el archivo "urls.py") dirige la solicitud a una vista especifica.
 2) **Vistas y lógica de Aplicación**
     > La vista es una funcion de python que maneja la logica de la aplicación. Puede acceder a la base de datos procesar datos y devolver una respuesta.
 3) **Modelo y Base de Datos**
