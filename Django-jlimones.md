@@ -12,22 +12,22 @@
   - [Tabla de contenidos](#tabla-de-contenidos)
   - [1.0 Introducción](#10-introducción)
     - [1.1. ¿Que es **Python**?](#11-que-es-python)
-    - [1.2.¿Que es **Django**?](#12que-es-django)
-  - [2.0.Instalación](#20instalación)
-    - [2.1.Instalacion de Python en linux](#21instalacion-de-python-en-linux)
+    - [1.2. ¿Que es **Django**?](#12-que-es-django)
+  - [2.0. Instalación](#20-instalación)
+    - [2.1. Instalacion de Python en linux](#21-instalacion-de-python-en-linux)
     - [2.2. Instalación de *Django* en linux](#22-instalación-de-django-en-linux)
-    - [2.3 Instalar Visual Studio Code](#23-instalar-visual-studio-code)
-    - [2.4 Instalando el modulo de Django](#24-instalando-el-modulo-de-django)
+    - [2.3. Instalar Visual Studio Code](#23-instalar-visual-studio-code)
   - [3.0. Programación orientada a objetos en PYTHON](#30-programación-orientada-a-objetos-en-python)
     - [3.1. Clases y Objetos:](#31-clases-y-objetos)
     - [3.2. Encapsulamiento](#32-encapsulamiento)
     - [3.3. Abstracción](#33-abstracción)
   - [4.0. Generar nuestro primer proyecto con *Django*](#40-generar-nuestro-primer-proyecto-con-django)
-    - [4.1 ¿Que es un entorno virtual?](#41-que-es-un-entorno-virtual)
-    - [4.2. Cómo usar un entorno virtual en Django](#42-cómo-usar-un-entorno-virtual-en-django)
-    - [4.3. Crea tu proyecto](#43-crea-tu-proyecto)
-    - [4.4. manage.py](#44-managepy)
-      - [4.4.1 Lista de comandos de manage.py](#441-lista-de-comandos-de-managepy)
+    - [4.1. Instalando el modulo de Django](#41-instalando-el-modulo-de-django)
+    - [4.2. ¿Que es un entorno virtual?](#42-que-es-un-entorno-virtual)
+    - [4.3. Cómo usar un entorno virtual en Django](#43-cómo-usar-un-entorno-virtual-en-django)
+    - [4.4. Crea tu proyecto](#44-crea-tu-proyecto)
+    - [4.5. manage.py](#45-managepy)
+      - [4.5.1 Lista de comandos de manage.py](#451-lista-de-comandos-de-managepy)
   - [5.0. Principales componentes de Django](#50-principales-componentes-de-django)
   - [6.0. Cómo funciona Django](#60-cómo-funciona-django)
   - [7.0. Primer contacto con Django](#70-primer-contacto-con-django)
@@ -103,7 +103,7 @@
 
 - La sintaxis es fácil de entender puesto que es cercana al lenguaje natural.
 
-### 1.2.¿Que es **Django**?
+### 1.2. ¿Que es **Django**?
 
 - **Django** es un framework web de python gratuito y de codigo abierto que fomenta un desarrollo rapido y un diseño limpio y pragmatico.
 - **Django** fue diseñado para ayudar a los desarrolladores a llevar las aplicaciones desde el concepto hasta su finalización lo más rápido posible.
@@ -112,11 +112,11 @@
 - Su version actual es  **Django 5.0** aunque su version mas estable y con errores menores solucionados es **Django 4.2.8**.
 - **Django** es un framework que respeta y utiliza el modelo MVC [(Modelo Vista Controlador)](https://es.wikipedia.org/wiki/Modelo%E2%80%93vista%E2%80%93controlador), que basicamente es un patron de diseño arquitectònico que nos permite separar la logica de negocio de la interfaz de usuario.
 
-## 2.0.Instalación
+## 2.0. Instalación
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
-### 2.1.Instalacion de Python en linux
+### 2.1. Instalacion de Python en linux
 
 > En este apartado veremos como instalar Python por terminal en linux.
 
@@ -189,7 +189,7 @@ pip --version
 
 > En caso de que este instalado nos dira la version del gestor de paquetes.
 
-### 2.3 Instalar Visual Studio Code
+### 2.3. Instalar Visual Studio Code
 
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -224,21 +224,6 @@ Ahora podemos abrir VSCode desde la terminal.
 code
 ```
 
-### 2.4 Instalando el modulo de Django
-[Tabla de contenidos](#tabla-de-contenidos)
-
-Para instalar este paquete debemos utilizar
-
-```console
-sudo apt install python3-django
-```
-
-Ahora con el siguiente comando comprobamos que Django esta instalado y su version:
-
-```console
-pip list | grep Django
-```
-
 ## 3.0. Programación orientada a objetos en PYTHON
 
 [Tabla de contenidos](#tabla-de-contenidos)
@@ -263,7 +248,7 @@ En Python, todo es un objeto. Las variables, funciones y hasta los tipos de dato
           print(f"Hola, soy {self.nombre} y tengo {self.edad} años.")
   ```
 >[!NOTE]
-> En este ejemplo, Persona es una clase que tiene un constructor __init__ y un método saludar. El método __init__ se llama automáticamente cuando se crea un objeto de la clase, y se utiliza para inicializar los atributos del objeto. self hace referencia al objeto actual.
+> En este ejemplo, Persona es una clase que tiene un constructor __init__ y un método saludar. El método __init__ se llama automáticamente cuando se crea un objeto de la clase, y se utiliza para inicializar los atributos del objeto, "self" hace referencia al objeto actual.
 
 - Crear Objetos:
   - Ahora, podemos crear objetos de la clase Persona:
@@ -306,18 +291,18 @@ En este ejemplo, Estudiante hereda de Persona. El método __init__ de Estudiante
 - Polimorfismo:
   - El polimorfismo permite que objetos de diferentes clases respondan al mismo método. Por ejemplo:
 
-```python
-def presentar(objeto):
-    objeto.saludar()
+    ```python
+    def presentar(objeto):
+        objeto.saludar()
 
-# Crear objetos
-persona = Persona("Carlos", 22)
-estudiante = Estudiante("Ana", 19, "Matemáticas")
+    # Crear objetos
+    persona = Persona("Carlos", 22)
+    estudiante = Estudiante("Ana", 19, "Matemáticas")
 
-# Llamar al método usando polimorfismo
-presentar(persona)      # Imprime "Hola, soy Carlos y tengo 22 años."
-presentar(estudiante)   # Imprime "Hola, soy Ana y tengo 19 años."
-```
+    # Llamar al método usando polimorfismo
+    presentar(persona)      # Imprime "Hola, soy Carlos y tengo 22 años."
+    presentar(estudiante)   # Imprime "Hola, soy Ana y tengo 19 años."
+    ```
 >[!NOTE]
 > En este caso, el método presentar puede recibir tanto objetos de la clase Persona como de la clase Estudiante gracias al polimorfismo.
 
@@ -399,7 +384,27 @@ En este ejemplo, FiguraGeometrica es una clase abstracta que define métodos (ca
 
 ## 4.0. Generar nuestro primer proyecto con *Django*
 
+### 4.1. Instalando el modulo de Django
 [Tabla de contenidos](#tabla-de-contenidos)
+
+Para instalar este paquete debemos utilizar
+
+```console
+sudo apt install python3-django
+```
+
+Ahora con el siguiente comando comprobamos que Django esta instalado y su version:
+
+```console
+pip list | grep Django
+```
+>[!NOTE]
+> En algunos Sistemas tenemos que utilizar el comando **pip3**.
+```console
+pip3 --version
+```
+
+
 
 Crearemos un directorio donde trabajaremos con Django.
 
@@ -409,7 +414,7 @@ mkdir AprendiendoDjango
 >[!IMPORTANT]
 > Deberas usar camelCase, UpperCamelCase o snake_case.
 
-### 4.1 ¿Que es un entorno virtual?
+### 4.2. ¿Que es un entorno virtual?
 [Tabla de contenidos](#tabla-de-contenidos)
 
 Un entorno virtual (también conocido como virtualenv) es una herramienta que ayuda a gestionar las dependencias de un proyecto de software de manera aislada del sistema operativo y de otros proyectos. En el caso de Django (un marco de desarrollo web para Python), el uso de un entorno virtual es común y recomendado por varias razones:
@@ -432,7 +437,7 @@ Un entorno virtual (también conocido como virtualenv) es una herramienta que ay
 - Mejora la Seguridad:
   - Al tener un entorno virtual específico para cada proyecto, limitas el acceso a las bibliotecas y dependencias específicas de ese proyecto, reduciendo el riesgo de conflictos y mejorando la seguridad.
 
-### 4.2. Cómo usar un entorno virtual en Django
+### 4.3. Cómo usar un entorno virtual en Django
 [Tabla de contenidos](#tabla-de-contenidos)
 
 Crear un Entorno Virtual:
@@ -471,7 +476,7 @@ De este modo podemos instalar todos las dependencias necesarias para nuestro pro
 
 Para iniciar un proyecto con django nos vamos a la carpeta creada y utilizamos.
 
-### 4.3. Crea tu proyecto
+### 4.4. Crea tu proyecto
 [Tabla de contenidos](#tabla-de-contenidos)
 
 ```console
@@ -480,7 +485,7 @@ django-admin startproject aprendiendoDjango
 
 Esto nos creara un directorio con el nombre del proyecto con varios ficheros que veremos mas adelante entre ellos esta manage.py.
 
-### 4.4. manage.py
+### 4.5. manage.py
 [Tabla de contenidos](#tabla-de-contenidos)
 
 El fichero creado manage.py es un script de line de comandos que se utiliza para realizar tareas administrativas realacionadas con un proyecto Django y se encuentra en el directorio raiz del proyecto.
@@ -491,7 +496,7 @@ Con el siguiente comando veremos todos los comandos y que poodemos hacer con ell
 python3 manage.py help
 ```
 
-#### 4.4.1 Lista de comandos de manage.py
+#### 4.5.1 Lista de comandos de manage.py
 
 - [auth]
   - **changepassword**: permite cambiar la contraseña de un usuario.
