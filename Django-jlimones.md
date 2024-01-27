@@ -1,4 +1,4 @@
-# Python y Django
+# Django
 
 --------------
 
@@ -8,7 +8,7 @@
 
 ## Tabla de contenidos
 
-- [Python y Django](#python-y-django)
+- [Django](#django)
   - [Tabla de contenidos](#tabla-de-contenidos)
   - [1.0 Introducción](#10-introducción)
     - [1.1. ¿Que es **Python**?](#11-que-es-python)
@@ -126,7 +126,7 @@
 python --version
 ```
 >[!NOTE]
-> En algunos Sistemas tenemos que utilizar el comando **python3**.
+> En algunos Sistemas tenemos que utilizar el comando **python3** que es la que yo utilizare.
 ```console
 python3 --version
 ```
@@ -184,7 +184,7 @@ y podrá usar Python en la terminal.
 Lo primero que debemos hacer es saber si tenemos instalado el gestor de paquetes de Python.
 
 ```console
-pip --version
+pip3 --version
 ```
 
 > En caso de que este instalado nos dira la version del gestor de paquetes.
@@ -400,10 +400,8 @@ pip list | grep Django
 >[!NOTE]
 > En algunos Sistemas tenemos que utilizar el comando **pip3**.
 ```console
-pip3 --version
+pip3 list | grep Django
 ```
-
-
 
 Crearemos un directorio donde trabajaremos con Django.
 
@@ -414,6 +412,7 @@ mkdir AprendiendoDjango
 > Deberas usar camelCase, UpperCamelCase o snake_case.
 
 ### 4.2. ¿Que es un entorno virtual?
+
 [Tabla de contenidos](#tabla-de-contenidos)
 
 Un entorno virtual (también conocido como virtualenv) es una herramienta que ayuda a gestionar las dependencias de un proyecto de software de manera aislada del sistema operativo y de otros proyectos. En el caso de Django (un marco de desarrollo web para Python), el uso de un entorno virtual es común y recomendado por varias razones:
@@ -444,7 +443,7 @@ Crear un Entorno Virtual:
 Ejecuta el siguiente comando para crear un entorno virtual en la carpeta de tu proyecto:
 
 ```console
-python -m venv venv
+python3 -m venv venv
 ```
 
 Activar el Entorno Virtual:
@@ -1499,7 +1498,7 @@ Pasos Comunes:
   - Cuando realizas cambios en tus modelos, como agregar un nuevo campo o modificar una relación, necesitas crear una nueva migración para reflejar esos cambios.
 
 ```console
-python manage.py makemigrations
+python3 manage.py makemigrations
 ```
 
 - **Aplicar Migraciones:**
@@ -1507,7 +1506,7 @@ python manage.py makemigrations
   - Luego de crear una migración, debes aplicarla para actualizar la base de datos.
 
 ```console
-python manage.py migrate
+python3 manage.py migrate
 ```
 
 - **Desplegar Migraciones Específicas:**
@@ -1515,7 +1514,7 @@ python manage.py migrate
   - Puedes especificar el nombre de una migración para aplicar solo hasta cierto punto.
 
 ```console
-python manage.py migrate myapp 0003_migration_name
+python3 manage.py migrate myapp 0003_migration_name
 ```
 
 - **Desplegar Todas las Migraciones:**
@@ -1523,7 +1522,7 @@ python manage.py migrate myapp 0003_migration_name
   - Para aplicar todas las migraciones pendientes.
 
 ```console
-python manage.py migrate
+python3 manage.py migrate
 ```
 
 - **Estado de Migraciones:**
@@ -1531,20 +1530,20 @@ python manage.py migrate
   - Puedes verificar el estado actual de las migraciones.
 
 ```console
-python manage.py showmigrations
+python3 manage.py showmigrations
 ```
 
 **Rollback y Deshacer Migraciones:**
     - Para revertir la última migración:
 
 ```console
-python manage.py migrate myapp zero
+python3 manage.py migrate myapp zero
 ```
 
 - Para deshacer todas las migraciones y volver a un estado vacío:
 
 ```console
-python manage.py migrate myapp zero
+python3 manage.py migrate myapp zero
 ```
 
 ### 8.2. Ejemplos para entender los modelos y migraciones
@@ -1559,7 +1558,7 @@ Recomendacion
 Para más información -> [pylint]("https://pypi.org/project/pylint/").
 
 ```console
-pip install pylint-django
+pip3 install pylint-django
 ```
 
 Para usarlo solo debemos hacer esto:
@@ -1609,7 +1608,7 @@ class Empleado(models.Model):
 - Tenemos que crear las migraciones, vamos al directorio donde se encuentra el archivo manage.py y ejecutamos:
 
 ```console
-python manage.py makemigrations
+python3 manage.py makemigrations
 ```
 
 Esto generara una salida parecida a esta:
@@ -2250,7 +2249,7 @@ El panel de administración de Django es una herramienta poderosa que facilita l
     ```
 - Configura el superususario usando:
   ```console
-  python manage.py createsuperuser
+  python3 manage.py createsuperuser
   ```
 
 - En el navegador añadiremos  **/admin** a la direccion de nustro servidor local.
@@ -2752,58 +2751,63 @@ def mi_vista(request):
     # Algo salió mal y queremos mostrar una página de error 404
     raise Http404("La página que buscas no se encuentra.")
 ```
-1. Manejo de Excepciones en Vistas:
-En las vistas de Django, puedes utilizar bloques try y except para manejar excepciones y tomar acciones específicas cuando se producen.
-```python
-from django.http import HttpResponse
+- Manejo de Excepciones en Vistas:
+  - En las vistas de Django, puedes utilizar bloques try y except para manejar excepciones y tomar acciones específicas cuando se producen.
+    ```python
+    from django.http import HttpResponse
 
-def mi_vista(request):
-    try:
-        # Código que puede generar una excepción
-        resultado = 1 / 0
-    except ZeroDivisionError:
-        # Manejo específico para la excepción ZeroDivisionError
-        return HttpResponse("No se puede dividir por cero.")
-```
-1. Manejo de Excepciones en Plantillas:
-Puedes manejar excepciones directamente en plantillas de Django utilizando el bloque {% try %} ... {% except %} ... {% endtry %}.
-```django
-{% try %}
-    {{ variable|default:"No disponible" }}
-{% except %}
-    Ocurrió un error al obtener la variable.
-{% endtry %}
-```
-1. Middleware de Manejo de Excepciones:
-Django proporciona un middleware llamado django.middleware.common.CommonMiddleware que maneja automáticamente las excepciones Http404 y redirige a la página de error 404 definida en tu configuración.
-```python
-MIDDLEWARE = [
-    # ...
-    'django.middleware.common.CommonMiddleware',
-    # ...
-]
-```
-1. Personalización de Páginas de Error:
-Puedes personalizar las páginas de error 404 y 500 en tu aplicación. Django busca plantillas específicas, como 404.html y 500.html, en tu directorio de plantillas para mostrar páginas de error personalizadas.
-1. Manejo de Excepciones Genéricas:
-Django también proporciona clases de vistas genéricas, como django.views.generic.base.View, que manejan automáticamente ciertas excepciones, como Http404.
+    def mi_vista(request):
+        try:
+            # Código que puede generar una excepción
+            resultado = 1 / 0
+        except ZeroDivisionError:
+            # Manejo específico para la excepción ZeroDivisionError
+            return HttpResponse("No se puede dividir por cero.")
+    ```
+- Manejo de Excepciones en Plantillas:
+  - Puedes manejar excepciones directamente en plantillas de Django utilizando el bloque {% try %} ... {% except %} ... {% endtry %}.
+    ```django
+    {% try %}
+        {{ variable|default:"No disponible" }}
+    {% except %}
+        Ocurrió un error al obtener la variable.
+    {% endtry %}
+    ```
+- Middleware de Manejo de Excepciones:
+  - Django proporciona un middleware llamado django.middleware.common.CommonMiddleware que maneja automáticamente las excepciones Http404 y redirige a la página de error 404 definida en tu configuración.
+    ```python
+    MIDDLEWARE = [
+        # ...
+        'django.middleware.common.CommonMiddleware',
+        # ...
+    ]
+    ```
+- Personalización de Páginas de Error:
+  - Puedes personalizar las páginas de error 404 y 500 en tu aplicación. Django busca plantillas específicas, como 404.html y 500.html, en tu directorio de plantillas para mostrar páginas de error personalizadas.
+ 
+-  Manejo de Excepciones Genéricas:
+   - Django también proporciona clases de vistas genéricas, como django.views.generic.base.View, que manejan automáticamente ciertas excepciones, como Http404.
+
+>[!NOTE]
 En resumen, el manejo de excepciones en Django es una parte fundamental para mejorar la robustez y la experiencia del usuario al enfrentar situaciones imprevistas durante la ejecución de tu aplicación web.
 
 ### 12.1. get_object_or_404
+
+[Tabla de contenidos](#tabla-de-contenidos)
 
 **get_object_or_404** es una función útil en Django que se utiliza para recuperar un objeto de la base de datos según ciertos criterios de búsqueda. Su propósito principal es simplificar el manejo de errores cuando se trabaja con bases de datos.
 
 - Función:
   - get_object_or_404 es una función proporcionada por Django que reside en django.shortcuts.
-Se utiliza para intentar obtener un objeto de la base de datos. Si el objeto no existe, en lugar de devolver None, devuelve un error Http404 que se puede manejar para mostrar una página de error personalizada.
+  - Se utiliza para intentar obtener un objeto de la base de datos. Si el objeto no existe, en lugar de devolver None, devuelve un error Http404 que se puede manejar para mostrar una página de error personalizada.
 
 - Parámetros:
   - El primer argumento es el modelo desde el cual deseas obtener el objeto.
-Los argumentos siguientes son utilizados para filtrar el objeto. En el ejemplo, id=id_objeto significa que se está filtrando por el campo id del modelo, y se compara con el valor proporcionado en id_objeto.
+  - Los argumentos siguientes son utilizados para filtrar el objeto. En el ejemplo, id=id_objeto significa que se está filtrando por el campo id del modelo, y se compara con el valor proporcionado en id_objeto.
 
 - Manejo de Errores:
   - Si el objeto se encuentra, get_object_or_404 lo devuelve.
-Si el objeto no se encuentra, lanza una excepción Http404.
+  - Si el objeto no se encuentra, lanza una excepción Http404.
 Esta excepción se captura comúnmente en una vista de Django, y luego puedes personalizar cómo manejarla, como redirigir a una página de error 404 personalizada o mostrar un mensaje específico.
 
 
