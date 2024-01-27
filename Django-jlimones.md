@@ -296,11 +296,11 @@ En este ejemplo, Estudiante hereda de Persona. El método __init__ de Estudiante
         objeto.saludar()
 
     # Crear objetos
-    persona = Persona("Carlos", 22)
+    persona = Persona("Jose Carlos", 38)
     estudiante = Estudiante("Ana", 19, "Matemáticas")
 
     # Llamar al método usando polimorfismo
-    presentar(persona)      # Imprime "Hola, soy Carlos y tengo 22 años."
+    presentar(persona)      # Imprime "Hola, soy Jose Carlos y tengo 38 años."
     presentar(estudiante)   # Imprime "Hola, soy Ana y tengo 19 años."
     ```
 >[!NOTE]
@@ -315,13 +315,11 @@ El encapsulamiento es uno de los conceptos fundamentales de la Programación Ori
 En Python, la encapsulación se logra mediante convenciones y prácticas, ya que el lenguaje no impone restricciones estrictas en el acceso a los miembros de una clase. Sin embargo, hay algunas convenciones comunes que se siguen para lograr encapsulación:
 
 - Nombres con un guion bajo (Convención de "Nombre Débil"):
-
   - Los miembros de una clase que se consideran privados o internos a menudo se nombran con un guion bajo al principio del nombre. Por ejemplo: _variable_privada, _metodo_privado.
-  Nombres con dos guiones bajos (Mangling):
-
-  - Los miembros que se deben hacer aún más privados pueden utilizar la técnica de "mangling" agregando dos guiones bajos al principio del nombre. Por ejemplo: __variable_mangle, __metodo_mangle.
-  Métodos Getter y Setter:
-
+  
+- Nombres con dos guiones bajos (Mangling):
+    - Los miembros que se deben hacer aún más privados pueden utilizar la técnica de "mangling" agregando dos guiones bajos al principio del nombre. Por ejemplo: __variable_mangle, __metodo_mangle.
+- Métodos Getter y Setter:
   - Se pueden proporcionar métodos públicos para obtener (get) y establecer (set) valores de variables privadas. Esto permite un control más preciso sobre la manipulación de los datos internos de la clase.
   A continuación, un ejemplo simple de encapsulamiento en Python:
 
@@ -360,6 +358,7 @@ Por ejemplo, un objeto que representa una cuenta bancaria puede abstractamente t
   - La abstracción de procesos implica representar operaciones complejas como métodos más simples y manejables.
 
 Por ejemplo, un objeto que representa un vehículo puede tener un método arrancar que abstractamente inicia el motor, sin entrar en los detalles específicos de cómo se realiza esa operación.
+
 Aquí hay un ejemplo simple de abstracción en Python:
 
 ```python
