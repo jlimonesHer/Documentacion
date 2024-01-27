@@ -1,10 +1,17 @@
-# Django
+---
+attachments: [Clipboard_2023-10-24-13-35-42.png, Clipboard_2023-10-24-13-36-21.png, Clipboard_2023-10-24-13-37-51.png, Clipboard_2023-10-24-14-10-11.png]
+favorited: true
+title: PLANTILLA
+created: '2023-12-10T13:32:01.838Z'
+modified: '2023-10-24T12:15:27.497Z'
+---
 
+# Django
 --------------
 
 [//]: # (version: 1.0)
 [//]: # (author: Jose Carlos Limones Hernandez)
-[//]: # (date: 2023-20-12)
+[//]: # (date: 2023-12-10)
 
 ## Tabla de contenidos
 
@@ -91,6 +98,8 @@
     - [12.1. get\_object\_or\_404](#121-get_object_or_404)
   - [13.0. Fuentes](#130-fuentes)
 
+<div style="page-break-after: always;"></div>
+
 ## 1.0 Introducción
 
 [Tabla de contenidos](#tabla-de-contenidos)
@@ -111,6 +120,8 @@
 - Es muy escalable, algunos de los sitios más concurridos de la web aprovechan la capacidad de Django para escalar de forma rápida y flexible.
 - Su version actual es  **Django 5.0** aunque su version mas estable y con errores menores solucionados es **Django 4.2.8**.
 - **Django** es un framework que respeta y utiliza el modelo MVC [(Modelo Vista Controlador)](https://es.wikipedia.org/wiki/Modelo%E2%80%93vista%E2%80%93controlador), que basicamente es un patron de diseño arquitectònico que nos permite separar la logica de negocio de la interfaz de usuario.
+
+<div style="page-break-after: always;"></div>
 
 ## 2.0. Instalación
 
@@ -223,6 +234,8 @@ Ahora podemos abrir VSCode desde la terminal.
 ```console
 code
 ```
+
+<div style="page-break-after: always;"></div>
 
 ## 3.0. Programación orientada a objetos en PYTHON
 
@@ -381,6 +394,8 @@ class Circulo(FiguraGeometrica):
 ```
 En este ejemplo, FiguraGeometrica es una clase abstracta que define métodos (calcular_area y calcular_perimetro) sin proporcionar una implementación. La clase Circulo hereda de FiguraGeometrica y proporciona una implementación específica para esos métodos. Los detalles internos de cómo se calcula el área y el perímetro de un círculo están ocultos para el usuario, quien simplemente utiliza la interfaz proporcionada por la clase abstracta. Esto es un ejemplo de cómo la abstracción permite representar de manera simple y manejable conceptos más complejos.
 
+<div style="page-break-after: always;"></div>
+
 ## 4.0. Generar nuestro primer proyecto con *Django*
 
 ### 4.1. Instalando el modulo de Django
@@ -460,14 +475,17 @@ deactivate
 
 Instalar Dependencias:
 
-Una vez que el entorno virtual está activado, puedes instalar las dependencias del proyecto utilizando pip install -r requirements.txt.
+Una vez que el entorno virtual está activado, puedes instalar las dependencias del proyecto utilizando:
+```console
+pip3 install -r requirements.txt.
+```
 Usar un entorno virtual es una buena práctica en el desarrollo de software en Python y es especialmente útil en proyectos web como Django, donde la gestión de dependencias es crucial.
 
 >[!NOTE]
 > Es buena práctica crear un archivo requeriments.txt para indicar la librerias y versiones utilizadas en el proyecto.
 
 ```console
-pip freeze > requeriments.txt
+pip3 freeze > requeriments.txt
 ```
 
 De este modo podemos instalar todos las dependencias necesarias para nuestro proyecto.
@@ -533,6 +551,8 @@ python3 manage.py help
   - **findstatic**: Muestra la ubicación de un archivo estático.
   - **runserver**: Inicia el servidor de desarrollo de Django.
 
+<div style="page-break-after: always;"></div>
+
 ## 5.0. Principales componentes de Django
 
 [Tabla de contenidos](#tabla-de-contenidos)
@@ -552,6 +572,8 @@ python3 manage.py help
 7) **Manejo de URL**
     > Django utiliza un sistema de enrutamiento basados en patrones de URL para dirigir lsa solicitudes a las vistas correspondientes.
 
+<div style="page-break-after: always;"></div>
+
 ## 6.0. Cómo funciona Django
 
 [Tabla de contenidos](#tabla-de-contenidos)
@@ -568,6 +590,8 @@ python3 manage.py help
     > Django genera una respuesta HTTP que se envia de vuelta al navegador del usuario.
 
 - Django facilita la creación de aplicaciones web robustas al proporcionar una estructura organizada y herramientas poderosas, permitiendo a los desarrolladores construir aplicaciones de manera eficiente y mantenible. Además, su énfasis en la seguridad y las mejores prácticas lo convierten en una opción popular para el desarrollo web en Python.
+
+<div style="page-break-after: always;"></div>
 
 ## 7.0. Primer contacto con Django
 
@@ -1477,6 +1501,8 @@ Ejemplo layout.html:
 <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 ```
 
+<div style="page-break-after: always;"></div>
+
 ## 8.0. Modelos
 
 [Tabla de contenidos](#tabla-de-contenidos)
@@ -1689,6 +1715,7 @@ books_by_fitzgerald = Book.objects.filter(author__name='F. Scott Fitzgerald')
 
 > Estos son solo ejemplos básicos de cómo trabajar con bases de datos en Django. Django proporciona una API rica y potente para realizar consultas, gestionar relaciones y realizar operaciones en la base de datos de manera eficiente.
 
+<div style="page-break-after: always;"></div>
 
 ## 9.0. Bases de datos y Consiltas en Django
 
@@ -2093,6 +2120,8 @@ Estos son solo algunos ejemplos de las capacidades avanzadas de consultas y agre
       <p>Puesto: {{ puesto }}</p>
       ```
 
+<div style="page-break-after: always;"></div>
+
 ## 10.0. Consultas(CRUD) utilizando SQL
 
 [Tabla de contenidos](#tabla-de-contenidos)
@@ -2231,6 +2260,8 @@ with connection.cursor() as cursor:
 ```
 
 > Para aprender mas sobre SQL te recomiendo ir a [SQL](https://support.microsoft.com/es-es/topic/access-sql-conceptos-b%C3%A1sicos-vocabulario-y-sintaxis-444d0303-cde1-424e-9a74-e8dc3e460671)
+
+<div style="page-break-after: always;"></div>
 
 ## 11.0. Django admin Y operaciones CRUD
 
@@ -2734,6 +2765,8 @@ Las sesiones flash son un mecanismo utilizado en muchos frameworks web, incluyen
   {% endif %}
   ```
 
+<div style="page-break-after: always;"></div>
+
 ## 12.0. Excepciones
 
 [Tabla de contenidos](#tabla-de-contenidos)
@@ -2810,7 +2843,7 @@ En resumen, el manejo de excepciones en Django es una parte fundamental para mej
   - Si el objeto no se encuentra, lanza una excepción Http404.
 Esta excepción se captura comúnmente en una vista de Django, y luego puedes personalizar cómo manejarla, como redirigir a una página de error 404 personalizada o mostrar un mensaje específico.
 
-
+<div style="page-break-after: always;"></div>
 
 ## 13.0. Fuentes
 
