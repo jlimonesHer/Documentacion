@@ -295,4 +295,6 @@ jobs:
 ```
 
 > [!NOTE]
-> Este tutorial o guia esta basado en el [video](https://www.youtube.com/watch?v=pNtcTmCiXzw) de [mouredev](https://mouredev.com/). El repositorio es [roadmap-retos-programacion](https://github.com/mouredev/roadmap-retos-programacion)
+> Este tutorial o guia esta basado en el [video](https://www.youtube.com/watch?v=pNtcTmCiXzw) de [mouredev](https://mouredev.com/). El repositorio es [roadmap-retos-programacion](https://github.com/mouredev/roadmap-retos-programacion).
+> 
+> Desde aqui me gustaria agradecerle la labor que hace para la comunidad dev.
