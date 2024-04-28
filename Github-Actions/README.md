@@ -70,7 +70,7 @@ jobs:
 [Tabla de contenidos](#tabla-de-contenidos)
 
 - ***on:***
-  - push -> Querremos que la ACTION se lnce cundo hagamos push.
+  - push -> Querremos que la ACTION se lance cuando hagamos push.
     ```yml
     on: 
         push:
