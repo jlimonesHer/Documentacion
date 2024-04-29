@@ -21,10 +21,11 @@
   - [Uso de Marcadores](#uso-de-marcadores)
   - [Uso de Mocks](#uso-de-mocks)
   - [Cobertura de codigo](#cobertura-de-codigo)
-  - [Conclusión](#conclusión)
     - [Coverage.py](#coveragepy)
   - [Plugins](#plugins)
-  - [Ejemplo](#ejemplo)
+  - [Ejemplo Pytest](#ejemplo-pytest)
+  - [Ejemplo Coverage](#ejemplo-coverage)
+  - [Conclusión:](#conclusión)
 
 ------------------
 
@@ -202,13 +203,6 @@ def test_enviar_correo(mocker):
 
 Puedes usar pytest junto con herramientas de cobertura como 'coverage.py' para medir la cobertura de tu codigo con test. Esto te ayuda a identificar areas de tu codigo que no estan sienso probadas y a garantizar una cobertura completa.
 
-
-
-## Conclusión
-[Tabla de contenidos](#tabla-de-contenidos)
-
-Estos son los conceptos básicos de pytest y cómo escribir tests efectivos en Python. Ahora estás listo para empezar a escribir tus propios tests para tus proyectos.
-
 ### Coverage.py
 
 1) Instalat coverage.py:
@@ -241,6 +235,7 @@ Estos son los conceptos básicos de pytest y cómo escribir tests efectivos en P
 6) Ajustar la configuracion de cobertura:
    1) Puedes ajustar la configuracion de cobertura segun tus necesidades, como excluir ciertos directorios o archivos de ser incluidos en el analisis de cobertura.
 
+
 ## Plugins
 [Tabla de contenidos](#tabla-de-contenidos)
 
@@ -248,7 +243,8 @@ Pytests tiene una amplia gama de plugins disponibles que añaden funcionalidades
 
 [Plugins pytest](https://docs.pytest.org/en/7.1.x/reference/plugin_list.html)
 
-## Ejemplo
+
+## Ejemplo Pytest
 [Tabla de contenidos](#tabla-de-contenidos)
 
 - Creamos una carpeta llamada mytest.
@@ -300,3 +296,43 @@ pytest
 ```
 
 Ahora veras la salida de los test realizados.
+
+## Ejemplo Coverage
+[Tabla de contenidos](#tabla-de-contenidos)
+
+correo.py:
+
+```bash
+# Código de la función enviar_correo
+class ServidorCorreo:
+    def enviar(self, destinatario, mensaje):
+        # Código para enviar el correo
+        pass
+
+def enviar_correo(destinatario, mensaje):
+    servidor_correo = ServidorCorreo()
+    servidor_correo.enviar(destinatario, mensaje)
+```
+
+test_correo.py
+
+```bash
+# Test utilizando mocks
+import pytest
+from pytest_mock import mocker
+from correo import enviar_correo, ServidorCorreo
+
+def test_enviar_correo(mocker):
+    mocker.patch.object(ServidorCorreo, 'enviar')  # Mockeamos el método 'enviar' de la clase ServidorCorreo
+    enviar_correo('destinatario@example.com', 'Hola, esto es un correo de prueba')
+    ServidorCorreo.enviar.assert_called_once_with('destinatario@example.com', 'Hola, esto es un correo de prueba')
+```
+
+## Conclusión:
+[Tabla de contenidos](#tabla-de-contenidos)
+
+- pytest es una herramienta de prueba potente y flexible para Python que ofrece una sintaxis simple y clara, lo que facilita la escritura y lectura de pruebas. Sus características como fixtures y parametrización permiten una configuración flexible de las pruebas, mientras que los plugins proporcionan funcionalidades adicionales según las necesidades del proyecto.
+
+- La comunidad activa y el soporte de una amplia gama de plugins hacen de pytest una opción popular para proyectos de cualquier tamaño. Además, su integración con otros frameworks de prueba y su capacidad para generar informes detallados de cobertura hacen que sea una herramienta completa para el desarrollo de software en Python.
+
+- En resumen, pytest es una opción sólida para escribir pruebas en Python, que ayuda a garantizar la calidad del código y facilita el proceso de desarrollo de software al proporcionar una infraestructura de prueba confiable y fácil de usar.
